@@ -2,8 +2,16 @@
 
 $request = Router::getRequest();
 
-if (strpos($request->url, 'install') === false&&!Configure::read('Risto.installed')) {
-    $url = array('plugin' => 'install', 'controller' => 'install');
+if (strpos($request->url, 'install') === false) {
+    if(
+        file_exists(APP . 'Config' . DS . 'database.php')==false
+        ||file_exists(APP . 'Config' . DS . 'core.php')==false
+        ||file_exists(APP . 'Config' . DS . 'resume.php')==false
+    )
+    {
 
-    Router::redirect('/*', $url, array('status' => 307));
-}
+        $url = array('plugin' => 'install', 'controller' => 'install');
+
+        Router::redirect('/*', $url, array('status' => 307));
+    }
+ }
