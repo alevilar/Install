@@ -148,8 +148,9 @@ class InstallController extends AppController {
             $this->loadModel('Install.User');
             $this->User->set($this->request->data);
             if ($this->User->validates()) {
+                require_once(APP . 'Config' . DS . 'risto.php');
 
-                $this->request->data['User']['rol_id'] = 1;
+                $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
 
                 if($this->User->save($this->request->data))
                 {

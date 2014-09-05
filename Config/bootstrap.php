@@ -4,7 +4,7 @@
 if(
     file_exists(APP . 'Config' . DS . 'database.php')==false
     ||file_exists(APP . 'Config' . DS . 'core.php')==false
-    ||file_exists(APP . 'Config' . DS . 'resume.php')==false
+    ||file_exists(APP . 'Config' . DS . 'risto.php')==false
 )
 {
     // Copia estos dos files para poder arrancar el instalador sin depender del arranque del plugin risto

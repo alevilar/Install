@@ -90,7 +90,15 @@ class InstallManager {
 
 
     public function createCoresFile() {
-        return true;
+        $resumeConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'risto.php.install';
+        if(copy($resumeConfigFile, APP . 'Config' . DS . 'risto.php'))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
