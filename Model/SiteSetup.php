@@ -47,7 +47,7 @@ class SiteSetup extends InstallAppModel {
 
         if(!$dir)
         {
-            return __d('croogo', 'No se pudo crear el sitio: '.$site_slug);
+            return __d('croogo', 'No se pudo crear el sitio: '.$site_slug. ' verifique que tenga permisos de escritura.');
         }
 
         return $dir;

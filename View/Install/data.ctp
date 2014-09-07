@@ -19,9 +19,9 @@ echo $this->Html->link(__d('croogo', 'Construir Base de Datos'), array(
 		'data-title' => __d('croogo', 'Click aqui para volcar estrucutura y datos.'),
 		'data-placement' => 'left',
 	),
-	'button' => 'success',
+    'class' => 'btn btn-success',
 	'icon' => 'none',
-	'onclick' => '$(this).find(\'i\').addClass(\'icon-spin icon-spinner\');',
+	'onclick' => '$(this).html(\'Procesando Sql. Favor aguarde...\');',
 ));
 ?>
 </div>

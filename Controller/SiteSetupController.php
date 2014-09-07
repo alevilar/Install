@@ -37,8 +37,26 @@ class SiteSetupController extends AppController {
         'Number',
     );
 
+
+    protected function _check() {
+        $InstallManager = new InstallManager();
+        // Si esta instalado no habra necesidad de checkear permisos
+        if ($InstallManager->checkAppInstalled()) {
+            $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.');
+            return $this->redirect('/users/login');
+        }
+        // Si no esta instalado y no se puede escribir en las pcarpetas volvera al inicio
+        if (!$InstallManager->checkAppInstalled()&&!$InstallManager->checkPerms())
+        {
+
+            return $this->redirect('/install');
+        }
+
+    }
+
     public function installsite()
     {
+        $this->_check();
         $countries = array(
             'Europa'=>array(
                 "AL"=>"Albania",
@@ -302,37 +320,35 @@ class SiteSetupController extends AppController {
                                 // Copia los Appcontroller y AppModel Para recurrir al Risto Plugin
                                 $result = $InstallManager->createSettingsFile();
 
-                                return $this->Session->setFlash("Ristorantino se ha instalado con exito.", 'default', array('class' => 'success'));
+                                return $this->Session->setFlash("Ristorantino se ha instalado con exito.", 'default', array('class' => 'Risto.flash_success'));
 
                             }
                             else
                             {
-                                return $this->Session->setFlash("Ha ocurrido un error. Revise los permisos de escritura del Config.", 'default', array('class' => 'error'));
+                                return $this->Session->setFlash("Ha ocurrido un error. Revise los permisos de escritura del Config.", 'default', array('class' => 'Risto.flash_error'));
                             }
                         }
                         else
                         {
-                            return $this->Session->setFlash("Ha ocurrido un error. No se pudo crear el sitio.", 'default', array('class' => 'error'));
+                            return $this->Session->setFlash("Ha ocurrido un error. No se pudo crear el sitio.", 'default', array('class' => 'Risto.flash_error'));
 
                         }
                     }
                     else
                     {
-                        return $this->Session->setFlash("No se pudo crear el user.", 'default', array('class' => 'error'));
+                        return $this->Session->setFlash("No se pudo crear el user.", 'default', array('class' => 'Risto.flash_error'));
                     }
-
-                    //return $this->Session->setFlash("El Tenants del Sitio fue creado con éxito y se copio con exito el settings.");
 
                 }
                 else
                 {
-                    return $this->Session->setFlash("No se pudo copiar los archivos, revise los permisos de /Tenants.", 'default', array('class' => 'error'));
+                    return $this->Session->setFlash("No se pudo copiar los archivos, revise los permisos de /Tenants.", 'default', array('class' => 'Risto.flash_error'));
                 }
 
             }
             else
             {
-                return $this->Session->setFlash("Ha ocurrido un error; ".$mk_dir.".Revise los permisos del /Tenants y reintente, recuerde debe de tener permiso de acceso y escritura.", 'default', array('class' => 'error'));
+                return $this->Session->setFlash("Ha ocurrido un error; ".$mk_dir.".Revise los permisos del /Tenants y reintente, recuerde debe de tener permiso de acceso y escritura.", 'default', array('class' => 'Risto.flash_error'));
 
             }
 

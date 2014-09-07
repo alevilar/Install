@@ -5,44 +5,53 @@
 
     // tmp is writable
     if (is_writable(TMP)) {
-        echo '<p class="success">' . __d('croogo', 'Tu directorio temporal es escribible.') . '</p>';
+        echo '<div class="alert alert-success" role="alert">' . __d('croogo', 'Tu directorio temporal es escribible.') . '</div>';
     } else {
         $check = false;
-        echo '<p class="error">' . __d('croogo', 'Tu directorio temporal no es escribible.') . '</p>';
+        echo '<div class="alert alert-danger" role="alert">' . __d('croogo', 'Tu directorio temporal no es escribible.') . '</div>';
     }
 
     // config is writable
     if (is_writable(APP . 'Config')) {
-        echo '<p class="success">' . __d('croogo', 'Tu directorio de configuración es escribible.') . '</p>';
+        echo '<div class="alert alert-success" role="alert">' . __d('croogo', 'Tu directorio de configuración es escribible.') . '</div>';
     } else {
         $check = false;
-        echo '<p class="error">' . __d('croogo', 'Tu directorio de configuración no es escribible.') . '</p>';
+        echo '<div class="alert alert-danger" role="alert">' . __d('croogo', 'Tu directorio de configuración no es escribible.') . '</div>';
     }
 
-    // config is writable
+    // controller is writable
     if (is_writable(APP . 'Controller')) {
-        echo '<p class="success">' . __d('croogo', 'Tu directorio principal de Controller es escribible.') . '</p>';
+        echo '<div class="alert alert-success" role="alert">' . __d('croogo', 'Tu directorio principal de Controller es escribible.') . '</div>';
     } else {
         $check = false;
-        echo '<p class="error">' . __d('croogo', 'Tu directorio principal de Controller no es escribible.') . '</p>';
+        echo '<div class="alert alert-danger" role="alert">' . __d('croogo', 'Tu directorio principal de Controller no es escribible.') . '</div>';
     }
 
     // config is writable
     if (is_writable(APP . 'Model')) {
-        echo '<p class="success">' . __d('croogo', 'Tu directorio principal de Model es escribible.') . '</p>';
+        echo '<div class="alert alert-success" role="alert">' . __d('croogo', 'Tu directorio principal de Model es escribible.') . '</div>';
     } else {
         $check = false;
-        echo '<p class="error">' . __d('croogo', 'Tu directorio principal de Model no es escribible.') . '</p>';
+        echo '<div class="alert alert-danger" role="alert">' . __d('croogo', 'Tu directorio principal de Model no es escribible.') . '</div>';
+    }
+
+    // config is writable
+
+    if (is_writable(APP . 'Tenants')) {
+        echo '<div class="alert alert-success" role="alert">' . __d('croogo', 'Tu directorio principal de Tenants es escribible.') . '</div>';
+    } else {
+        $check = false;
+        echo '<div class="alert alert-danger" role="alert">' . __d('croogo', 'Tu directorio principal de Tenants no es escribible.') . '</div>';
     }
 
     // php version
     $minPhpVersion = '5.3.10';
     $operator = '>=';
     if (version_compare(phpversion(), $minPhpVersion, $operator)) {
-        echo '<p class="success">' . sprintf(__d('croogo', 'PHP version %s %s %s'), phpversion(), $operator, $minPhpVersion) . '</p>';
+        echo '<div class="alert alert-success" role="alert">' . sprintf(__d('croogo', 'PHP version %s %s %s'), phpversion(), $operator, $minPhpVersion) . '</div>';
     } else {
         $check = false;
-        echo '<p class="error">' . sprintf(__d('croogo', 'PHP version %s < %s'), phpversion(), $minPhpVersion) . '</p>';
+        echo '<div class="alert alert-danger" role="alert">' . sprintf(__d('croogo', 'PHP version %s < %s'), phpversion(), $minPhpVersion) . '</div>';
     }
 
     // cakephp version
@@ -50,10 +59,10 @@
     $cakeVersion = Configure::version();
     $operator = '>=';
     if (version_compare($cakeVersion, $minCakeVersion, $operator)) {
-        echo '<p class="success">' . __d('croogo', 'CakePhp version %s %s %s', $cakeVersion, $operator, $minCakeVersion) . '</p>';
+        echo '<div class="alert alert-success" role="alert">' . __d('croogo', 'CakePhp version %s %s %s', $cakeVersion, $operator, $minCakeVersion) . '</div>';
     } else {
         $check = false;
-        echo '<p class="error">' . __d('croogo', 'CakePHP version %s < %s', $cakeVersion, $minCakeVersion) . '</p>';
+        echo '<div class="alert alert-danger" role="alert">' . __d('croogo', 'CakePHP version %s < %s', $cakeVersion, $minCakeVersion) . '</div>';
     }
 
     ?>
@@ -63,14 +72,14 @@ if ($check) {
     $out = $this->Html->link(__d('croogo', 'Instalar'), array(
         'action' => 'database',
     ), array(
-        'button' => 'success',
+        'class' => 'btn btn-success',
         'tooltip' => array(
             'data-title' => __d('croogo', 'Click aqui para continuar con la instalación'),
             'data-placement' => 'left',
         ),
     ));
 } else {
-    $out = '<p>' . __d('croogo', 'La instalación no puede continuar hasta que se logren los requisitos minimos.') . '</p>';
+    $out = '<div class="alert alert-danger" role="alert">' . __d('croogo', 'La instalación no puede continuar hasta que se logren los requisitos minimos.') . '</div>';
 }
 echo $this->Html->div('form-actions', $out);
 ?>

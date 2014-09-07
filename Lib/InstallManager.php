@@ -45,7 +45,7 @@ class InstallManager {
 		}
 
 		if (!$file->write($content)) {
-			return __d('croogo', 'Could not write database.php file.');
+			return __d('croogo', 'No se puede escribir por el archivo database.php.');
 		}
 
 		try {
@@ -62,33 +62,6 @@ class InstallManager {
 		return true;
 	}
 
-	public function createCroogoFile() {
-		$croogoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'croogo.php';
-		$result = copy($croogoConfigFile . '.install', $croogoConfigFile);
-		if (!$result) {
-			$msg = 'Unable to copy file "croogo.php"';
-			CakeLog::critical($msg);
-			return $msg;
-		}
-
-		$File =& new File($croogoConfigFile);
-		$salt = Security::generateAuthKey();
-		$seed = mt_rand() . mt_rand();
-		$contents = $File->read();
-		$contents = preg_replace('/(?<=Configure::write\(\'Security.salt\', \')([^\' ]+)(?=\'\))/', $salt, $contents);
-		$contents = preg_replace('/(?<=Configure::write\(\'Security.cipherSeed\', \')(\d+)(?=\'\))/', $seed, $contents);
-		if (!$File->write($contents)) {
-			$msg = 'Unable to write your Config' . DS . 'croogo.php file. Please check the permissions.';
-			return $msg;
-		}
-		Configure::write('Security.salt', $salt);
-		Configure::write('Security.cipherSeed', $seed);
-
-		return true;
-	}
-
-
-
     public function createCoresFile() {
         $resumeConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'risto.php.install';
         if(copy($resumeConfigFile, APP . 'Config' . DS . 'risto.php'))
@@ -97,7 +70,7 @@ class InstallManager {
         }
         else
         {
-            return false;
+            return __d('croogo', 'No se puede escribir el archivo risto.php.');
         }
     }
 
@@ -119,7 +92,7 @@ class InstallManager {
 
 
         if (!$result) {
-            $msg = 'Unable to copy file "resume and Ristos Core files"';
+            $msg = 'No se puede copiar los archivos de configuración Risto.';
             CakeLog::critical($msg);
             return $msg;
         }
@@ -141,5 +114,51 @@ class InstallManager {
 		$Setting->Behaviors->disable('Cached');
 		return $Setting->write('Croogo.installed', 1);
 	}
+
+    public function checkPerms()
+    {
+        $res = true;
+
+        if (!is_writable(TMP)) {
+            $res = false;
+        }
+
+        if (!is_writable(APP . 'Config')) {
+            $res = false;
+        }
+
+        if (!is_writable(APP . 'Controller')) {
+            $res = false;
+        }
+
+        if (!is_writable(APP . 'Model')) {
+            $res = false;
+        }
+
+        if (!is_writable(APP . 'Tenants')) {
+            $res = false;
+        }
+
+    return $res;
+
+    }
+
+    public function checkAppInstalled()
+    {
+        $res = true;
+        if(
+            file_exists(APP . 'Config' . DS . 'database.php')==false
+            ||file_exists(APP . 'Config' . DS . 'core.php')==false
+            ||file_exists(APP . 'Config' . DS . 'risto.php')==false
+            ||file_exists(APP . 'Config' . DS . 'resume.php')==false
+        )
+        {
+            $res = false;
+
+        }
+
+        return $res;
+    }
+
 
 }

@@ -25,20 +25,27 @@ class SiteManager {
 			}
 		}
 
-		$result = copy(App::pluginPath('Install')  . 'Config' . DS . 'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
-		if (!$result) {
-			return __d('croogo', 'No se puede copiar el archivo settings.');
-		}
-		$file = new File(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini', true);
-		$content = $file->read();
+        if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
+        {
+            $result = copy(App::pluginPath('Install')  . 'Config' . DS . 'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
+            if (!$result) {
+                return __d('croogo', 'No se puede copiar el archivo settings.');
+            }
+            $file = new File(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini', true);
+            $content = $file->read();
 
-		foreach ($config as $configKey => $configValue) {
-			$content = str_replace('{default_' . $configKey . '}', $configValue, $content);
-		}
+            foreach ($config as $configKey => $configValue) {
+                $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
+            }
 
-		if (!$file->write($content)) {
-			return __d('croogo', 'No se puede escribir por el archivo settings.');
-		}
+            if (!$file->write($content)) {
+                return __d('croogo', 'No se puede escribir por el archivo settings.');
+            }
+        }
+        else
+        {
+            return __d('croogo', 'El archivo settings de este sitio ya existe, favor eliminelo para continuar.');
+        }
 
 		return true;
 	}

@@ -6,8 +6,6 @@ if(empty($this->request->data))
     ));
     ?>
     <div class="install">
-
-
         <h2><?php echo __d('croogo', 'Paso 4: Instalación del Sitio.'); ?></h2>
 
         <table>
@@ -103,7 +101,7 @@ if(empty($this->request->data))
 else
 {
     ?>
-    <?php echo $this->Html->link(__d('croogo', 'Ingresar'), array('admin'=>false,'plugin'=>false,'controller'=>'users','action' => 'login'), array( 'class' => 'success')); ?>
+    <?php echo $this->Html->link(__d('croogo', 'Ingresar'), array('admin'=>false,'plugin'=>false,'controller'=>'users','action' => 'login'), array( 'class' => 'btn btn-success')); ?>
 <?php
 }
 ?>

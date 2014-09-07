@@ -37,22 +37,31 @@ class InstallController extends AppController {
     );
 
     protected function _check() {
-        if (Configure::read('Risto.installed')) {
-            $this->Session->setFlash('Already Installed');
-            return $this->redirect('/');
+        $InstallManager = new InstallManager();
+        // Si esta instalado no habra necesidad de checkear permisos
+        if ($InstallManager->checkAppInstalled()) {
+            $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.');
+            return $this->redirect('/users/login');
         }
+        // Si no esta instalado y no se puede escribir en las pcarpetas volvera al inicio
+        if (!$InstallManager->checkAppInstalled()&&!$InstallManager->checkPerms())
+        {
+
+            return $this->redirect('/install');
+        }
+
     }
 
 
     public function index() {
-        $this->_check();
+
         $this->set('title_for_layout', __d('croogo', 'Bienvenido a la Instalación Ristorantino Mágico.'));
     }
 
 
     public function database() {
+        $this->set('title_for_layout', __d('croogo', 'Paso 1: Base de datos.'));
         $this->_check();
-        $this->set('title_for_layout', __d('croogo', 'Paso 1: Base de Datos'));
 
         if (Configure::read('Croogo.installed')) {
             return $this->redirect(array('action' => 'adminuser'));
@@ -64,7 +73,7 @@ class InstallController extends AppController {
                 'Install' => $this->request->data,
             ));
             if ($result !== true) {
-                $this->Session->setFlash($result, 'default', array('class' => 'error'));
+               return $this->Session->setFlash($result, 'default', array('class' => 'Risto.flash_error'));
             } else {
                 return $this->redirect(array('action' => 'data'));
             }
@@ -102,7 +111,7 @@ class InstallController extends AppController {
         if (!empty($sources)) {
             $this->Session->setFlash(
                 __d('croogo', 'Warning: Database "%s" is not empty.', $ds->config['database']),
-                'default', array('class' => 'error')
+                'default', array('class' => 'Risto.flash_error')
             );
         }
 
@@ -119,7 +128,7 @@ class InstallController extends AppController {
                 $result = $InstallManager->createCoresFile();
 
                 if ($result == false) {
-                    return $this->Session->setFlash($result, 'default', array('class' => 'error'));
+                    return $this->Session->setFlash($result, 'default', array('class' => 'Risto.flash_error'));
                 }
                 else if ($result == true) {
                     return $this->redirect(array('action' => 'adminuser'));
@@ -128,23 +137,16 @@ class InstallController extends AppController {
             }
             else
             {
-                return $this->Session->setFlash($sqlMigration, 'default', array('class' => 'error'));
+                return $this->Session->setFlash($sqlMigration, 'default', array('class' => 'Risto.flash_error'));
             }
-
-
-
         }
     }
 
 
     public function adminuser() {
-        if (!file_exists(APP . 'Config' . DS . 'database.php')) {
-            return $this->redirect('/');
-        }
-
+        $this->_check();
+        $this->set('title_for_layout', __d('croogo', 'Paso 3: Crear un usuario admin.'));
         if ($this->request->is('post')) {
-
-
             $this->loadModel('Install.User');
             $this->User->set($this->request->data);
             if ($this->User->validates()) {
@@ -168,46 +170,6 @@ class InstallController extends AppController {
             }
         }
     }
-
-
-    public function finish($token = null) {
-        $this->set('title_for_layout', __d('croogo', 'La instalación ha culminado de manera exitosa'));
-        $this->_check();
-
-        $InstallManager = new InstallManager();
-     //   $installed = $InstallManager->createSettingsFile();
-        $installed = true;
-        if ($installed === true) {
-            $InstallManager->installCompleted();
-        } else {
-            $this->set('title_for_layout', __d('croogo', 'La Installacion fallo'));
-            $msg = __d('croogo', 'Instalación fallo: No se pudo crear los archivos de configuración.');
-            $this->Session->setFlash($msg, 'default', array('class' => 'error'));
-        }
-
-        $urlBlogAdd = Router::url(array(
-            'plugin' => 'nodes',
-            'admin' => true,
-            'controller' => 'nodes',
-            'action' => 'add',
-            'blog',
-        ));
-        $urlSettings = Router::url(array(
-            'plugin' => 'settings',
-            'admin' => true,
-            'controller' => 'settings',
-            'action' => 'prefix',
-            'Site',
-        ));
-
-        $this->set('user', $this->Session->read('Install.user'));
-        if ($installed) {
-            $this->Session->destroy();
-        }
-        $this->set(compact('urlBlogAdd', 'urlSettings', 'installed'));
-    }
-
-
 
 
 }
