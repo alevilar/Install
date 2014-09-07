@@ -40,7 +40,7 @@ class InstallController extends AppController {
         $InstallManager = new InstallManager();
         // Si esta instalado no habra necesidad de checkear permisos
         if ($InstallManager->checkAppInstalled()) {
-            $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.');
+            $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.', 'Risto.flash_success');
             return $this->redirect('/users/login');
         }
         // Si no esta instalado y no se puede escribir en las pcarpetas volvera al inicio
@@ -73,7 +73,7 @@ class InstallController extends AppController {
                 'Install' => $this->request->data,
             ));
             if ($result !== true) {
-               return $this->Session->setFlash($result, 'default', array('class' => 'Risto.flash_error'));
+               return $this->Session->setFlash($result, 'Risto.flash_success');
             } else {
                 return $this->redirect(array('action' => 'data'));
             }
@@ -110,9 +110,8 @@ class InstallController extends AppController {
         $sources = $ds->listSources();
         if (!empty($sources)) {
             $this->Session->setFlash(
-                __d('croogo', 'Warning: Database "%s" is not empty.', $ds->config['database']),
-                'default', array('class' => 'Risto.flash_error')
-            );
+                __d('croogo', 'Advertencia: La base de datos "%s" no esta vacia.', $ds->config['database'])
+                , 'Risto.flash_error');
         }
 
         if ($this->request->query('run')) {
@@ -128,7 +127,7 @@ class InstallController extends AppController {
                 $result = $InstallManager->createCoresFile();
 
                 if ($result == false) {
-                    return $this->Session->setFlash($result, 'default', array('class' => 'Risto.flash_error'));
+                    return $this->Session->setFlash($result, 'default', 'Risto.flash_error');
                 }
                 else if ($result == true) {
                     return $this->redirect(array('action' => 'adminuser'));
@@ -137,7 +136,7 @@ class InstallController extends AppController {
             }
             else
             {
-                return $this->Session->setFlash($sqlMigration, 'default', array('class' => 'Risto.flash_error'));
+                return $this->Session->setFlash($sqlMigration, 'default', 'Risto.flash_error');
             }
         }
     }
