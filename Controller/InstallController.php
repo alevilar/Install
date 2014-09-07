@@ -154,28 +154,17 @@ class InstallController extends AppController {
 
                 if($this->User->save($this->request->data))
                 {
-                    $InstallManager = new InstallManager();
+
                     $user = $this->User->findById($this->User->id);
 
-                    $result = $InstallManager->createSettingsFile();
-
-                    if ($result == false) {
-                        return $this->Session->setFlash($result, 'default', array('class' => 'error'));
-                    }
+                   $result = true;
 
                     if ($result == true) {
-                        return $this->Session->setFlash("Ristorantino se ha instalado con exito.", 'default', array('class' => 'success'));
+                        return $this->redirect(array('plugin'=>'install','admin'=>false,'controller'=>'siteSetup','action' => 'installsite'));
                     }
 
                 }
 
-
-                //$user = $this->Install->addAdminUser($this->request->data);
-
-                if ($user) {
-                    $this->Session->write('Install.user', $user['User']['username']);
-                    return $this->redirect(array('action' => 'finish'));
-                }
             }
         }
     }

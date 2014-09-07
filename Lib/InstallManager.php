@@ -109,12 +109,10 @@ class InstallManager {
  */
 	public function createSettingsFile() {
 
-        $resumeConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'resume.php.install';
         $appControllerRistoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'AppController.php.install';
         $appModelRistoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'AppModel.php.install';
 
         $result = array(
-            copy($resumeConfigFile, APP . 'Config' . DS . 'resume.php') &&
             copy($appControllerRistoConfigFile, APP . 'Controller' . DS . 'AppController.php') &&
             copy($appModelRistoConfigFile, APP . 'Model' . DS . 'AppModel.php')
         );
