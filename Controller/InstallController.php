@@ -3,6 +3,7 @@
 App::uses('Controller', 'Controller');
 App::uses('File', 'Utility');
 App::uses('InstallManager', 'Install.Lib');
+App::uses('AppController', 'Controller');
 
 
 class InstallController extends AppController {
