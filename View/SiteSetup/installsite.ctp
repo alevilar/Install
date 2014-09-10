@@ -6,7 +6,7 @@ if(empty($this->request->data))
     ));
     ?>
     <div class="install">
-        <h2><?php echo __d('croogo', 'Paso 4: Instalación del Sitio.'); ?></h2>
+        <h2><?php echo __d('croogo', 'Crear Nuevo Sitio.'); ?></h2>
 
         <table>
             <tr>
@@ -47,46 +47,6 @@ if(empty($this->request->data))
 
             </tr>
 
-
-            <tr>
-                <td>Nombre de Usuario</td>
-                <td>
-                    <?php
-                    echo $this->Form->input('User.username', array(
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Nombre de usuario'),
-
-                    ));
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Password de Usuario</td>
-                <td>
-                    <?php
-                    echo $this->Form->input('User.password', array(
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Password'),
-                        'value' => '',
-
-                    ));
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Re-ingrese Password</td>
-                <td>
-                    <?php
-                    echo $this->Form->input('User.verify_password', array(
-                        'type'=>'password',
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Password'),
-                        'value' => '',
-
-                    ));
-                    ?>
-                </td>
-            </tr>
 
         </table>
     </div>
