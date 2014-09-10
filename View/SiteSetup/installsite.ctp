@@ -1,6 +1,4 @@
 <?php
-if(empty($this->request->data))
-{
     echo $this->Form->create(null, array(
         'url' => array('controller' => 'siteSetup', 'action' => 'installsite'),
     ));
@@ -57,11 +55,3 @@ if(empty($this->request->data))
     <?php
     echo $this->Form->end();
 
-}
-else
-{
-    ?>
-    <?php echo $this->Html->link(__d('croogo', 'Ingresar'), array('admin'=>false,'plugin'=>false,'controller'=>'users','action' => 'login'), array( 'class' => 'btn btn-success')); ?>
-<?php
-}
-?>
