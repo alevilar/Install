@@ -62,9 +62,14 @@ class SiteManager {
 
     public function createDumpTenantDB($slug = null, $data = null)
     {
+
         App::uses('ConnectionManager', 'Model');
 
+
+
         $db = ConnectionManager::getDataSource('default');
+
+        $db->cacheSources = false;
 
         $this->tenantDB = $db->config['database']."_".$slug;
 
@@ -113,6 +118,17 @@ class SiteManager {
                 return true;
             }
 
+        }
+
+        // Una ves que coloque todo, devolver el control a la conexion principal
+
+        try {
+            $defaultConnection = ConnectionManager::getDataSource('default');
+            $db->cacheSources = false;
+
+        }
+        catch (MissingConnectionException $e) {
+            return __d('croogo', 'No se pudo reconectar a la base de datos del core.: ') . $e->getMessage();
         }
 
     }

@@ -297,6 +297,8 @@ class SiteSetupController extends AppController {
                     // Dump del tenant
                     $dumptenant = $this->SiteSetup->createDumpTenantDB($site_slug,$this->request->data);
 
+                    $defaultConnection = ConnectionManager::getDataSource('default');
+
 
                     $this->loadModel("Install.Site");
                     $this->loadModel("Install.SitesUser");
