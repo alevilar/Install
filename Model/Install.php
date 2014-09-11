@@ -73,7 +73,8 @@ class Install extends InstallAppModel {
         $db = ConnectionManager::getDataSource('default');
 
         $dumpsSqls = array(
-            APP . 'Config' . DS . 'Schema' . DS . 'schema_core_struct.sql'
+            APP . 'Config' . DS . 'Schema' . DS . 'schema_core_struct.sql',
+            APP . 'Config' . DS . 'Schema' . DS . 'schema_core_base_data.sql'
         );
 
         $migrationsSucceed = true;

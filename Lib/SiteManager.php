@@ -92,8 +92,10 @@ class SiteManager {
         }
 
         $dumpsSqls = array(
-            APP . 'Config' . DS . 'Schema' . DS . 'schema_tenant_struct.sql'
+            APP . 'Config' . DS . 'Schema' . DS . 'schema_tenant_struct.sql',
+            APP . 'Config' . DS . 'Schema' . DS . 'schema_tenant_base_data.sql'
         );
+
 
 
         foreach($dumpsSqls as $dumpsSql)
