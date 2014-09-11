@@ -74,7 +74,7 @@ class InstallController extends AppController {
                 'Install' => $this->request->data,
             ));
             if ($result !== true) {
-               return $this->Session->setFlash($result, 'Risto.flash_success');
+               return $this->Session->setFlash($result, 'Risto.flash_error');
             } else {
                 return $this->redirect(array('action' => 'data'));
             }

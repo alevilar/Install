@@ -7,10 +7,7 @@ if(
 )
 {
 
-    $result = copy(APP . 'Config' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
-    if (!$result) {
-        return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
-    }
+
 // Al vuelo se reemplaza los Ristos Model y Controller para poder arrancar
 App::uses('Controller', 'Controller');
 App::uses('Model', 'Model');

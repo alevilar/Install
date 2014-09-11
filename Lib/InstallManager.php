@@ -27,16 +27,18 @@ class InstallManager {
 		App::uses('ConnectionManager', 'Model');
 		$config = $this->defaultConfig;
 
+
+        $result = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'database.php.install', APP . 'Config' . DS . 'database.php');
+        if (!$result) {
+          return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
+         }
+
 		foreach ($data['Install'] as $key => $value) {
 			if (isset($data['Install'][$key])) {
 				$config[$key] = $value;
 			}
 		}
 
-		$result = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'database.php.install', APP . 'Config' . DS . 'database.php');
-		if (!$result) {
-			return __d('croogo', 'Could not copy database.php file.');
-		}
 		$file = new File(APP . 'Config' . DS . 'database.php', true);
 		$content = $file->read();
 
@@ -44,16 +46,20 @@ class InstallManager {
 			$content = str_replace('{default_' . $configKey . '}', $configValue, $content);
 		}
 
-		if (!$file->write($content)) {
-			return __d('croogo', 'No se puede escribir por el archivo database.php.');
-		}
+        $write_to_file = $file->write($content);
 
-		try {
+        if (!$write_to_file) {
+            return __d('croogo', 'No se puede escribir por el archivo database.php.');
+        }
+
+        $file->close();
+
+        try {
 			ConnectionManager::create('default', $config);
 			$db = ConnectionManager::getDataSource('default');
 		}
 		catch (MissingConnectionException $e) {
-			return __d('croogo', 'Could not connect to database: ') . $e->getMessage();
+			return __d('croogo', 'No se pude conectar al abase de datos: ') . $e->getMessage();
 		}
 		if (!$db->isConnected()) {
 			return __d('croogo', 'Could not connect to database.');
@@ -73,35 +79,6 @@ class InstallManager {
             return __d('croogo', 'No se puede escribir el archivo risto.php.');
         }
     }
-
-
-/**
- * Create settings.json from default file
- *
- * @return bool true when successful
- */
-	public function createSettingsFile() {
-
-        $appControllerRistoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'AppController.php.install';
-        $appModelRistoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'AppModel.php.install';
-
-        $result = array(
-            copy($appControllerRistoConfigFile, APP . 'Controller' . DS . 'AppController.php') &&
-            copy($appModelRistoConfigFile, APP . 'Model' . DS . 'AppModel.php')
-        );
-
-
-        if (!$result) {
-            $msg = 'No se puede copiar los archivos de configuración Risto.';
-            CakeLog::critical($msg);
-            return $msg;
-        }
-
-
-        return true;
-
-
-	}
 
 
 /**

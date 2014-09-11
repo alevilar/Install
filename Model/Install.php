@@ -73,9 +73,7 @@ class Install extends InstallAppModel {
         $db = ConnectionManager::getDataSource('default');
 
         $dumpsSqls = array(
-            App::pluginPath('Install') . 'Config' . DS . 'Schema' . DS . 'schema_struct.sql',
-            App::pluginPath('Install') . 'Config' . DS . 'Schema' . DS . 'update.sql',
-            App::pluginPath('Install') . 'Config' . DS . 'Schema' . DS . 'schema_base_data.sql'
+            APP . 'Config' . DS . 'Schema' . DS . 'schema_core_struct.sql'
         );
 
         $migrationsSucceed = true;

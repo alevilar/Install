@@ -289,6 +289,9 @@ class SiteSetupController extends AppController {
                 $r = $this->SiteSetup->copySettingFile($site_slug,$this->request->data);
                 if($r)
                 {
+                    // Dump del tenant
+                    $dumptenant = $this->SiteSetup->createDumpTenantDB($site_slug,$this->request->data);
+
 
                     $this->loadModel("Install.Site");
                     $this->loadModel("Install.SitesUser");
@@ -318,8 +321,6 @@ class SiteSetupController extends AppController {
                             if($resume_file)
                             {
                                 // Copia los Appcontroller y AppModel Para recurrir al Risto Plugin
-                                $result = $InstallManager->createSettingsFile();
-
                                 return $this->Session->setFlash("Ristorantino se ha instalado con exito.", 'Risto.flash_success');
 
                             }
@@ -356,5 +357,11 @@ class SiteSetupController extends AppController {
         }
         $this->set(compact('countries'));
     }
+
+public function getdbsource()
+{
+    $dumptenant = $this->SiteSetup->createDumpTenantDB("tenant2222",$this->request->data);
+
+}
 
 }

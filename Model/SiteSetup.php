@@ -71,4 +71,16 @@ class SiteSetup extends InstallAppModel {
         return $result;
     }
 
+    public function createDumpTenantDB($slug = null, $data = null)
+    {
+        $SiteManager = new SiteManager();
+
+        $dumptentant = $SiteManager->createDumpTenantDB($slug,$data);
+
+        return $dumptentant;
+
+    }
+
+
+
 }

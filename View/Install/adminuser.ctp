@@ -17,7 +17,7 @@ echo $this->Form->create(null, array(
         <table>
 
             <tr>
-                <td>Host</td>
+                <td>Usuario</td>
                 <td>
                     <?
                     echo $this->Form->input('User.username', array(
