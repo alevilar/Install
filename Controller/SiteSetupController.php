@@ -7,34 +7,7 @@ App::uses('InstallManager', 'Install.Lib');
 
 class SiteSetupController extends RistoAppController {
 
-    /**
-     * Components
-     *
-     * @var array
-     * @access public
-     */
-    public $components = array('Session');
 
-    /**
-     * Helpers
-     *
-     * @var array
-     * @access public
-     */
-    public $layout = 'Risto.default';
-
-    public $helpers = array(
-        'Html' => array(
-            'className' => 'Bs3Html'
-        ),
-        'Form' => array(
-            'className' => 'PxForm'
-            // 'className' => 'Bs3Form'
-        ),
-        'Session',
-        'Paginator',
-        'Number',
-    );
 
 
     protected function _check() {
