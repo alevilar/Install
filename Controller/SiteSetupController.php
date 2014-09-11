@@ -55,7 +55,13 @@ class SiteSetupController extends AppController {
 
     public function installsite()
     {
-        $this->_check();
+        //debug($this->Session->read('Auth.User.id'));
+        if($this->Session->read('Auth.User.id')==null)
+        {
+            // Si no esta autenticado hacer el chequeo
+            $this->_check();
+        }
+        //$this->_check();
         $countries = array(
             'Europa'=>array(
                 "AL"=>"Albania",
