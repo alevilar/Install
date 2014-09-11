@@ -12,7 +12,7 @@ if(empty($this->request->data))
             <tr>
                 <td>Nombre del Sitio</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('Site.name', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Nombre del Sitio'),
