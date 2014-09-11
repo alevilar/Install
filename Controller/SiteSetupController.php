@@ -1,5 +1,4 @@
-<?
-require_once(APP . 'Config' . DS . 'risto.php');
+<?php
 App::uses('Controller', 'Controller');
 App::uses('File', 'Utility');
 App::uses('Inflector', 'Utility');

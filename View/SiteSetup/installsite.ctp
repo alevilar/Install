@@ -24,7 +24,7 @@ if(empty($this->request->data))
             <tr>
                 <td>Alias del Sitio</td>
                 <td>
-           <?
+           <?php
         echo $this->Form->input('Site.alias', array(
             'label' => false,
             'placeholder' => __d('croogo', 'Alias del Sitio'),
@@ -51,7 +51,7 @@ if(empty($this->request->data))
             <tr>
                 <td>Nombre de Usuario</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('User.username', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Nombre de usuario'),
@@ -63,7 +63,7 @@ if(empty($this->request->data))
             <tr>
                 <td>Password de Usuario</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('User.password', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Password'),
@@ -76,7 +76,7 @@ if(empty($this->request->data))
             <tr>
                 <td>Re-ingrese Password</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('User.verify_password', array(
                         'type'=>'password',
                         'label' => false,

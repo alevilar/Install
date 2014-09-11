@@ -19,7 +19,7 @@ echo $this->Form->create(null, array(
             <tr>
                 <td>Usuario</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('User.username', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Nombre de Usuario'),
@@ -47,7 +47,7 @@ echo $this->Form->create(null, array(
             <tr>
                 <td>Verificar Contraseña</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('User.verify_password', array(
                         'label' => false,
                         'type' => 'password',

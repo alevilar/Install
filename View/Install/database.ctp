@@ -14,7 +14,7 @@ echo $this->Form->create(false, array(
             <tr>
                 <td>Tipo de Base de Datos</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('datasource', array(
                         'default' => 'Database/Mysql',
                         'label'=>false,
@@ -31,7 +31,7 @@ echo $this->Form->create(false, array(
             <tr>
                 <td>Host</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('host', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Host'),
@@ -58,7 +58,7 @@ echo $this->Form->create(false, array(
             <tr>
                 <td>Contraseña</td>
                 <td>
-                    <?
+                    <?php
                     echo $this->Form->input('password', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Contraseña de Base de datos'),

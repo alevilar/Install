@@ -1,4 +1,4 @@
-<?
+<?php
 
 App::uses('Controller', 'Controller');
 App::uses('File', 'Utility');
