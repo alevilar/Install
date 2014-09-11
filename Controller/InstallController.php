@@ -121,18 +121,10 @@ class InstallController extends AppController {
 
             $sqlMigration = $this->Install->setupDatabase();
 
-            $InstallManager = new InstallManager();
 
             if($sqlMigration)
             {
-                $result = $InstallManager->createCoresFile();
-
-                if ($result == false) {
-                    return $this->Session->setFlash($result, 'default', 'Risto.flash_error');
-                }
-                else if ($result == true) {
                     return $this->redirect(array('action' => 'adminuser'));
-                }
 
             }
             else
@@ -150,7 +142,6 @@ class InstallController extends AppController {
             $this->loadModel('Install.User');
             $this->User->set($this->request->data);
             if ($this->User->validates()) {
-                require_once(APP . 'Config' . DS . 'risto.php');
 
                 $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
 
