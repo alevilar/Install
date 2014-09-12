@@ -24,4 +24,6 @@ echo $this->Html->link(__d('croogo', 'Construir Base de Datos'), array(
 	'onclick' => '$(this).html(\'Procesando Sql. Favor aguarde...\');',
 ));
 ?>
+<?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('admin'=>false,'plugin'=>'install','controller'=>'install','action' => 'cancel'), array( 'class' => 'btn btn-danger')); ?>
+
 </div>

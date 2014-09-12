@@ -165,4 +165,17 @@ class InstallController extends AppController {
     }
 
 
+    public function cancel()
+    {
+        $InstallManager = new InstallManager();
+        if($InstallManager->cancelInstall())
+        {
+            $this->Session->setFlash(_("Se cancelo la instalación. Puede recomenzar si asi lo desea."));
+
+            $this->redirect("/install");
+
+        }
+
+    }
+
 }

@@ -337,10 +337,5 @@ class SiteSetupController extends RistoAppController {
         $this->set(compact('countries'));
     }
 
-public function getdbsource()
-{
-    $dumptenant = $this->SiteSetup->createDumpTenantDB("tenant2222",$this->request->data);
-
-}
 
 }

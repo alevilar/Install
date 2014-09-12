@@ -50,7 +50,7 @@
     </div>
     <div class="form-actions">
         <?php echo $this->Form->submit(__d('croogo', 'Guardar'), array('class' => 'btn btn-success', 'div' => false)); ?>
-        <?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('action' => 'index'), array( 'class' => 'btn cancel')); ?>
+        <?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('admin'=>false,'plugin'=>'install','controller'=>'install','action' => 'cancel'), array( 'class' => 'btn cancel')); ?>
     </div>
     <?php
     echo $this->Form->end();

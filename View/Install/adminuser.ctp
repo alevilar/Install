@@ -67,7 +67,7 @@ echo $this->Form->create(null, array(
 
 <div class="form-actions">
 	<?php echo $this->Form->submit(__d('croogo', 'Guardar'), array('class' => 'btn btn-success', 'div' => false)); ?>
-	<?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('action' => 'index'), array( 'class' => 'btn btn-danger')); ?>
+	<?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('admin'=>false,'plugin'=>'install','controller'=>'install','action' => 'cancel'), array( 'class' => 'btn btn-danger', 'div' => false)); ?>
 </div>
 <?php
 	echo $this->Form->end();

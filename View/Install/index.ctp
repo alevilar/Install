@@ -81,5 +81,6 @@ if ($check) {
 } else {
     $out = '<div class="alert alert-danger" role="alert">' . __d('croogo', 'La instalación no puede continuar hasta que se logren los requisitos minimos.') . '</div>';
 }
+
 echo $this->Html->div('form-actions', $out);
 ?>

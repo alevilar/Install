@@ -136,5 +136,54 @@ class InstallManager {
         return $res;
     }
 
-
+    public function cancelInstall()
+    {
+        $resume = new File(APP . 'Config' . DS . 'resume.php');
+        if($resume->exists())
+        {
+            if($resume->delete())
+            {
+                return true;
+            }
+            else
+            {
+                return __d('croogo','No se puede borrar el archivo resume.php. Corrobore los permisos de escritura.');
+            }
+        }
+        else
+        {
+            return true;
+        }
+        $database = new File(APP . 'Config' . DS . 'database.php');
+        if($database->exists())
+        {
+            // Si existe la base de datos, entoncs debemos de elimanr todas las tablas
+            try {
+                $db = ConnectionManager::getDataSource('default');
+                $tables = $db->listSources();
+                if(!empty($tables))
+                {
+                    foreach($tables as $index => $tablename)
+                    {
+                        $db->query("DROP TABLE IF EXISTS ".$tablename.";");
+                    }
+                }
+            }
+            catch (MissingConnectionException $e) {
+                return __d('croogo', 'No se pude conectar al abase de datos: ') . $e->getMessage();
+            }
+            if($database->delete())
+            {
+                return true;
+            }
+            else
+            {
+                return __d('croogo','No se puede borrar el database.php, corrobore los permisos de escritura sobre este archivo.');
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

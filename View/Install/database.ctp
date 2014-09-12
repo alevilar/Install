@@ -114,6 +114,7 @@ echo $this->Form->create(false, array(
     </div>
 
 <div class="form-actions">
-	<?php echo $this->Form->submit('Continuar', array('button' => 'success', 'div' => 'input submit', 'class'=>'btn btn-success')); ?>
+	<?php echo $this->Form->submit('Continuar', array('button' => 'success', 'div' => false, 'class'=>'btn btn-success')); ?>
+    <?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('admin'=>false,'plugin'=>'install','controller'=>'install','action' => 'cancel'), array( 'class' => 'btn btn-danger')); ?>
 </div>
 <?php echo $this->Form->end(); ?>
