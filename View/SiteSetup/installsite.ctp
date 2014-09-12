@@ -1,12 +1,10 @@
 <?php
-if(empty($this->request->data))
-{
     echo $this->Form->create(null, array(
         'url' => array('controller' => 'siteSetup', 'action' => 'installsite'),
     ));
     ?>
     <div class="install">
-        <h2><?php echo __d('croogo', 'Paso 4: Instalación del Sitio.'); ?></h2>
+        <h2><?php echo __d('croogo', 'Crear Nuevo Sitio.'); ?></h2>
 
         <table>
             <tr>
@@ -48,46 +46,6 @@ if(empty($this->request->data))
             </tr>
 
 
-            <tr>
-                <td>Nombre de Usuario</td>
-                <td>
-                    <?php
-                    echo $this->Form->input('User.username', array(
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Nombre de usuario'),
-
-                    ));
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Password de Usuario</td>
-                <td>
-                    <?php
-                    echo $this->Form->input('User.password', array(
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Password'),
-                        'value' => '',
-
-                    ));
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Re-ingrese Password</td>
-                <td>
-                    <?php
-                    echo $this->Form->input('User.verify_password', array(
-                        'type'=>'password',
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Password'),
-                        'value' => '',
-
-                    ));
-                    ?>
-                </td>
-            </tr>
-
         </table>
     </div>
     <div class="form-actions">
@@ -97,11 +55,3 @@ if(empty($this->request->data))
     <?php
     echo $this->Form->end();
 
-}
-else
-{
-    ?>
-    <?php echo $this->Html->link(__d('croogo', 'Ingresar'), array('admin'=>false,'plugin'=>false,'controller'=>'users','action' => 'login'), array( 'class' => 'btn btn-success')); ?>
-<?php
-}
-?>

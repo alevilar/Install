@@ -1,11 +1,11 @@
 <?php
-App::uses('Controller', 'Controller');
+App::uses('RistoAppController', 'Risto.Controller');
 App::uses('File', 'Utility');
 App::uses('Inflector', 'Utility');
 App::uses('InstallManager', 'Install.Lib');
 
 
-class SiteSetupController extends AppController {
+class SiteSetupController extends RistoAppController {
 
     /**
      * Components
@@ -21,7 +21,7 @@ class SiteSetupController extends AppController {
      * @var array
      * @access public
      */
-    public $layout = 'default';
+    public $layout = 'Risto.default';
 
     public $helpers = array(
         'Html' => array(
