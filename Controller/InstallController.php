@@ -139,7 +139,9 @@ class InstallController extends AppController {
         $this->_check();
         $this->set('title_for_layout', __d('croogo', 'Paso 3: Crear un usuario admin.'));
         if ($this->request->is('post')) {
-            $this->loadModel('Install.User');
+
+            $this->loadModel('Users.User');
+            $this->Components->load('Auth');
             $this->User->set($this->request->data);
             if ($this->User->validates()) {
 
