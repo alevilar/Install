@@ -312,7 +312,7 @@ class SiteSetupController extends RistoAppController {
                         MtSites::loadSessionData();
 
                         $this->Session->setFlash("¡¡Bienvenido a tu nuevo Sitio!!", 'Risto.flash_success');
-                        $this->redirect( array( 'tenant'=>$this->request->data['Site']['alias'], 'plugin'=>'risto', 'controller'=>'pages', 'action'=>'display', 'dashboard'));
+                        $this->redirect("/".$this->request->data['Site']['alias']);
                     } 
                     else
                     {
