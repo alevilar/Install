@@ -299,64 +299,36 @@ class SiteSetupController extends AppController {
 
                     $defaultConnection = ConnectionManager::getDataSource('default');
 
+                    $this->SiteSetup->createResumeFile();
 
-                    $this->loadModel("Install.Site");
-                    $this->loadModel("Install.SitesUser");
-                    $this->loadModel("Install.User");
+                    $this->loadModel("MtSites.Site");
 
-
-                    $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
+                    $this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
                     $this->Site->create();
-                    if($this->Site->save($this->request->data))
-                    {
-                        $site_id = $this->Site->id;
-                    }
-                    $this->User->create();
-                    if($this->User->save($this->request->data))
-                    {
+                    if($this->Site->saveAll($this->request->data))
+                    {   
+                        // recargar datos del usuario con el nuevo sitio
+                        App::uses('MtSites','MtSites.Utility');
+                        MtSites::loadSessionData();
 
-                        $user_id = $this->User->id;
-                        $this->request->data['SitesUser']['user_id'] = $user_id;
-                        $this->request->data['SitesUser']['site_id'] = $site_id;
-                        $this->SitesUser->create();
-                        if($this->SitesUser->save($this->request->data))
-                        {
-                            $InstallManager = new InstallManager();
-                            // Genera un Archivo de resumen
-                            $resume_file = $this->SiteSetup->createResumeFile();
-                            // Paso final, se copiaria el resumen para terminar con la instalacion
-                            if($resume_file)
-                            {
-                                // Copia los Appcontroller y AppModel Para recurrir al Risto Plugin
-                                return $this->Session->setFlash("Ristorantino se ha instalado con exito.", 'Risto.flash_success');
-
-                            }
-                            else
-                            {
-                                return $this->Session->setFlash("Ha ocurrido un error. Revise los permisos de escritura del Config.", 'Risto.flash_error');
-                            }
-                        }
-                        else
-                        {
-                            return $this->Session->setFlash("Ha ocurrido un error. No se pudo crear el sitio.", 'Risto.flash_error');
-
-                        }
-                    }
+                        $this->Session->setFlash("¡¡Bienvenido a tu nuevo Sitio!!", 'Risto.flash_success');
+                        $this->redirect( array( 'tenant'=>$this->request->data['Site']['alias'], 'plugin'=>'risto', 'controller'=>'pages', 'action'=>'display', 'dashboard'));
+                    } 
                     else
                     {
-                        return $this->Session->setFlash("No se pudo crear el user.", 'Risto.flash_error');
+                        $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
                     }
 
                 }
                 else
                 {
-                    return $this->Session->setFlash("No se pudo copiar los archivos, revise los permisos de /Tenants.", 'Risto.flash_error');
+                    $this->Session->setFlash("No se pudo copiar los archivos, revise los permisos de /Tenants.", 'Risto.flash_error');
                 }
 
             }
             else
             {
-                return $this->Session->setFlash("Ha ocurrido un error; ".$mk_dir.".Revise los permisos del /Tenants y reintente, recuerde debe de tener permiso de acceso y escritura.", 'Risto.flash_error');
+                $this->Session->setFlash("Ha ocurrido un error; ".$mk_dir.".Revise los permisos del /Tenants y reintente, recuerde debe de tener permiso de acceso y escritura.", 'Risto.flash_error');
 
             }
 
