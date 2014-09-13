@@ -307,7 +307,7 @@ class SiteSetupController extends RistoAppController {
 
 
         }
-        $country_code = $this->SiteSetup->getCountryData();
+        $country_code = $this->SiteSetup->getCountryData( $this->request->clientIp() );
 
         $this->set(compact('countries','country_code'));
     }

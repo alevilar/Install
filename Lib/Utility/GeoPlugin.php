@@ -54,12 +54,10 @@ class GeoPlugin {
 	}
 	
 	function locate($ip = null) {
-		
-		global $_SERVER;
-		
 		if ( is_null( $ip ) ) {
-			//$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			$ip = env('REMOTE_ADDR');
 		}
+
 		
 		$host = str_replace( '{IP}', $ip, $this->host );
 		$host = str_replace( '{CURRENCY}', $this->currency, $host );

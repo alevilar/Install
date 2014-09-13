@@ -82,11 +82,11 @@ class SiteSetup extends InstallAppModel {
     }
 
 
-    public function getCountryData()
+    public function getCountryData( $ip )
     {
         $SiteManager = new SiteManager();
 
-        $country_code = $SiteManager->getCountryData();
+        $country_code = $SiteManager->getCountryData( $ip );
 
         return $country_code;
 

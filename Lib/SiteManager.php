@@ -137,13 +137,13 @@ class SiteManager {
 
     }
 
-    public function getCountryData()
+    public function getCountryData( $ip )
     {
         $geoplugin = new GeoPlugin();
 
 
 //locate the IP
-        $geoplugin->locate();
+        $geoplugin->locate( $ip );
 
      /*   echo "Geolocation results for {$geoplugin->ip}: <br />\n".
             "City: {$geoplugin->city} <br />\n".
