@@ -1,3 +1,50 @@
+<!-- Js para la validadcion -->
+<script src="/install/js/validation/js/jquery.validationEngine-en.js"></script>
+<script src="/install/js/validation/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8">
+
+</script>
+
+<!-- Css para validacion -->
+
+<link rel="stylesheet" href="/install/js/validation/css/validationEngine.jquery.css" type="text/css"/>
+
+<!-- Fin css -->
+
+<!-- Fin js validacion -->
+<script>
+    //$.validationEngine.defaults.scroll = false;
+    /**
+     *
+     * @param {jqObject} the field where the validation applies
+     * @param {Array[String]} validation rules for this field
+     * @param {int} rule index
+     * @param {Map} form options
+     * @return an error string if validation failed
+     */
+    function checkHELLO(field, rules, i, options){
+        if (field.val() != "HELLO") {
+            // this allows to use i18 for the error msgs
+            return options.allrules.validate2fields.alertText;
+        }
+    }
+    function changeposition(wo) {
+        jQuery('#Database').validationEngine('hide');
+        jQuery('input').attr('data-prompt-position',wo);
+        jQuery('input').data('promptPosition',wo);
+        jQuery('textarea').attr('data-prompt-position',wo);
+        jQuery('textarea').data('promptPosition',wo);
+        jQuery('select').attr('data-prompt-position',wo);
+        jQuery('select').data('promptPosition',wo);
+    }
+    function changemethod(welche) {
+        jQuery('#formID').validationEngine('hide');
+        jQuery("#formID").validationEngine('detach');
+        jQuery("#formID").validationEngine('attach');
+    }
+</script>
+
+<!-- Fin js -->
+
 <?php
 echo $this->Form->create(false, array(
 	'url' => array(
@@ -5,6 +52,7 @@ echo $this->Form->create(false, array(
 		'controller' => 'install',
 		'action' => 'database'
 	),
+    'id'=>'Database'
 ));
 ?>
     <div class="install">
@@ -35,7 +83,7 @@ echo $this->Form->create(false, array(
                     echo $this->Form->input('host', array(
                         'label' => false,
                         'placeholder' => __d('croogo', 'Host'),
-                        'value' => '',
+                        'value' => ''
 
                     ));
                     ?>
@@ -118,3 +166,44 @@ echo $this->Form->create(false, array(
     <?php echo $this->Html->link(__d('croogo', 'Cancelar'), array('admin'=>false,'plugin'=>'install','controller'=>'install','action' => 'cancel'), array( 'class' => 'btn btn-danger')); ?>
 </div>
 <?php echo $this->Form->end(); ?>
+<script>
+    $(document).ready(function(){
+
+        $("#host").addClass("validate[required]");
+
+        $("#login").addClass("validate[required]");
+
+        $("#database").addClass("validate[required]");
+
+        $("#Database").validationEngine({
+            autoHidePrompt: true,
+            // Delay before auto-hide
+            autoHideDelay: 6000,
+            // Fade out duration while hiding the validations
+            fadeDuration: 0.3,
+
+            'custom_error_messages' : {
+                '#host' : {
+                    'required': {
+                        'message': "Se requiere un host."
+                    }
+                },
+                '#login': {
+                    'required': {
+                        'message': "Se requiere de un nombre de usuario."
+                    }
+                },
+                '#database': {
+                    'required': {
+                        'message': "Se requiere de una base de datos."
+                    }
+                }
+            }
+        });
+        //jQuery("#formID").validationEngine('attach',{ isOverflown: true });
+        //jQuery("#formID").validationEngine('attach',{ relative: true });
+
+        changeposition('bottomRight');
+
+    })
+</script>
