@@ -3,40 +3,12 @@
 App::uses('Controller', 'Controller');
 App::uses('File', 'Utility');
 App::uses('InstallManager', 'Install.Lib');
-App::uses('AppController', 'Controller');
+App::uses('Controller', 'Controller');
 
 
-class InstallController extends AppController {
+class InstallController extends Controller {
 
-    /**
-     * Components
-     *
-     * @var array
-     * @access public
-     */
-    public $components = array('Session');
-
-    /**
-     * Helpers
-     *
-     * @var array
-     * @access public
-     */
-    public $layout = 'default';
-
-    public $helpers = array(
-        'Html' => array(
-            'className' => 'Bs3Html'
-        ),
-        'Form' => array(
-            'className' => 'PxForm'
-            // 'className' => 'Bs3Form'
-        ),
-        'Session',
-        'Paginator',
-        'Number',
-    );
-
+ 
     protected function _check() {
         $InstallManager = new InstallManager();
         // Si esta instalado no habra necesidad de checkear permisos
