@@ -82,5 +82,15 @@ class SiteSetup extends InstallAppModel {
     }
 
 
+    public function getCountryData()
+    {
+        $SiteManager = new SiteManager();
+
+        $country_code = $SiteManager->getCountryData();
+
+        return $country_code;
+
+    }
+
 
 }
