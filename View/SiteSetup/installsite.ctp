@@ -46,7 +46,7 @@
 <!-- Fin js -->
 
 <?php
-    echo $this->Form->create(null, array(
+    echo $this->Form->create('Site', array(
         'url' => array('controller' => 'siteSetup', 'action' => 'installsite'),'id'=>'SiteSetup'
     ));
     ?>
@@ -57,16 +57,15 @@
             <tr>
                 <td>
                 <?php
-                echo $this->Form->input('Site.name', array(
+                echo $this->Form->input('name', array(
                     'label' => __d('install', 'Nombre'),
                     'placeholder' => __d('install', 'Ej: Mc Burger'),
 
                 ));
 
-                echo $this->Form->input('Site.country_code', array(
+                echo $this->Form->input('country_code', array(
                     'label' => __d('install','País'),
-                    'options' => $countries,
-                    'default' => $country_code
+                    'options' => $country_codes,
                 ));
                 ?>
             </td>
