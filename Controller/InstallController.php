@@ -8,6 +8,7 @@ App::uses('Controller', 'Controller');
 
 class InstallController extends Controller {
 
+    public $layout = 'Risto.default';
  
     protected function _check() {
         $InstallManager = new InstallManager();
