@@ -58,7 +58,7 @@ class GeoPlugin {
 		global $_SERVER;
 		
 		if ( is_null( $ip ) ) {
-			//$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+			//$ip = $_SERVER['REMOTE_ADDR'];
 		}
 		
 		$host = str_replace( '{IP}', $ip, $this->host );
