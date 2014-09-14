@@ -69,8 +69,6 @@ class SiteManager {
 
         App::uses('ConnectionManager', 'Model');
 
-
-
         $db = ConnectionManager::getDataSource('default');
 
         $db->cacheSources = false;

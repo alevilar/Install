@@ -1,13 +1,19 @@
 <?php
-App::uses('RistoAppController', 'Risto.Controller');
+App::uses('VeterinariaAppController', 'Veterinaria.Controller');
 App::uses('File', 'Utility');
 App::uses('InstallManager', 'Install.Lib');
 App::uses('Installer', 'Install.Utility');
 
 
-class SiteSetupController extends RistoAppController {
+class SiteSetupController extends VeterinariaAppController {
 
 
+
+public function beforeFilter()
+{
+    parent::beforeFilter();
+    $this->Auth->allow("*");
+}
 
 
     protected function _check() {
@@ -32,7 +38,7 @@ class SiteSetupController extends RistoAppController {
         if($this->Session->read('Auth.User.id')==null)
         {
             // Si no esta autenticado hacer el chequeo
-            $this->_check();
+          //  $this->_check();
         }
         
 
