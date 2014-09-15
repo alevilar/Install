@@ -29,7 +29,7 @@ class InstallController extends Controller {
 
     public function index() {
 
-        $this->set('title_for_layout', __d('croogo', 'Bienvenido a la Instalación SEGA - Negocios Agropecuarios.'));
+        $this->set('title_for_layout', __d('croogo', 'Bienvenido a la Instalación de Ristorantino Magíco.'));
     }
 
 
