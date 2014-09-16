@@ -30,6 +30,7 @@ class SiteSetupController extends AppNoModelController {
             {
                 $this->Site->read();
                 $site_slug = $this->Site->data['Site']['alias'];
+                $this->request->data['Site']['alias'] = $site_slug;
                 $mk_dir = Installer::createTenantsDir($site_slug);
                 if($mk_dir)
                 {
