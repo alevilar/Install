@@ -44,7 +44,7 @@ class SiteSetupController extends AppNoModelController {
 
                         // recargar datos del usuario con el nuevo sitio
                         App::uses('MtSites','MtSites.Utility');
-                        MtSites::loadSessionData();
+                        MtSites::loadSessionData( $site_slug );
 
                         $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
                         $this->redirect("/".$this->request->data['Site']['alias']);
