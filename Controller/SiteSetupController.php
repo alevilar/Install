@@ -55,8 +55,12 @@ class SiteSetupController extends AppNoModelController {
                 $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
             }
         }
-            
-        $this->request->data['Site']['country_code'] = Installer::getCountryData( $this->request->clientIp() );
+
+        $ip = env('HTTP_X_FORWARDED_FOR');
+        if ( empty($ip) ) {
+            $ip = $this->request->clientIp();
+        }
+        $this->request->data['Site']['country_code'] = Installer::getCountryData( $ip );
         $country_codes = Installer::countries();
         $this->set(compact('country_codes'));
     }
