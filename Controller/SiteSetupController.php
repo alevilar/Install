@@ -1,11 +1,11 @@
 <?php
-App::uses('VeterinariaAppController', 'Veterinaria.Controller');
+App::uses('RistoAppController', 'Risto.Controller');
 App::uses('File', 'Utility');
 App::uses('InstallManager', 'Install.Lib');
 App::uses('Installer', 'Install.Utility');
 
 
-class SiteSetupController extends VeterinariaAppController {
+class SiteSetupController extends RistoAppController {
 
 
 
