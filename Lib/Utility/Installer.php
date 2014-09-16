@@ -273,7 +273,7 @@ class Installer {
 
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
-            $result = copy(App::pluginPath('Install')  . 'Config' . DS . 'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
+            $result = copy(APP  . 'Config' . DS . 'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
             if (!$result) {
                 return __d('croogo', 'No se puede copiar el archivo settings.');
             }

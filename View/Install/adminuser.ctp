@@ -123,7 +123,7 @@ echo $this->Form->create(null, array(
 else
 {
  ?>
-    <?php echo $this->Html->link(__d('croogo', 'Ingresar'), array('admin'=>false,'plugin'=>false,'controller'=>'users','action' => 'login'), array( 'class' => 'success')); ?>
+    <?php echo $this->Html->link(__d('croogo', 'Ingresar'), array('admin'=>false,'plugin'=>false,'controller'=>false,'action' => '/'), array( 'class' => 'success')); ?>
 <?php
 }
     ?>
