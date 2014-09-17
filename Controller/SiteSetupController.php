@@ -7,17 +7,8 @@ App::uses('Installer', 'Install.Utility');
 
 class SiteSetupController extends AppNoModelController {
 
-
+    public $layout = 'Risto.default';
     public $uses = array("MtSites.Site");
-
-/*
-    public function beforeFilter()
-    {
-        parent::beforeFilter();
-        $this->Auth->allow("*");
-    }
-
-*/
 
     public function installsite()
     {
