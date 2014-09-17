@@ -240,7 +240,100 @@ class Installer {
 	}
 
 
-	public static function createTenantsDir($site_slug = null)
+    public static function createDatabaseFile($data) {
+        App::uses('File', 'Utility');
+        App::uses('ConnectionManager', 'Model');
+
+        $defaultConfig = array(
+            'name' => 'default',
+            'datasource' => 'Database/Mysql',
+            'persistent' => false,
+            'host' => 'localhost',
+            'login' => 'root',
+            'password' => '',
+            'database' => 'croogo',
+            'schema' => null,
+            'prefix' => null,
+            'encoding' => 'UTF8',
+            'port' => null,
+        );
+
+        $config = $defaultConfig;
+
+
+        $result = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'database.php.install', APP . 'Config' . DS . 'database.php');
+        if (!$result) {
+            return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
+        }
+
+        foreach ($data['Install'] as $key => $value) {
+            if (isset($data['Install'][$key])) {
+                $config[$key] = $value;
+            }
+        }
+
+        $file = new File(APP . 'Config' . DS . 'database.php', true);
+        $content = $file->read();
+
+        foreach ($config as $configKey => $configValue) {
+            $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
+        }
+
+        $write_to_file = $file->write($content);
+
+        if (!$write_to_file) {
+            return __d('croogo', 'No se puede escribir por el archivo database.php.');
+        }
+
+        $file->close();
+
+        try {
+            ConnectionManager::create('default', $config);
+            $db = ConnectionManager::getDataSource('default');
+        }
+        catch (MissingConnectionException $e) {
+            return __d('croogo', 'No se pude conectar al abase de datos: ') . $e->getMessage();
+        }
+        if (!$db->isConnected()) {
+            return __d('croogo', 'No se puede conectar a la base de datos.');
+        }
+
+        return true;
+    }
+
+
+    public static function setupDatabase() {
+
+        App::uses('ConnectionManager', 'Model');
+
+        $db = ConnectionManager::getDataSource('default');
+
+        $dumpsSqls = array(
+            APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
+            APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
+        );
+
+        $migrationsSucceed = true;
+
+
+        foreach($dumpsSqls as $dumpsSql)
+        {
+
+            $File =& new File($dumpsSql);
+            $contents = $File->read();
+            $migrateNow = $db->query($contents);
+            if($migrateNow==false)
+            {
+
+            }
+
+        }
+
+        return $migrationsSucceed;
+    }
+
+
+    public static function createTenantsDir($site_slug = null)
     {
         $dir = new Folder(APP . DS . 'Tenants' . DS . $site_slug, true);
 
@@ -349,8 +442,8 @@ class Installer {
         }
 
         $dumpsSqls = array(
-            APP . 'Config' . DS . 'Schema' . DS . 'schema_tenant_struct.sql',
-            APP . 'Config' . DS . 'Schema' . DS . 'schema_tenant_base_data.sql'
+            APP . 'Config' . DS . 'TenantInstallFiles' . DS . 'schema_tenant_struct.sql',
+            APP . 'Config' . DS . 'TenantInstallFiles' . DS . 'schema_tenant_base_data.sql'
         );
 
 

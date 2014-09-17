@@ -2,6 +2,7 @@
 App::uses('Controller', 'Controller');
 App::uses('File', 'Utility');
 App::uses('InstallManager', 'Install.Lib');
+App::uses('Installer', 'Install.Utility');
 
 
 class InstallController extends Controller {
@@ -40,10 +41,12 @@ class InstallController extends Controller {
         }
 
         if (!empty($this->request->data)) {
-            $InstallManager = new InstallManager();
-            $result = $InstallManager->createDatabaseFile(array(
-                'Install' => $this->request->data,
-            ));
+
+                $result = Installer::createDatabaseFile(array(
+                    'Install' => $this->request->data,
+                ));
+
+
             if ($result !== true) {
                return $this->Session->setFlash($result, 'Risto.flash_error');
             } else {
@@ -90,8 +93,7 @@ class InstallController extends Controller {
 
             set_time_limit(10 * MINUTE);
 
-            $sqlMigration = $this->Install->setupDatabase();
-
+            $sqlMigration = Installer::setupDatabase();
 
             if($sqlMigration)
             {

@@ -66,36 +66,6 @@ class Install extends InstallAppModel {
      *
      * @return bool True if migrations have succeeded
      */
-    public function setupDatabase() {
-
-        App::uses('ConnectionManager', 'Model');
-
-        $db = ConnectionManager::getDataSource('default');
-
-        $dumpsSqls = array(
-            APP . 'Config' . DS . 'Schema' . DS . 'schema_core_struct.sql',
-            APP . 'Config' . DS . 'Schema' . DS . 'schema_core_base_data.sql'
-        );
-
-        $migrationsSucceed = true;
-
-
-        foreach($dumpsSqls as $dumpsSql)
-        {
-
-            $File =& new File($dumpsSql);
-            $contents = $File->read();
-            $migrateNow = $db->query($contents);
-            if($migrateNow==false)
-            {
-
-                //debug("False here...");
-             }
-
-        }
-
-        return $migrationsSucceed;
-    }
 
     public function runMigrations($plugin) {
         if (!CakePlugin::loaded($plugin)) {
