@@ -1,7 +1,6 @@
 <?php
 App::uses('Controller', 'Controller');
 App::uses('File', 'Utility');
-App::uses('InstallManager', 'Install.Lib');
 App::uses('Installer', 'Install.Utility');
 
 
@@ -10,14 +9,13 @@ class InstallController extends Controller {
     public $layout = 'Risto.default';
  
     protected function _check() {
-        $InstallManager = new InstallManager();
         // Si esta instalado no habra necesidad de checkear permisos
-        if ($InstallManager->checkAppInstalled()) {
+        if (Installer::checkAppInstalled()) {
             $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.', 'Risto.flash_success');
             return $this->redirect('/users/login');
         }
         // Si no esta instalado y no se puede escribir en las pcarpetas volvera al inicio
-        if (!$InstallManager->checkAppInstalled()&&!$InstallManager->checkPerms())
+        if (!Installer::checkAppInstalled()&&!Installer::checkPerms())
         {
 
             return $this->redirect('/install');
@@ -162,8 +160,7 @@ class InstallController extends Controller {
 
     public function cancel()
     {
-        $InstallManager = new InstallManager();
-        if($InstallManager->cancelInstall())
+        if(Installer::cancelInstall())
         {
             $this->Session->setFlash(_("Se cancelo la instalación. Puede recomenzar si asi lo desea."));
 

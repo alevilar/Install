@@ -1,7 +1,6 @@
 <?php
 
 App::uses('CakeTime', 'Utility');
-App::uses('CroogoPlugin', 'Install.Lib');
 App::uses('DataMigration', 'Install.Lib/Utility');
 App::uses('File', 'Utility');
 App::uses('InstallAppModel', 'Install.Model');
@@ -27,18 +26,6 @@ class SiteSetup extends InstallAppModel {
      */
     public $useTable = false;
 
-    /**
-     *
-     * @var CroogoPlugin
-     */
-    protected $_CroogoPlugin = null;
-
-    /**
-     * Create admin user
-     *
-     * @var array $user User datas
-     * @return If user is created
-     */
 
 
     public function createTenantsDir($site_slug = null)

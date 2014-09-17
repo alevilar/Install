@@ -1,7 +1,6 @@
 <?php
 App::uses('AppNoModelController', 'Controller');
 App::uses('File', 'Utility');
-App::uses('InstallManager', 'Install.Lib');
 App::uses('Installer', 'Install.Utility');
 
 
