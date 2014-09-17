@@ -115,23 +115,45 @@ class InstallController extends Controller {
 
             $this->loadModel('Users.User');
             $this->Components->load('Auth');
+            // El nuevo plugin pide mail como un dato a validar, por de pronto on the ly lo desactivamos
+
+            $this->User->validate = array(
+                        'email' => array(
+                            'allowEmpty' => true,
+                            'required'   => false,
+                        )
+                );
+
+            $this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
+
             $this->User->set($this->request->data);
-            if ($this->User->validates()) {
+            if ($this->User->validates())
+            {
 
                 $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
 
                 if($this->User->save($this->request->data))
                 {
-
+                    $risto_file = Installer::createCoresFile();
                     $user = $this->User->findById($this->User->id);
-
-                   $result = true;
-
-                    if ($result == true) {
+                    $result = true;
+                    if ($risto_file == true) {
                         return $this->redirect(array('plugin'=>'install','admin'=>false,'controller'=>'siteSetup','action' => 'installsite'));
+                    }
+                    else{
+                        echo $this->Session->setFlash("Ha ocurrido un error copiando el archivo: ".$risto_file, 'default', 'Risto.flash_error');
                     }
 
                 }
+                else
+                {
+                    echo $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'default', 'Risto.flash_error');
+                }
+
+            }
+            else
+            {
+                echo $this->Session->setFlash("No se ha podido crear el usuario, se ha encontrado errores en la validación: ".print_r($this->User->invalidFields()), 'default', 'Risto.flash_error');
 
             }
         }

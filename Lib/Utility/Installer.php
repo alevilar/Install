@@ -260,10 +260,16 @@ class Installer {
 
         $config = $defaultConfig;
 
+        $database_file = copy(APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
 
-        $result = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'database.php.install', APP . 'Config' . DS . 'database.php');
-        if (!$result) {
+        $email_file = copy(APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default', APP . 'Config' . DS . 'email.php');
+
+        if (!$database_file) {
             return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
+        }
+
+        if (!$database_file) {
+            return __d('croogo', 'No se puede copiar el email.php para iniciar la instalación.');
         }
 
         foreach ($data['Install'] as $key => $value) {
@@ -479,20 +485,24 @@ class Installer {
 
     }
 
-
     public static function getCountryData( $ip )
     {
-
-
         $geoplugin = new GeoPlugin();
-
-
-//locate the IP
+        //locate the IP
         $geoplugin->locate( $ip );
-
         return $geoplugin->countryCode;
-
-
     }
 
+    public static function createCoresFile()
+    {
+        $resumeConfigFile = APP . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
+        if(copy($resumeConfigFile, APP . 'Config' . DS . 'risto.php'))
+        {
+            return true;
+        }
+        else
+        {
+            return __d('croogo', 'No se puede escribir el archivo risto.php.');
+        }
+    }
 }

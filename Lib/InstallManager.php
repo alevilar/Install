@@ -3,26 +3,6 @@
 class InstallManager {
 
 /**
- * Default configuration
- *
- * @var array
- * @access public
- */
-
-    public function createCoresFile() {
-        $resumeConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'risto.php.install';
-        if(copy($resumeConfigFile, APP . 'Config' . DS . 'risto.php'))
-        {
-            return true;
-        }
-        else
-        {
-            return __d('croogo', 'No se puede escribir el archivo risto.php.');
-        }
-    }
-
-
-/**
  * Mark installation as complete
  *
  * @return bool true when successful
