@@ -29,87 +29,89 @@ See http://www.geoplugin.com/webservices/php for more specific details of this f
 class GeoPlugin {
 	
 	//the geoPlugin server
-	var $host = 'http://www.geoplugin.net/php.gp?ip={IP}&base_currency={CURRENCY}';
-		
-	//the default base currency
-	var $currency = 'USD';
-	
-	//initiate the geoPlugin vars
-	var $ip = null;
-	var $city = null;
-	var $region = null;
-	var $areaCode = null;
-	var $dmaCode = null;
-	var $countryCode = null;
-	var $countryName = null;
-	var $continentCode = null;
-	var $latitude = null;
-	var $longitude = null;
-	var $currencyCode = null;
-	var $currencySymbol = null;
-	var $currencyConverter = null;
-	
+
 	function GeoPlugin() {
 
 	}
 	
-	function locate($ip = null) {
+	 public static function locate($ip = null) {
+
+          $host = 'http://www.geoplugin.net/php.gp?ip={IP}&base_currency={CURRENCY}';
+
+         //the default base currency
+          $currency = 'USD';
+
+         //initiate the geoPlugin vars
+
+          $city = null;
+          $region = null;
+          $areaCode = null;
+          $dmaCode = null;
+          $countryCode = null;
+          $countryName = null;
+          $continentCode = null;
+          $latitude = null;
+          $longitude = null;
+          $currencyCode = null;
+          $currencySymbol = null;
+          $currencyConverter = null;
+
 		if ( is_null( $ip ) ) {
 			$ip = env('REMOTE_ADDR');
 		}
 
 		
-		$host = str_replace( '{IP}', $ip, $this->host );
-		$host = str_replace( '{CURRENCY}', $this->currency, $host );
+		$host = str_replace( '{IP}', $ip, $host );
+		$host = str_replace( '{CURRENCY}', $currency, $host );
 		
 		$data = array();
-		
-		$response = $this->fetch($host);
-		
+
+
+
+         if ( function_exists('curl_init') ) {
+
+             //use cURL to fetch data
+             $ch = curl_init();
+             curl_setopt($ch, CURLOPT_URL, $host);
+             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+             curl_setopt($ch, CURLOPT_USERAGENT, 'geoPlugin PHP Class v1.0');
+             $response = curl_exec($ch);
+             curl_close ($ch);
+
+         } else if ( ini_get('allow_url_fopen') ) {
+
+             //fall back to fopen()
+             $response = file_get_contents($host, 'r');
+
+         } else {
+
+             trigger_error ('geoPlugin class Error: Cannot retrieve data. Either compile PHP with cURL support or enable allow_url_fopen in php.ini ', E_USER_ERROR);
+             return;
+
+         }
+
+
 		$data = unserialize($response);
 		
 		//set the geoPlugin vars
-		$this->ip = $ip;
-		$this->city = $data['geoplugin_city'];
-		$this->region = $data['geoplugin_region'];
-		$this->areaCode = $data['geoplugin_areaCode'];
-		$this->dmaCode = $data['geoplugin_dmaCode'];
-		$this->countryCode = $data['geoplugin_countryCode'];
-		$this->countryName = $data['geoplugin_countryName'];
-		$this->continentCode = $data['geoplugin_continentCode'];
-		$this->latitude = $data['geoplugin_latitude'];
-		$this->longitude = $data['geoplugin_longitude'];
-		$this->currencyCode = $data['geoplugin_currencyCode'];
-		$this->currencySymbol = $data['geoplugin_currencySymbol'];
-		$this->currencyConverter = $data['geoplugin_currencyConverter'];
-		
+		$ip = $ip;
+		$city = $data['geoplugin_city'];
+		$region = $data['geoplugin_region'];
+		$areaCode = $data['geoplugin_areaCode'];
+		$dmaCode = $data['geoplugin_dmaCode'];
+		$countryCode = $data['geoplugin_countryCode'];
+		$countryName = $data['geoplugin_countryName'];
+		$continentCode = $data['geoplugin_continentCode'];
+		$latitude = $data['geoplugin_latitude'];
+		$longitude = $data['geoplugin_longitude'];
+		$currencyCode = $data['geoplugin_currencyCode'];
+		$currencySymbol = $data['geoplugin_currencySymbol'];
+		$currencyConverter = $data['geoplugin_currencyConverter'];
+		return $countryCode;
 	}
 	
 	function fetch($host) {
 
-		if ( function_exists('curl_init') ) {
-						
-			//use cURL to fetch data
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $host);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_USERAGENT, 'geoPlugin PHP Class v1.0');
-			$response = curl_exec($ch);
-			curl_close ($ch);
-			
-		} else if ( ini_get('allow_url_fopen') ) {
-			
-			//fall back to fopen()
-			$response = file_get_contents($host, 'r');
-			
-		} else {
-
-			trigger_error ('geoPlugin class Error: Cannot retrieve data. Either compile PHP with cURL support or enable allow_url_fopen in php.ini ', E_USER_ERROR);
-			return;
-		
-		}
-		
-		return $response;
 	}
 	
 	function convert($amount, $float=2, $symbol=true) {
