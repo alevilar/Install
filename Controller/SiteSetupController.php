@@ -11,40 +11,50 @@ class SiteSetupController extends AppNoModelController {
 
     public function installsite()
     {
+
         if( $this->request->is('post') )
         {
 
             $this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
             $this->Site->create();
-            if( $this->Site->saveAll( $this->request->data ) )
+            $this->Site->set($this->request->data);
+            if($this->Site->validates())
             {
-                $this->Site->read();
-                $site_slug = $this->Site->data['Site']['alias'];
-                $this->request->data['Site']['alias'] = $site_slug;
-                $mk_dir = Installer::createTenantsDir($site_slug);
-                if($mk_dir)
+                if( $this->Site->saveAll( $this->request->data ) )
                 {
-                    $r = Installer::copySettingFile($site_slug,$this->request->data);
-                    if($r)
+                    $this->Site->read();
+                    $site_slug = $this->Site->data['Site']['alias'];
+                    $this->request->data['Site']['alias'] = $site_slug;
+                    $mk_dir = Installer::createTenantsDir($site_slug);
+                    if($mk_dir)
                     {
-                        // Dump del tenant
-                        $dumptenant = Installer::createDumpTenantDB($site_slug,$this->request->data);
-                        
-                        Installer::createResumeFile();                                    
+                        $r = Installer::copySettingFile($site_slug,$this->request->data);
+                        if($r)
+                        {
+                            // Dump del tenant
+                            $dumptenant = Installer::createDumpTenantDB($site_slug,$this->request->data);
 
-                        // recargar datos del usuario con el nuevo sitio
-                        App::uses('MtSites','MtSites.Utility');
-                        MtSites::loadSessionData( $site_slug );
+                            Installer::createResumeFile();
 
-                        $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
-                        $this->redirect("/".$this->request->data['Site']['alias']);
+                            // recargar datos del usuario con el nuevo sitio
+                            App::uses('MtSites','MtSites.Utility');
+                            MtSites::loadSessionData( $site_slug );
+
+                            $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
+                            $this->redirect("/".$this->request->data['Site']['alias']);
+                        }
                     }
                 }
-            } 
+                else
+                {
+                    $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
+                }
+            }
             else
             {
-                $this->Session->setFlash("No se pudo crear el Sitio.", 'Risto.flash_error');
+                $this->Session->setFlash("Verifique los datos.","Risto.flash_error");
             }
+
         }
 
         $ip = env('HTTP_X_FORWARDED_FOR');
