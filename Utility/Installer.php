@@ -620,6 +620,7 @@ class Installer {
             if($db->query("DROP DATABASE ".$tenantDB))
             {
                 App::uses('Site','MtSites.Model');
+                App::uses('MtSites','MtSites.Utility');
                 if(Site::deleteAll(array("Site.alias"=>$site_alias)))
                 {
                     $dir = new Folder(APP . DS . 'Tenants' . DS . $site_alias, true);
@@ -628,6 +629,7 @@ class Installer {
                     {
                         if($dir->delete())
                         {
+                            MtSites::loadSessionData();
                             return true;
                         }
                         else
