@@ -610,5 +610,53 @@ class Installer {
     }
 
 
+    public static function deleteSite( $site_alias = null )
+    {
+        App::uses('ConnectionManager', 'Model');
+
+        try {
+            $db = ConnectionManager::getDataSource('default');
+            $tenantDB = $db->config['database']."_".$site_alias;
+            if($db->query("DROP DATABASE ".$tenantDB))
+            {
+                App::uses('Site','MtSites.Model');
+                if(Site::deleteAll(array("Site.alias"=>$site_alias)))
+                {
+                    $dir = new Folder(APP . DS . 'Tenants' . DS . $site_alias, true);
+
+                    if($dir->exists())
+                    {
+                        if($dir->delete())
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return _d("No se puede eliminar la carpeta del Sitio. Corrobore los permisos.");
+                        }
+                    }
+                    else
+                    {
+                        return _d("No existe el sites.");
+                    }
+
+
+                }
+                else
+                {
+                    return _d("Ocurrio un error eliminando el sitio de Sites.");
+                }
+
+            }
+            else
+            {
+                return _d("Ocurrio un error eliminando la base de datos del Tenant.");
+            }
+        }
+        catch (MissingConnectionException $e) {
+            return __d('croogo', 'No se pude conectar al abase de datos: ') . $e->getMessage();
+        }
+
+    }
 
 }
