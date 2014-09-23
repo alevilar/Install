@@ -25,7 +25,24 @@
 
             </tr>
 
+        <tr>
+            <td>
+                <?php
+                $options = array(
+                    'restaurante' => 'Restaurante',
+                    'hotel' => 'Hotel',
+                    'generic' => 'Generic'
+                );
 
+                $attributes = array(
+                    'legend' => false,
+                    'value' => ""
+                );
+
+                echo $this->Form->radio('type', $options, $attributes);
+                ?>
+            </td>
+        </tr>
         </table>
     </div>
     <div class="form-actions">

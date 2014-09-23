@@ -370,9 +370,11 @@ class Installer {
 
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
-            $result = copy(APP  . 'Config' . DS . 'TenantInstallFiles' . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
-            if (!$result) {
-                return __d('croogo', 'No se puede copiar el archivo settings.');
+
+            $type_site = copy(APP  . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
+
+          if (!$type_site) {
+                return __d('croogo', 'No se puede copiar el archivo tipo de sitio.');
             }
             $file = new File(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini', true);
             $content = $file->read();
@@ -452,8 +454,8 @@ class Installer {
         }
 
         $dumpsSqls = array(
-            APP . 'Config' . DS . 'TenantInstallFiles' . DS . 'schema_tenant_struct.sql',
-            APP . 'Config' . DS . 'TenantInstallFiles' . DS . 'schema_tenant_base_data.sql'
+            APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
+            APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql'
         );
 
 
