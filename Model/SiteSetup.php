@@ -62,12 +62,6 @@ class SiteSetup extends InstallAppModel {
 
     }
 
-    // Paso final, copia del resumen
-    public function createResumeFile()
-    {
-        $result = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'resume.php.install', APP . 'Config' . DS . 'resume.php');
-        return $result;
-    }
 
     public function createDumpTenantDB($slug = null, $data = null)
     {

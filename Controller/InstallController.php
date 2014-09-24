@@ -132,16 +132,7 @@ class InstallController extends Controller {
 
                 if($this->User->save($this->request->data))
                 {
-                    $risto_file = Installer::createCoresFile();
-                    $user = $this->User->findById($this->User->id);
-                    $result = true;
-                    if ($risto_file == true) {
                         return $this->redirect(array('plugin'=>'install','admin'=>false,'controller'=>'siteSetup','action' => 'installsite'));
-                    }
-                    else{
-                        echo $this->Session->setFlash("Ha ocurrido un error copiando el archivo: ".$risto_file, 'default', 'Risto.flash_error');
-                    }
-
                 }
                 else
                 {

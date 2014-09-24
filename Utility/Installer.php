@@ -314,6 +314,7 @@ class Installer {
         $db = ConnectionManager::getDataSource('default');
 
         $dumpsSqls = array(
+            APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_drop_tables.sql',
             APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
             APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
         );
@@ -397,12 +398,6 @@ class Installer {
 
     }
 
-    // Paso final, copia del resumen
-    public static function createResumeFile()
-    {
-        $result = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'resume.php.install', APP . 'Config' . DS . 'resume.php');
-        return $result;
-    }
 
     public static function createDumpTenantDB($slug = null, $data = null)
     {
@@ -508,8 +503,8 @@ class Installer {
 
     public static function createCoresFile()
     {
-        $resumeConfigFile = APP . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
-        if(copy($resumeConfigFile, APP . 'Config' . DS . 'risto.php'))
+        $ristoConfigFile = APP . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
+        if(copy($ristoConfigFile, APP . 'Config' . DS . 'risto.php'))
         {
             return true;
         }
@@ -555,34 +550,57 @@ class Installer {
         if(
             file_exists(APP . 'Config' . DS . 'database.php')==false
             ||file_exists(APP . 'Config' . DS . 'core.php')==false
-            ||file_exists(APP . 'Config' . DS . 'resume.php')==false
+
         )
         {
+
             $res = false;
 
+        }
+
+        if(
+            file_exists(APP . 'Config' . DS . 'database.php')==true
+            &&file_exists(APP . 'Config' . DS . 'core.php')==true
+
+        )
+        {
+            // Si exxiste los dos hacemos un checkeo si existen por lo menos una tabla
+            $checkUserAdmin = Installer::check_table_exists();
+            if(!$checkUserAdmin)
+            {
+                $res = false;
+
+            }
         }
 
         return $res;
     }
 
-    public static function cancelInstall()
+    public static function check_table_exists()
     {
-        $resume = new File(APP . 'Config' . DS . 'resume.php');
-        if($resume->exists())
+        $db = ConnectionManager::getDataSource('default');
+        $tables = $db->listSources();
+        // De existir tabla, suponemos paso el apso dos en donde se crea la estructura y se coloca los dos primeros users, aun asi debe pasar al metodo adminuser para añadir un ter usuario antes de comnzar con la carga de los tenants
+        if(count($tables))
         {
-            if($resume->delete())
+            App::import('model','Users.User');
+            $user = new User();
+            $geUserCount = $user->find("count");
+            if($geUserCount<3)
+            {
+                return false;
+            }
+            else if($geUserCount>=3)
             {
                 return true;
             }
-            else
-            {
-                return __d('croogo','No se puede borrar el archivo resume.php. Corrobore los permisos de escritura.');
-            }
         }
-        else
-        {
-            return true;
-        }
+
+        return count($tables);
+    }
+    public static function cancelInstall()
+    {
+
         $database = new File(APP . 'Config' . DS . 'database.php');
         if($database->exists())
         {
