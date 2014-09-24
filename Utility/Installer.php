@@ -455,16 +455,20 @@ class Installer {
 
         $dumpsSqls = array(
             APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
-            APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql'
+            APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
         );
 
 
 
+        debug($dumpsSqls);
+
+
         foreach($dumpsSqls as $dumpsSql)
         {
-
+            debug($dumpsSql);
             $File =& new File($dumpsSql);
             $contents = $File->read();
+            debug($contents);
             $migrateNow = $tenantConnection->query($contents);
             if($migrateNow==false)
             {
@@ -472,7 +476,8 @@ class Installer {
             }
             else
             {
-                return true;
+                $File->close();
+                continue;
             }
 
         }
