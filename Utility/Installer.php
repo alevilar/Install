@@ -454,16 +454,10 @@ class Installer {
         );
 
 
-
-        debug($dumpsSqls);
-
-
         foreach($dumpsSqls as $dumpsSql)
         {
-            debug($dumpsSql);
             $File =& new File($dumpsSql);
             $contents = $File->read();
-            debug($contents);
             $migrateNow = $tenantConnection->query($contents);
             if($migrateNow==false)
             {
