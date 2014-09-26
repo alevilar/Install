@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `account_cierres` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `account_clasificaciones` (
   `rght` int(10) DEFAULT NULL,
   `name` varchar(50) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `account_egresos` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `account_egresos_gastos` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -94,11 +94,11 @@ CREATE TABLE IF NOT EXISTS `account_gastos` (
   `importe_neto` decimal(10,2) NOT NULL DEFAULT '0.00',
   `importe_total` decimal(10,2) NOT NULL DEFAULT '0.00',
   `observacion` text COLLATE utf8_bin,
-  `media_id` INT NULL ;
+  `media_id` INT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `account_impuestos` (
   `neto` decimal(10,2) DEFAULT '0.00',
   `importe` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `account_proveedores` (
   `created` datetime NOT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `account_tipo_impuestos` (
   `tiene_neto` tinyint(1) NOT NULL DEFAULT '1',
   `tiene_impuesto` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- --------------------------------------------------------
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `cash_arqueos` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `cash_cajas` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `cash_zetas` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent` (`parent_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -266,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -283,7 +283,7 @@ CREATE TABLE IF NOT EXISTS `comandas` (
   `observacion` text COLLATE utf8_general_ci,
   PRIMARY KEY (`id`),
   KEY `mesa_id` (`mesa_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- --------------------------------------------------------
@@ -299,7 +299,7 @@ CREATE TABLE IF NOT EXISTS `comensales` (
   `cant_bebes` tinyint(4) NOT NULL,
   `mesa_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -316,7 +316,7 @@ CREATE TABLE IF NOT EXISTS `configs` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `config_categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -346,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `descuentos` (
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -367,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `detalle_comandas` (
   PRIMARY KEY (`id`),
   KEY `mesa_id_2` (`comanda_id`),
   KEY `producto_id` (`producto_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -380,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `detalle_sabores` (
   `detalle_comanda_id` int(11) NOT NULL,
   `sabor_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -393,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `estados` (
   `name` varchar(60) NOT NULL,
   `color` VARCHAR( 14 ) NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -408,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `gastos` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -424,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `grupo_sabores` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `grupo_sabores_productos` (
   `producto_id` int(11) NOT NULL,
   `grupo_sabor_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -451,57 +451,8 @@ CREATE TABLE IF NOT EXISTS `historico_precios` (
   `producto_id` int(11) NOT NULL,
   `created` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `hotel_reservations`
---
-
-CREATE TABLE IF NOT EXISTS `hotel_reservations` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `room_id` int(10) NOT NULL,
-  `cliente_id` int(10) NOT NULL,
-  `observation` text,
-  `passengers` int(10) NOT NULL,
-  `checkin` datetime NOT NULL,
-  `checkout` datetime NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `hotel_rooms`
---
-
-CREATE TABLE IF NOT EXISTS `hotel_rooms` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text,
-  `room_state_id` int(10) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `hotel_room_states`
---
-
-CREATE TABLE IF NOT EXISTS `hotel_room_states` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `color` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -514,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `impfiscales` (
   `name` varchar(20) COLLATE utf8_general_ci NOT NULL,
   `path` varchar(64) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -528,7 +479,7 @@ CREATE TABLE IF NOT EXISTS `inventory_categories` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -543,7 +494,7 @@ CREATE TABLE IF NOT EXISTS `inventory_counts` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -557,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `inventory_products` (
   `category_id` int(11) DEFAULT NULL,
   `created` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -571,7 +522,7 @@ CREATE TABLE IF NOT EXISTS `iva_responsabilidades` (
   `name` varchar(24) COLLATE utf8_general_ci NOT NULL,
   `tipo_factura_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -581,7 +532,7 @@ CREATE TABLE IF NOT EXISTS `iva_responsabilidades` (
 
 CREATE TABLE IF NOT EXISTS `mesas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `numero` int(11) NOT NULL,
+  `numero` varchar(64) NOT NULL,
   `mozo_id` int(10) unsigned NOT NULL,
   `subtotal` float NOT NULL DEFAULT '0',
   `total` float(10,2) DEFAULT '0.00',
@@ -604,25 +555,12 @@ CREATE TABLE IF NOT EXISTS `mesas` (
   PRIMARY KEY (`id`),
   KEY `time_cerro` (`time_cerro`,`time_cobro`),
   KEY `mozo_id` (`mozo_id`),
-  KEY `nombre_mesa_id` (`nombre_mesa_id`),
   KEY `checkin` (`checkin`),
   KEY `checkout` (`checkout`),
   KEY `numero` (`numero`),
   KEY `time_cobro` (`time_cobro`),
   KEY `created` (`time_cerro`,`mozo_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-
-
-CREATE TABLE IF NOT EXISTS `nombre_mesas` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  `description` text COLLATE utf8_general_ci,
-  `activo` tinyint(1) NOT NULL DEFAULT '1',
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
@@ -643,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `mozos` (
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `numero` (`numero`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -657,7 +595,7 @@ CREATE TABLE IF NOT EXISTS `observaciones` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -671,7 +609,7 @@ CREATE TABLE IF NOT EXISTS `observacion_comandas` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -687,7 +625,7 @@ CREATE TABLE IF NOT EXISTS `pagos` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -701,7 +639,7 @@ CREATE TABLE IF NOT EXISTS `pquery_categories` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -721,7 +659,7 @@ CREATE TABLE IF NOT EXISTS `pquery_queries` (
   `expiration_time` timestamp NULL DEFAULT NULL,
   `columns` text COLLATE utf8_general_ci,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -739,7 +677,7 @@ CREATE TABLE IF NOT EXISTS `printers` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -761,7 +699,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -775,7 +713,7 @@ CREATE TABLE IF NOT EXISTS `productos_precios_futuros` (
   `precio` float NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `producto_id` (`producto_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -788,7 +726,7 @@ CREATE TABLE IF NOT EXISTS `productos_tags` (
   `producto_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -803,7 +741,7 @@ CREATE TABLE IF NOT EXISTS `restaurantes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(60) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -818,7 +756,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
@@ -840,7 +778,7 @@ CREATE TABLE IF NOT EXISTS `sabores` (
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -854,7 +792,7 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -867,7 +805,7 @@ CREATE TABLE IF NOT EXISTS `tipo_de_pagos` (
   `name` varchar(110) COLLATE utf8_general_ci NOT NULL,
   `media_id` int(10) unsigned NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -880,7 +818,7 @@ CREATE TABLE IF NOT EXISTS `tipo_documentos` (
   `codigo_fiscal` varchar(1) COLLATE utf8_general_ci NOT NULL,
   `name` varchar(24) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
@@ -896,7 +834,7 @@ CREATE TABLE IF NOT EXISTS `tipo_facturas` (
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
@@ -907,7 +845,7 @@ CREATE TABLE IF NOT EXISTS `printer_jobs` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
@@ -919,7 +857,7 @@ CREATE TABLE IF NOT EXISTS `roles_users` (
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`rol_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 
@@ -935,4 +873,4 @@ CREATE TABLE IF NOT EXISTS `media` (
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
