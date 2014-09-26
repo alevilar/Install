@@ -395,7 +395,7 @@ class Installer {
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
 
-            $type_site = copy(App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
+            $type_site = copy(App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
 
           if (!$type_site) {
               throw new CakeException('No se puede copiar el archivo tipo de sitio.');
@@ -405,9 +405,12 @@ class Installer {
                 throw new CakeException('No se puede leer el settings del archivo copiado.');
             }
             $content = $file->read();
-
+            if ($content=='') {
+                throw new CakeException('No se puede leer ningun contenido del settings del archivo copiado.');
+            }
             foreach ($config as $configKey => $configValue) {
                 $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
+
             }
 
             if (!$file->write($content)) {
@@ -479,22 +482,23 @@ class Installer {
                 throw new CakeException('No fue posible crear una instancia de conexión a la base de datos del tenant. Favor revisar el Estado del Servidor Mysql y usuarios/privilegios.');
             }
 
-
+            // El schema struct es comuna a todos, el data es diferente
             $dumpsSqls = array(
-                App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
+                App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . 'schema_tenant_struct.sql',
                 App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
             );
 
-
+          //  debug(ConnectionManager::getDataSource('tenantInstance')->config);
+          //  debug(ConnectionManager::getDataSource('tenantInstance')->connected);
             foreach($dumpsSqls as $dumpsSql)
             {
-
+            //    debug($dumpsSql);
                 $File =& new File($dumpsSql);
                 $contents = $File->read();
-
+             //   debug($contents);
                 // El sql puede fallar, entonces ponemos una excepcion
                 $execute_query_tenant = $tenantConnection->query($contents);
-
+              //  debug($execute_query_tenant);
                 if(!$execute_query_tenant)
                 {
                     // Si es false hay que corroborar que si es un array
