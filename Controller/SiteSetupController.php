@@ -66,7 +66,28 @@ class SiteSetupController extends AppNoModelController {
         $this->set(compact('country_codes'));
     }
 
+    public function deletesite($alias = null) {
+
+        if($alias==null)
+        {
+            throw new NotFoundException('Debe especificar un sitio.');
+        }
+
+        $this->loadModel("MtSites.Site");
+        $site = $this->Site->findByAlias($alias);
+        if(!isset($site['Site']['alias']))
+        {
+            throw new NotFoundException('No se encontro ningun sitio con el alias '.$alias.'.');
+        }
+        else
+        {
+            if(Installer::deleteSite($alias))
+            {
+                $this->Session->setFlash("El sitio ".$alias." se elimino de forma correcta.");
+                $this->redirect("/");
+            }
+        }
 
 
-
+    }
 }

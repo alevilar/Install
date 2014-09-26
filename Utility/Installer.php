@@ -4,7 +4,7 @@ App::uses('CakeLog', 'Log');
 App::uses('ClassRegistry', 'Utility');
 App::uses('File', 'Utility');
 App::uses('GeoPlugin', 'Install.Lib/Utility');
-App::uses('Folder', 'Utility');
+
 
 
 
@@ -638,44 +638,35 @@ class Installer {
             $tenantDB = $db->config['database']."_".$site_alias;
             if($db->query("DROP DATABASE ".$tenantDB))
             {
-                App::uses('Site','MtSites.Model');
+                App::import('model','MtSites.Site');
+                $site = new Site();
+                $site_data = $site->findByAlias($site_alias);
                 App::uses('MtSites','MtSites.Utility');
-                if(Site::deleteAll(array("Site.alias"=>$site_alias)))
+                // Se usaria un after delete para eliminar la carpeta
+                try
                 {
-                    $dir = new Folder(APP . DS . 'Tenants' . DS . $site_alias, true);
-
-                    if($dir->exists())
+                    if($site->delete($site_data['Site']['id']))
                     {
-                        if($dir->delete())
-                        {
-                            MtSites::loadSessionData();
-                            return true;
-                        }
-                        else
-                        {
-                            return _d("No se puede eliminar la carpeta del Sitio. Corrobore los permisos.");
-                        }
+                        MtSites::loadSessionData();
+                        return true;
                     }
                     else
                     {
-                        return _d("No existe el sites.");
+                        return __d('croogo', 'No se pudo borrar.');
                     }
 
-
                 }
-                else
-                {
-                    return _d("Ocurrio un error eliminando el sitio de Sites.");
+                catch (NotFoundException $e) {
+                    return __d('croogo', 'No se pudo borrar el sitio por esta razón: ') . $e->getMessage();
                 }
-
             }
             else
             {
-                return _d("Ocurrio un error eliminando la base de datos del Tenant.");
+                return __d('croogo',"Ocurrio un error eliminando la base de datos del Tenant.");
             }
         }
         catch (MissingConnectionException $e) {
-            return __d('croogo', 'No se pude conectar al abase de datos: ') . $e->getMessage();
+            return __d('croogo', 'No se pude conectar a la base de datos: ') . $e->getMessage();
         }
 
     }
