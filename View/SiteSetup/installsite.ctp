@@ -1,6 +1,6 @@
 <?php
     echo $this->Form->create('Site', array(
-        'url' => array('controller' => 'siteSetup', 'action' => 'installsite'),'id'=>'SiteSetup'
+        'url' => array('controller' => 'site_setup', 'action' => 'installsite'),'id'=>'SiteSetup'
     ));
     ?>
     <div class="install">
