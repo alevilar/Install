@@ -488,16 +488,17 @@ class Installer {
                 App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
             );
 
-
+          //  debug(ConnectionManager::getDataSource('tenantInstance')->config);
+          //  debug(ConnectionManager::getDataSource('tenantInstance')->connected);
             foreach($dumpsSqls as $dumpsSql)
             {
-
+            //    debug($dumpsSql);
                 $File =& new File($dumpsSql);
                 $contents = $File->read();
-
+             //   debug($contents);
                 // El sql puede fallar, entonces ponemos una excepcion
                 $execute_query_tenant = $tenantConnection->query($contents);
-
+              //  debug($execute_query_tenant);
                 if(!$execute_query_tenant)
                 {
                     // Si es false hay que corroborar que si es un array
