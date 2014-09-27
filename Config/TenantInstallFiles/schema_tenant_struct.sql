@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `account_egresos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `total` decimal(10,2) NOT NULL DEFAULT '0.00',
   `observacion` text COLLATE utf8_bin,
-  `file` varchar(64) COLLATE utf8_bin DEFAULT NULL,
+  `media_id`  int(11) NULL,
   `tipo_de_pago_id` int(10) NOT NULL,
   `fecha` datetime NOT NULL,
   `created` timestamp NULL DEFAULT NULL,
