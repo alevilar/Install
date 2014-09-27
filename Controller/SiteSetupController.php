@@ -32,7 +32,6 @@ class SiteSetupController extends AppNoModelController {
                         Installer::createDumpTenantDB($site_slug,$this->request->data);
                         // Dump del tenant
                         $dumptenant =
-                        Installer::createCoresFile();
                         // recargar datos del usuario con el nuevo sitio
                         App::uses('MtSites','MtSites.Utility');
                         MtSites::loadSessionData( $site_slug );
