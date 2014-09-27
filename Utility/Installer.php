@@ -423,28 +423,25 @@ class Installer {
 
         App::uses('ConnectionManager', 'Model');
 
-        if(ConnectionManager::getDataSource('default'))
+        if(ConnectionManager::getDataSource('default')->connected)
         {
-            $db = ConnectionManager::getDataSource('default');
 
-            $db->cacheSources = false;
-
-            $tenantDB = $db->config['database']."_".$slug;
+            $tenantDB = ConnectionManager::getDataSource('default')->config['database']."_".$slug;
 
             $tenantontheFlyConfig = array(
                 'datasource' => 'Database/Mysql',
                 'persistent' => false,
-                'host' => $db->config['host'],
-                'login' => $db->config['login'],
-                'password' => $db->config['password'],
+                'host' => ConnectionManager::getDataSource('default')->config['host'],
+                'login' => ConnectionManager::getDataSource('default')->config['login'],
+                'password' => ConnectionManager::getDataSource('default')->config['password'],
                 'database' => $tenantDB,
-                'prefix' => $db->config['prefix'],
+                'prefix' => ConnectionManager::getDataSource('default')->config['prefix'],
                 'encoding' => 'UTF8',
-                'port' => $db->config['port'],
+                'port' => ConnectionManager::getDataSource('default')->config['port'],
             );
 
             // 1) Primero se corrobora si se puede crear la base de datos, sino se puede promover la desinstalacion del site
-            if($db->query("CREATE DATABASE ".$tenantDB))
+            if(ConnectionManager::getDataSource('default')->query("create database ".$tenantDB.";"))
             {
 
             }
@@ -497,7 +494,7 @@ class Installer {
 
         if(ConnectionManager::getDataSource('default'))
         {
-            $db->cacheSources = false;
+            ConnectionManager::getDataSource('default')->cacheSources = false;
         }
         else
         {
