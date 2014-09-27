@@ -376,7 +376,7 @@ class Installer {
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
 
-            $type_site = copy(APP  . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
+            $type_site = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
 
           if (!$type_site) {
               throw new CakeException('No se puede copiar el archivo tipo de sitio.');
@@ -664,30 +664,30 @@ class Installer {
             if($db->query("DROP DATABASE ".$tenantDB))
             {
 
-                App::import('model','MtSites.Site');
-                $site = new Site();
-                $site_data = $site->findByAlias($site_alias);
-                App::uses('MtSites','MtSites.Utility');
-                // Se usaria un after delete para eliminar la carpeta
-                    if($site->delete($site_data['Site']['id']))
-                    {
-                        MtSites::loadSessionData();
-                        return true;
-                    }
-                    else
-                    {
-
-                        throw new CakeException('No se pudo borrar el sitio. Es probable que la base de datos no haya sido encontrada. ');
-
-                    }
 
             }
             else
             {
-                trigger_error("ddddd");
                 throw new CakeException("Ocurrio un error eliminando la base de datos del Tenant.");
+            }
+
+            App::import('model','MtSites.Site');
+            $site = new Site();
+            $site_data = $site->findByAlias($site_alias);
+            App::uses('MtSites','MtSites.Utility');
+            // Se usaria un after delete para eliminar la carpeta
+            if($site->delete($site_data['Site']['id']))
+            {
+                MtSites::loadSessionData();
+                return true;
+            }
+            else
+            {
+
+                throw new CakeException('No se pudo borrar el sitio. Es probable que la base de datos no haya sido encontrada. ');
 
             }
+
         }
         else
         {

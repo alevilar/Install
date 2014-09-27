@@ -49,6 +49,7 @@ class SiteSetupController extends AppNoModelController {
 
                         $this->Session->setFlash("No se pudo crear el Sitio debido a:".$e->getMessage()."", 'Risto.flash_error');
                         Installer::deleteSite($site_slug);
+                        $this->redirect("/");
                     }
                 }
                 else
