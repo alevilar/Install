@@ -196,5 +196,3 @@ INSERT INTO `hotel_rooms` (`id`, `name`, `description`, `room_state_id`, `create
 
 INSERT INTO `cash_cajas` (`id`, `name`, `computa_ingresos`, `computa_egresos`, `created`, `modified`) VALUES
 (1, 'Caja Ventas', 1, 1, '2014-09-09 14:20:21', '2014-09-09 14:20:21');
-
-

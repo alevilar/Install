@@ -260,9 +260,9 @@ class Installer {
 
         $config = $defaultConfig;
 
-        $database_file = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
+        $database_file = copy(App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
 
-        $email_file = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default', APP . 'Config' . DS . 'email.php');
+        $email_file = copy(App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default', APP . 'Config' . DS . 'email.php');
 
         if (!$database_file) {
             return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
@@ -314,9 +314,9 @@ class Installer {
         $db = ConnectionManager::getDataSource('default');
 
         $dumpsSqls = array(
-            App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_drop_tables.sql',
-            App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
-            App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
+            App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_drop_tables.sql',
+            App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
+            App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
         );
 
         $migrationsSucceed = true;
@@ -328,6 +328,25 @@ class Installer {
             $File =& new File($dumpsSql);
             $contents = $File->read();
             $migrateNow = $db->query($contents);
+
+            if(!$migrateNow)
+            {
+                if(is_array($migrateNow))
+                {
+                    if(!empty($migrateNow))
+                    {
+                        throw new CakeException("Ha ocurrido un error con el sql del core. Favor verificarlo.");
+                    }
+
+                }
+                if(!is_array($migrateNow))
+                {
+                    throw new CakeException("Ha ocurrido un error con el sql del core. Favor verificarlo.");
+                }
+
+            }
+
+
             if($migrateNow==false)
             {
 
@@ -376,7 +395,7 @@ class Installer {
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
 
-            $type_site = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
+            $type_site = copy(App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
 
           if (!$type_site) {
               throw new CakeException('No se puede copiar el archivo tipo de sitio.');
@@ -462,30 +481,45 @@ class Installer {
 
 
             $dumpsSqls = array(
-                App::pluginPath('Install') . DS . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
-                App::pluginPath('Install') . DS . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
+                App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
+                App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
             );
 
 
             foreach($dumpsSqls as $dumpsSql)
             {
+
                 $File =& new File($dumpsSql);
                 $contents = $File->read();
-                // El sql puede fallar, entonces ponemos una excepcion
 
-                if($tenantConnection->query($contents))
+                // El sql puede fallar, entonces ponemos una excepcion
+                $execute_query_tenant = $tenantConnection->query($contents);
+
+                if(!$execute_query_tenant)
                 {
+                    // Si es false hay que corroborar que si es un array
+                    if(is_array($execute_query_tenant))
+                    {
+                        // Si es un array y no esta vacio algo malo paso en la consulta query sql
+                        if(!empty($execute_query_tenant))
+                        {
+                            throw new CakeException("Se ha producido un error en el volcado de datos en el tenant.");
+                        }
+                    }
+                    if(!is_array($execute_query_tenant))
+                    {
+                        // Si no es un array fue una ejecucion en falso, entonces deberia de mostrar la excepcion
+                        throw new CakeException("Se ha producido un error en el volcado de datos en el tenant.");
+                    }
+
+                }
+
+
                     $File->close();
                     continue;
-                }
-                else
-                {
-                    throw new CakeException("Se ha producido un error en el volcado de datos en el tenant.");
-                }
+
             }
-
             // Una ves que coloque todo, devolver el control a la conexion principal
-
         }
         else
         {
@@ -517,7 +551,7 @@ class Installer {
 
     public static function createCoresFile()
     {
-        $ristoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
+        $ristoConfigFile = App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
         if(copy($ristoConfigFile, APP . 'Config' . DS . 'risto.php'))
         {
             return true;
@@ -653,17 +687,12 @@ class Installer {
     {
         App::uses('ConnectionManager', 'Model');
 
-        if(ConnectionManager::getDataSource('default'))
+        if(ConnectionManager::getDataSource('default')->connected)
         {
             $db = ConnectionManager::getDataSource('default');
             $tenantDB = $db->config['database']."_".$site_alias;
-
-            if($db->query("DROP DATABASE ".$tenantDB))
-            {
-
-
-            }
-            else
+            $delete_db = $db->query("DROP DATABASE ".$tenantDB);
+            if(!empty($delete_db))
             {
                 throw new CakeException("Ocurrio un error eliminando la base de datos del Tenant.");
             }
@@ -680,17 +709,13 @@ class Installer {
             }
             else
             {
-
                 throw new CakeException('No se pudo borrar el sitio. Es probable que la base de datos no haya sido encontrada. ');
-
             }
-
         }
         else
         {
             throw new MissingDatasourceException("No se ha podido establecer la conexion con la base de datos principal.");
         }
-
 
         if(ConnectionManager::getDataSource('default'))
         {
@@ -700,8 +725,5 @@ class Installer {
         {
             throw new CakeException('No se pude reestabecer conexión a la base de datos principal');
         }
-
-
     }
-
 }
