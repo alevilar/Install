@@ -335,13 +335,13 @@ class Installer {
                 {
                     if(!empty($migrateNow))
                     {
-                        throw new CakeException("Ha ocurrido un error con el sql del core. Favor verificarlo.");
+                        throw new CakeException("Ha ocurrido un error con el sql del sistema principal. Favor verificarlo.");
                     }
 
                 }
                 if(!is_array($migrateNow))
                 {
-                    throw new CakeException("Ha ocurrido un error con el sql del core. Favor verificarlo.");
+                    throw new CakeException("Ha ocurrido un error con el sql del sistema principal. Favor verificarlo.");
                 }
 
             }
@@ -398,15 +398,15 @@ class Installer {
             $type_site = copy(App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
 
           if (!$type_site) {
-              throw new CakeException('No se puede copiar el archivo tipo de sitio.');
+              throw new CakeException('No se puede copiar el archivo de configuración del comercio.');
             }
             $file = new File(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini', true);
             if (!$file) {
-                throw new CakeException('No se puede leer el settings del archivo copiado.');
+                throw new CakeException('No se puede leer el archivo de configuración del archivo copiado.');
             }
             $content = $file->read();
             if ($content=='') {
-                throw new CakeException('No se puede leer ningun contenido del settings del archivo copiado.');
+                throw new CakeException('No se puede leer ningún contenido del archivo de configuración copiado.');
             }
             foreach ($config as $configKey => $configValue) {
                 $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
@@ -414,13 +414,13 @@ class Installer {
             }
 
             if (!$file->write($content)) {
-                throw new CakeException('No se puede escribir por el archivo settings.');
+                throw new CakeException('No se puede escribir en el archivo de configuración del comercio.');
 
             }
         }
         else
         {
-            throw new CakeException('El archivo settings de este sitio ya existe, favor eliminelo para continuar.');
+            throw new CakeException('El archivo deconfiguración de este sitio ya existe, favor elimínelo para continuar.');
         }
 
         return true;
@@ -470,7 +470,7 @@ class Installer {
 
             if(!empty($create_tenant))
             {
-                throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes. Tal ves la base de datos ya exista.');
+                throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes. Tal vez la base de datos ya exista.');
             }
 
             if(ConnectionManager::create('tenantInstance',$tenantontheFlyConfig))
@@ -507,7 +507,7 @@ class Installer {
                         // Si es un array y no esta vacio algo malo paso en la consulta query sql
                         if(!empty($execute_query_tenant))
                         {
-                            throw new CakeException("Se ha producido un error en el volcado de datos en el tenant.");
+                            throw new CakeException("Se ha producido un error en el volcado de datos en la generación de la base de datos para el tenant.");
                         }
                     }
                     if(!is_array($execute_query_tenant))
@@ -527,7 +527,7 @@ class Installer {
         }
         else
         {
-            throw new CakeException("No fue establecer la conexión con la base de datos principal, es probable que se halla producido un corte de conexión o que los datos de ingresos hayan cambiados.");
+            throw new CakeException("No fue posible establecer la conexión con la base de datos principal, es probable que se haya producido un corte de conexión o que los datos de ingresos hayan cambiados.");
 
         }
 
@@ -537,7 +537,7 @@ class Installer {
         }
         else
         {
-            throw new CakeException("No fue posible retomar la conexión con la base de datos principal, es probable que se halla producido un corte de conexión o que los datos de ingresos hayan cambiados.");
+            throw new CakeException("No fue posible retomar la conexión con la base de datos principal, es probable se haya producido un corte de conexión o que los datos de ingresos hayan cambiados.");
         }
 
     }
@@ -698,7 +698,7 @@ class Installer {
             $delete_db = $db->query("DROP DATABASE ".$tenantDB);
             if(!empty($delete_db))
             {
-                throw new CakeException("Ocurrio un error eliminando la base de datos del Tenant.");
+                throw new CakeException("Ocurrió un error eliminando la base de datos del Comercio.");
             }
 
             App::import('model','MtSites.Site');
@@ -713,7 +713,7 @@ class Installer {
             }
             else
             {
-                throw new CakeException('No se pudo borrar el sitio. Es probable que la base de datos no haya sido encontrada. ');
+                throw new CakeException('No se pudo borrar el tenant. Es probable que la base de datos no haya sido encontrada.');
             }
         }
         else
