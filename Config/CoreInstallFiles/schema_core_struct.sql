@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_login` datetime DEFAULT NULL,
   `last_action` datetime DEFAULT NULL,
   `is_admin` tinyint(1) DEFAULT '0',
-  `rol_id` varchar(255) DEFAULT NULL,
+  `role` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
