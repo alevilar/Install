@@ -413,7 +413,6 @@ class Installer {
 
             }
 
-            debug($content);
             if (!$file->write($content)) {
                 throw new CakeException('No se puede escribir por el archivo settings.');
 
