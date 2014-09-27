@@ -78,7 +78,7 @@ class SiteSetupController extends AppNoModelController {
         $site = $this->Site->findByAlias($alias);
         if(!isset($site['Site']['alias']))
         {
-            throw new NotFoundException('No se encontro ningun sitio con el alias '.$alias.'.');
+            throw new NotFoundException('No se encontro ningun sitio con el nombre '.$alias.'.');
         }
         else
         {
