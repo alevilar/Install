@@ -344,7 +344,7 @@ class Installer {
 
         if(!$dir)
         {
-            return __d('croogo', 'No se pudo crear el sitio: '.$site_slug. ' verifique que tenga permisos de escritura.');
+            throw new CakeException('No se pudo crear el sitio: '.$site_slug. ' verifique que tenga permisos de escritura.');
         }
 
         return $dir;
@@ -375,9 +375,12 @@ class Installer {
             $type_site = copy(APP  . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . $data['Site']['type'].'.ini');
 
           if (!$type_site) {
-                return __d('croogo', 'No se puede copiar el archivo tipo de sitio.');
+              throw new CakeException('No se puede copiar el archivo tipo de sitio.');
             }
             $file = new File(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini', true);
+            if (!$file) {
+                throw new CakeException('No se puede leer el settings del archivo copiado.');
+            }
             $content = $file->read();
 
             foreach ($config as $configKey => $configValue) {
@@ -385,12 +388,13 @@ class Installer {
             }
 
             if (!$file->write($content)) {
-                return __d('croogo', 'No se puede escribir por el archivo settings.');
+                throw new CakeException('No se puede escribir por el archivo settings.');
+
             }
         }
         else
         {
-            return __d('croogo', 'El archivo settings de este sitio ya existe, favor eliminelo para continuar.');
+            throw new CakeException('El archivo settings de este sitio ya existe, favor eliminelo para continuar.');
         }
 
         return true;
@@ -419,67 +423,85 @@ class Installer {
 
         App::uses('ConnectionManager', 'Model');
 
-        $db = ConnectionManager::getDataSource('default');
-
-        $db->cacheSources = false;
-
-        $tenantDB = $db->config['database']."_".$slug;
-
-        $tenantontheFlyConfig = array(
-            'datasource' => 'Database/Mysql',
-            'persistent' => false,
-            'host' => $db->config['host'],
-            'login' => $db->config['login'],
-            'password' => $db->config['password'],
-            'database' => $tenantDB,
-            'prefix' => $db->config['prefix'],
-            'encoding' => 'UTF8',
-            'port' => $db->config['port'],
-        );
-
-
-        $createTenantDatabase = $db->query("CREATE DATABASE ".$tenantDB);
-
-        try {
-            $tenantInstance = ConnectionManager::create('tenantInstance',$tenantontheFlyConfig);
-            $tenantConnection = ConnectionManager::getDataSource('tenantInstance');
-        }
-        catch (MissingConnectionException $e) {
-            return __d('croogo', 'No se pudo conectar a la base de datos del tenant: ') . $e->getMessage();
-        }
-
-        $dumpsSqls = array(
-            APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
-            APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
-        );
-
-
-        foreach($dumpsSqls as $dumpsSql)
+        if(ConnectionManager::getDataSource('default'))
         {
-            $File =& new File($dumpsSql);
-            $contents = $File->read();
-            $migrateNow = $tenantConnection->query($contents);
-            if($migrateNow==false)
+            $db = ConnectionManager::getDataSource('default');
+
+            $db->cacheSources = false;
+
+            $tenantDB = $db->config['database']."_".$slug;
+
+            $tenantontheFlyConfig = array(
+                'datasource' => 'Database/Mysql',
+                'persistent' => false,
+                'host' => $db->config['host'],
+                'login' => $db->config['login'],
+                'password' => $db->config['password'],
+                'database' => $tenantDB,
+                'prefix' => $db->config['prefix'],
+                'encoding' => 'UTF8',
+                'port' => $db->config['port'],
+            );
+
+            // 1) Primero se corrobora si se puede crear la base de datos, sino se puede promover la desinstalacion del site
+            if($db->query("CREATE DATABASE ".$tenantDB))
             {
-                return _("Fallo la ejecucion del sql del tenant.");
+
             }
             else
             {
-                $File->close();
-                continue;
+                throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes.');
             }
 
+            if(ConnectionManager::create('tenantInstance',$tenantontheFlyConfig))
+            {
+                $tenantConnection = ConnectionManager::getDataSource('tenantInstance');
+            }
+            else
+            {
+                throw new CakeException('No fue posible crear una instancia de conexión a la base de datos del tenant. Favor revisar el Estado del Servidor Mysql y usuarios/privilegios.');
+            }
+
+
+            $dumpsSqls = array(
+                APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
+                APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
+            );
+
+
+            foreach($dumpsSqls as $dumpsSql)
+            {
+                $File =& new File($dumpsSql);
+                $contents = $File->read();
+                // El sql puede fallar, entonces ponemos una excepcion
+
+                if($tenantConnection->query($contents))
+                {
+                    $File->close();
+                    continue;
+                }
+                else
+                {
+                    throw new CakeException("Se ha producido un error en el volcado de datos en el tenant.");
+                }
+            }
+
+            // Una ves que coloque todo, devolver el control a la conexion principal
+
+        }
+        else
+        {
+            throw new CakeException("No fue establecer la conexión con la base de datos principal, es probable que se halla producido un corte de conexión o que los datos de ingresos hayan cambiados.");
+
         }
 
-        // Una ves que coloque todo, devolver el control a la conexion principal
-
-        try {
-            $defaultConnection = ConnectionManager::getDataSource('default');
+        if(ConnectionManager::getDataSource('default'))
+        {
             $db->cacheSources = false;
-
         }
-        catch (MissingConnectionException $e) {
-            return __d('croogo', 'No se pudo reconectar a la base de datos del core.: ') . $e->getMessage();
+        else
+        {
+            throw new CakeException("No fue posible retomar la conexión con la base de datos principal, es probable que se halla producido un corte de conexión o que los datos de ingresos hayan cambiados.");
         }
 
     }
@@ -504,7 +526,7 @@ class Installer {
         }
         else
         {
-            return __d('croogo', 'No se puede escribir el archivo risto.php.');
+            throw new CakeException('No se puede escribir el archivo risto.php.');
         }
     }
 
@@ -633,18 +655,19 @@ class Installer {
     {
         App::uses('ConnectionManager', 'Model');
 
-        try {
+        if(ConnectionManager::getDataSource('default'))
+        {
             $db = ConnectionManager::getDataSource('default');
             $tenantDB = $db->config['database']."_".$site_alias;
+
             if($db->query("DROP DATABASE ".$tenantDB))
             {
+
                 App::import('model','MtSites.Site');
                 $site = new Site();
                 $site_data = $site->findByAlias($site_alias);
                 App::uses('MtSites','MtSites.Utility');
                 // Se usaria un after delete para eliminar la carpeta
-                try
-                {
                     if($site->delete($site_data['Site']['id']))
                     {
                         MtSites::loadSessionData();
@@ -652,22 +675,34 @@ class Installer {
                     }
                     else
                     {
-                        return __d('croogo', 'No se pudo borrar.');
+
+                        throw new CakeException('No se pudo borrar el sitio. Es probable que la base de datos no haya sido encontrada. ');
+
                     }
 
-                }
-                catch (NotFoundException $e) {
-                    return __d('croogo', 'No se pudo borrar el sitio por esta razón: ') . $e->getMessage();
-                }
             }
             else
             {
-                return __d('croogo',"Ocurrio un error eliminando la base de datos del Tenant.");
+                trigger_error("ddddd");
+                throw new CakeException("Ocurrio un error eliminando la base de datos del Tenant.");
+
             }
         }
-        catch (MissingConnectionException $e) {
-            return __d('croogo', 'No se pude conectar a la base de datos: ') . $e->getMessage();
+        else
+        {
+            throw new MissingDatasourceException("No se ha podido establecer la conexion con la base de datos principal.");
         }
+
+
+        if(ConnectionManager::getDataSource('default'))
+        {
+
+        }
+        else
+        {
+            throw new CakeException('No se pude reestabecer conexión a la base de datos principal');
+        }
+
 
     }
 

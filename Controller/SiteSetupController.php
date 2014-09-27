@@ -25,24 +25,29 @@ class SiteSetupController extends AppNoModelController {
                     $this->Site->read();
                     $site_slug = $this->Site->data['Site']['alias'];
                     $this->request->data['Site']['alias'] = $site_slug;
-                    $mk_dir = Installer::createTenantsDir($site_slug);
-                    if($mk_dir)
+                    try
                     {
-                        $r = Installer::copySettingFile($site_slug,$this->request->data);
-                        if($r)
+                        $mk_dir = Installer::createTenantsDir($site_slug);
+                        if($mk_dir)
                         {
-                            // Dump del tenant
-                            $dumptenant = Installer::createDumpTenantDB($site_slug,$this->request->data);
-
-                            Installer::createCoresFile();
-
-                            // recargar datos del usuario con el nuevo sitio
-                            App::uses('MtSites','MtSites.Utility');
-                            MtSites::loadSessionData( $site_slug );
-
-                            $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
-                            $this->redirect("/".$this->request->data['Site']['alias']);
+                            $r = Installer::copySettingFile($site_slug,$this->request->data);
+                            if($r)
+                            {
+                                // Dump del tenant
+                                $dumptenant = Installer::createDumpTenantDB($site_slug,$this->request->data);
+                                Installer::createCoresFile();
+                                // recargar datos del usuario con el nuevo sitio
+                                App::uses('MtSites','MtSites.Utility');
+                                MtSites::loadSessionData( $site_slug );
+                                $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
+                                $this->redirect("/".$this->request->data['Site']['alias']);
+                            }
                         }
+
+                    } catch (CakeException $e)
+                    {
+                        Installer::deleteSite($site_slug);
+                        $this->Session->setFlash("No se pudo crear el Sitio debido a:".$e->getMessage()."", 'Risto.flash_error');
                     }
                 }
                 else
@@ -81,11 +86,18 @@ class SiteSetupController extends AppNoModelController {
         }
         else
         {
-            if(Installer::deleteSite($alias))
+            try
             {
+                Installer::deleteSite($alias);
                 $this->Session->setFlash("El sitio ".$alias." se elimino de forma correcta.");
                 $this->redirect("/");
             }
+            catch (CakeException $e)
+            {
+                $this->Session->setFlash("No se pudo eliminar el sitio ".$alias." de forma correcta.");
+
+            }
+
         }
 
 
