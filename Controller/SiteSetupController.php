@@ -27,22 +27,17 @@ class SiteSetupController extends AppNoModelController {
                     $this->request->data['Site']['alias'] = $site_slug;
                     try
                     {
-                        $mk_dir = Installer::createTenantsDir($site_slug);
-                        if($mk_dir)
-                        {
-                            $r = Installer::copySettingFile($site_slug,$this->request->data);
-                            if($r)
-                            {
-                                // Dump del tenant
-                                $dumptenant = Installer::createDumpTenantDB($site_slug,$this->request->data);
-                                Installer::createCoresFile();
-                                // recargar datos del usuario con el nuevo sitio
-                                App::uses('MtSites','MtSites.Utility');
-                                MtSites::loadSessionData( $site_slug );
-                                $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
-                                $this->redirect("/".$this->request->data['Site']['alias']);
-                            }
-                        }
+                        Installer::createTenantsDir($site_slug);
+                        Installer::copySettingFile($site_slug,$this->request->data);
+                        Installer::createDumpTenantDB($site_slug,$this->request->data);
+                        // Dump del tenant
+                        $dumptenant =
+                        Installer::createCoresFile();
+                        // recargar datos del usuario con el nuevo sitio
+                        App::uses('MtSites','MtSites.Utility');
+                        MtSites::loadSessionData( $site_slug );
+                        $this->Session->setFlash(__d('install',"¡¡Bienvenido a tu Nuevo Comercio!!"), 'Risto.flash_success');
+                        $this->redirect("/".$this->request->data['Site']['alias']);
 
                     } catch (CakeException $e)
                     {

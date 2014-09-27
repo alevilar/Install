@@ -413,8 +413,7 @@ class Installer {
         'name' => 'default',
         'datasource' => 'Database/Mysql',
         'persistent' => false,
-
-    );
+        );
 
        $tenantDB = "";
 
@@ -423,7 +422,7 @@ class Installer {
         'datasource' => 'Database/Mysql',
         'persistent' => false,
 
-    );
+        );
 
         App::uses('ConnectionManager', 'Model');
 
@@ -445,13 +444,11 @@ class Installer {
             );
 
             // 1) Primero se corrobora si se puede crear la base de datos, sino se puede promover la desinstalacion del site
-            if(ConnectionManager::getDataSource('default')->query("create database ".$tenantDB.";"))
-            {
+           $create_tenant = ConnectionManager::getDataSource('default')->query("CREATE DATABASE ".$tenantDB);
 
-            }
-            else
+            if(!empty($create_tenant))
             {
-                throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes.');
+                throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes. Tal ves la base de datos ya exista.');
             }
 
             if(ConnectionManager::create('tenantInstance',$tenantontheFlyConfig))
