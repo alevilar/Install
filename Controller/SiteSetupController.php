@@ -46,8 +46,9 @@ class SiteSetupController extends AppNoModelController {
 
                     } catch (CakeException $e)
                     {
-                        Installer::deleteSite($site_slug);
+
                         $this->Session->setFlash("No se pudo crear el Sitio debido a:".$e->getMessage()."", 'Risto.flash_error');
+                        Installer::deleteSite($site_slug);
                     }
                 }
                 else

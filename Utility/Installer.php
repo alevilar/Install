@@ -260,9 +260,9 @@ class Installer {
 
         $config = $defaultConfig;
 
-        $database_file = copy(APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
+        $database_file = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
 
-        $email_file = copy(APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default', APP . 'Config' . DS . 'email.php');
+        $email_file = copy(App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default', APP . 'Config' . DS . 'email.php');
 
         if (!$database_file) {
             return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
@@ -314,9 +314,9 @@ class Installer {
         $db = ConnectionManager::getDataSource('default');
 
         $dumpsSqls = array(
-            APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_drop_tables.sql',
-            APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
-            APP . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
+            App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_drop_tables.sql',
+            App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
+            App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
         );
 
         $migrationsSucceed = true;
@@ -340,9 +340,13 @@ class Installer {
 
     public static function createTenantsDir($site_slug = null)
     {
-        $dir = new Folder(APP . DS . 'Tenants' . DS . $site_slug, true);
+        $dir = new Folder(APP . 'Tenants' . DS . $site_slug, true);
 
-        if(!$dir)
+        if($dir)
+        {
+
+        }
+        else
         {
             throw new CakeException('No se pudo crear el sitio: '.$site_slug. ' verifique que tenga permisos de escritura.');
         }
@@ -461,8 +465,8 @@ class Installer {
 
 
             $dumpsSqls = array(
-                APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
-                APP . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
+                App::pluginPath('Install') . DS . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_struct.sql',
+                App::pluginPath('Install') . DS . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
             );
 
 
@@ -516,7 +520,7 @@ class Installer {
 
     public static function createCoresFile()
     {
-        $ristoConfigFile = APP . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
+        $ristoConfigFile = App::pluginPath('Install') . DS . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
         if(copy($ristoConfigFile, APP . 'Config' . DS . 'risto.php'))
         {
             return true;
