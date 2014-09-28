@@ -395,20 +395,6 @@ CREATE TABLE IF NOT EXISTS `estados` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `gastos`
---
-
-CREATE TABLE IF NOT EXISTS `gastos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) COLLATE utf8_general_ci NOT NULL,
-  `importe` float(10,2) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- --------------------------------------------------------
 
