@@ -695,7 +695,7 @@ class Installer {
         {
             $db = ConnectionManager::getDataSource('default');
             $tenantDB = $db->config['database']."_".$site_alias;
-            $delete_db = $db->query("DROP DATABASE ".$tenantDB." IF EXISTS");
+            $delete_db = $db->query("DROP DATABASE IF EXISTS ".$tenantDB);
             if(!empty($delete_db))
             {
                 throw new CakeException("Ocurrió un error eliminando la base de datos del Comercio.");
