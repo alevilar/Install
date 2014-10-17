@@ -9,6 +9,13 @@ class SiteSetupController extends AppNoModelController {
     public $layout = 'Risto.default';
     public $uses = array("MtSites.Site");
 
+
+
+    public function beforeFilter() {
+        $this->Auth->allow(array('installsite'));
+    }
+
+
     public function installsite()
     {
 
