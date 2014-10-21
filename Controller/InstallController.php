@@ -1,8 +1,6 @@
 <?php
 App::uses('Controller', 'Controller');
-App::uses('File', 'Utility');
 App::uses('Installer', 'Install.Utility');
-
 
 class InstallController extends Controller {
 
