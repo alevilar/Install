@@ -1,8 +1,6 @@
 <?php
 App::uses('AppNoModelController', 'Controller');
-App::uses('File', 'Utility');
 App::uses('Installer', 'Install.Utility');
-
 
 class SiteSetupController extends AppNoModelController {
 
