@@ -2,7 +2,7 @@
 alias = {default_alias}
 name = {default_name}
 country_code = {default_country_code}
-
+timezone = {default_timezone}
 # puede ser: restarante, hotel o generic
 type = hotel
 

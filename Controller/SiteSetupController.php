@@ -21,7 +21,9 @@ class SiteSetupController extends AppNoModelController {
 
         if( $this->request->is('post') )
         {
-
+           $codigo= explode("_",$this->request->data['Site']['country_code']);
+            $this->request->data['Site']['country_code'] = $codigo[1];
+            $this->request->data['Site']['timezone'] = $codigo[0];
             $this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
             $this->Site->create();
             $this->Site->set($this->request->data);
@@ -32,13 +34,13 @@ class SiteSetupController extends AppNoModelController {
                     $this->Site->read();
                     $site_slug = $this->Site->data['Site']['alias'];
                     $this->request->data['Site']['alias'] = $site_slug;
-                    try
+                  //  $this->request->data = $this->Site->read();
+                   try
                     {
                         Installer::createTenantsDir($site_slug);
                         Installer::copySettingFile($site_slug,$this->request->data);
                         Installer::createDumpTenantDB($site_slug,$this->request->data);
                         // Dump del tenant
-                        $dumptenant =
                         // recargar datos del usuario con el nuevo sitio
                         App::uses('MtSites','MtSites.Utility');
                         MtSites::loadSessionData( $site_slug );
@@ -64,7 +66,6 @@ class SiteSetupController extends AppNoModelController {
             }
 
         }
-
         $ip = env('HTTP_X_FORWARDED_FOR');
         if ( empty($ip) ) {
             $ip = $this->request->clientIp();

@@ -18,9 +18,10 @@ class Installer {
 
 
     public static $_countries = array(
+
         'Europa'=>array(
-            "AL"=>"Albania",
-            "DE"=>"Alemania",
+            "Europe/Tirane_AL"=>"Albania",
+            "Europe/Berlin_DE"=>"Alemania",
             "AD"=>"Andorra",
             "AM"=>"Armenia",
             "AT"=>"Austria",
@@ -231,6 +232,7 @@ class Installer {
             "UZ"=>"Uzbekistán",
             "VN"=>"Vietnam",
             "YE"=>"Yemen",
+
         ),
     );
 
@@ -385,7 +387,6 @@ class Installer {
           );
 
         $config = $defaultSettingsConfig;
-
         foreach ($data['Site'] as $key => $value) {
             if (isset($data['Site'][$key])) {
                 $config[$key] = $value;
@@ -405,14 +406,14 @@ class Installer {
                 throw new CakeException('No se puede leer el archivo de configuración del archivo copiado.');
             }
             $content = $file->read();
+
             if ($content=='') {
                 throw new CakeException('No se puede leer ningún contenido del archivo de configuración copiado.');
             }
-            foreach ($config as $configKey => $configValue) {
+
+          foreach ($config as $configKey => $configValue) {
                 $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
-
             }
-
             if (!$file->write($content)) {
                 throw new CakeException('No se puede escribir en el archivo de configuración del comercio.');
 

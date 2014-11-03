@@ -38,15 +38,19 @@ class InstallController extends Controller {
 
         if (!empty($this->request->data)) {
 
-                $result = Installer::createDatabaseFile(array(
-                    'Install' => $this->request->data,
-                ));
-
-
-            if ($result !== true) {
-               return $this->Session->setFlash($result, 'Risto.flash_error');
-            } else {
-                return $this->redirect(array('action' => 'data'));
+            $this->Install->set($this->request->data);
+            if ($this->Install->validates())
+            {
+                  foreach($this->request->data as $this->request->data){
+                      $result = Installer::createDatabaseFile(array(
+                          'Install' => $this->request->data,
+                      ));
+                      if ($result !== true) {
+                          return $this->Session->setFlash($result, 'Risto.flash_error');
+                      } else {
+                          return $this->redirect(array('action' => 'data'));
+                      }
+                  }
             }
         }
 
