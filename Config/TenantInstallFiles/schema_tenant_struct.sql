@@ -263,6 +263,8 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `tipo_documento_id` int(11) DEFAULT NULL,
   `domicilio` varchar(110) COLLATE utf8_general_ci DEFAULT NULL,
   `iva_responsabilidad_id` int(11) DEFAULT NULL,
+  `fecha` DATE NULL,
+  `observacion` TEXT NULL,
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
