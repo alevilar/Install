@@ -21,7 +21,7 @@ class SiteSetupController extends AppNoModelController {
         {
            $codigo= explode("_",$this->request->data['Site']['country_code']);
             $this->request->data['Site']['country_code'] = $codigo[1];
-            $this->request->data['Site']['timezone'] = $codigo[0];
+            $this->request->data['Config']['timezone'] = $codigo[0];
             $this->request->data['User']['id'] = $this->Session->read('Auth.User.id');
             $this->Site->create();
             $this->Site->set($this->request->data);

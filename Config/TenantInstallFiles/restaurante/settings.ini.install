@@ -7,6 +7,8 @@ timezone = {default_timezone}
 # puede ser: restaurante, hotel o generic
 type = restaurante
 
+[Config]
+timezone = {default_timezone}
 
 [Printers]
 ticket_template  = ticket

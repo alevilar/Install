@@ -392,7 +392,11 @@ class Installer {
                 $config[$key] = $value;
             }
         }
-
+        foreach ($data['Config'] as $key => $value) {
+            if (isset($data['Config'][$key])) {
+                $config[$key] = $value;
+            }
+        }
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
 
