@@ -8,7 +8,6 @@ type = generic
 [Config]
 timezone = {default_timezone}
 
-
 [Printers]
 ticket_template  = ticket
 receipt_template = comandas
