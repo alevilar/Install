@@ -23,8 +23,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `account_cierres` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(120) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -56,8 +56,8 @@ CREATE TABLE IF NOT EXISTS `account_egresos` (
   `media_id`  int(11) NULL,
   `tipo_de_pago_id` int(10) NOT NULL,
   `fecha` datetime NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -72,8 +72,8 @@ CREATE TABLE IF NOT EXISTS `account_egresos_gastos` (
   `gasto_id` int(11) NOT NULL,
   `egreso_id` int(11) NOT NULL,
   `importe` decimal(10,2) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -181,8 +181,8 @@ CREATE TABLE IF NOT EXISTS `cash_arqueos` (
   `saldo` decimal(11,2) DEFAULT '0.00',
   `datetime` datetime NOT NULL,
   `observacion` text,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -197,8 +197,8 @@ CREATE TABLE IF NOT EXISTS `cash_cajas` (
   `name` varchar(124) NOT NULL,
   `computa_ingresos` tinyint(1) NOT NULL DEFAULT '1',
   `computa_egresos` tinyint(1) NOT NULL DEFAULT '1',
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -219,8 +219,8 @@ CREATE TABLE IF NOT EXISTS `cash_zetas` (
   `nota_credito_neto` decimal(11,2) NOT NULL DEFAULT '0.00',
   `observacion_comprobante_tarjeta` text,
   `observacion` text,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -238,8 +238,8 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `name` varchar(20) COLLATE utf8_general_ci NOT NULL,
   `description` text COLLATE utf8_general_ci NOT NULL,
   `media_id` int(10) unsigned DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -265,8 +265,8 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `iva_responsabilidad_id` int(11) DEFAULT NULL,
   `fecha` DATE NULL,
   `observacion` TEXT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -281,7 +281,7 @@ CREATE TABLE IF NOT EXISTS `comandas` (
   `mesa_id` int(11) NOT NULL,
   `prioridad` tinyint(4) NOT NULL,
   `impresa` timestamp NULL DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
   `observacion` text COLLATE utf8_general_ci,
   PRIMARY KEY (`id`),
   KEY `mesa_id` (`mesa_id`)
@@ -315,8 +315,8 @@ CREATE TABLE IF NOT EXISTS `configs` (
   `key` varchar(50) NOT NULL,
   `value` varchar(50) NOT NULL,
   `description` text,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -343,8 +343,8 @@ CREATE TABLE IF NOT EXISTS `descuentos` (
   `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `description` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `porcentaje` float NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -363,8 +363,8 @@ CREATE TABLE IF NOT EXISTS `detalle_comandas` (
   `cant_eliminada` tinyint(4) NOT NULL DEFAULT '0',
   `comanda_id` int(11) unsigned NOT NULL,
   `observacion` text CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   `es_entrada` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `mesa_id_2` (`comanda_id`),
@@ -409,8 +409,8 @@ CREATE TABLE IF NOT EXISTS `grupo_sabores` (
   `seleccion_de_sabor_obligatorio` tinyint(1) NOT NULL,
   `tipo_de_seleccion` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -437,7 +437,7 @@ CREATE TABLE IF NOT EXISTS `historico_precios` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `precio` float NOT NULL,
   `producto_id` int(11) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -464,8 +464,8 @@ CREATE TABLE IF NOT EXISTS `impfiscales` (
 CREATE TABLE IF NOT EXISTS `inventory_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(65) COLLATE utf8_general_ci NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -479,8 +479,8 @@ CREATE TABLE IF NOT EXISTS `inventory_counts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `product_id` int(11) NOT NULL,
   `count` float NOT NULL DEFAULT '0',
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -494,7 +494,7 @@ CREATE TABLE IF NOT EXISTS `inventory_products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(65) COLLATE utf8_general_ci NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -531,13 +531,13 @@ CREATE TABLE IF NOT EXISTS `mesas` (
   `estado_id` tinyint(4) NOT NULL DEFAULT '0',
 
   `observation` text NOT NULL DEFAULT  '',
-  `checkin` timestamp NULL DEFAULT NULL,
-  `checkout` timestamp NULL DEFAULT NULL,
+  `checkin` datetime NULL DEFAULT NULL,
+  `checkout` datetime NULL DEFAULT NULL,
 
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
-  `time_cerro` timestamp NULL DEFAULT NULL,
-  `time_cobro` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
+  `time_cerro` datetime NULL DEFAULT NULL,
+  `time_cobro` datetime NULL DEFAULT NULL,
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -580,8 +580,8 @@ CREATE TABLE IF NOT EXISTS `mozos` (
 CREATE TABLE IF NOT EXISTS `observaciones` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -594,8 +594,8 @@ CREATE TABLE IF NOT EXISTS `observaciones` (
 CREATE TABLE IF NOT EXISTS `observacion_comandas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -610,8 +610,8 @@ CREATE TABLE IF NOT EXISTS `pagos` (
   `mesa_id` int(10) unsigned NOT NULL,
   `tipo_de_pago_id` int(10) unsigned NULL,
   `valor` float NOT NULL COMMENT 'por ahora este campo vale cuando el tipo de pago es mixto, entonces se pone la cantidad de efectivo que pagó. Para poder hacer el arqueo.',
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -624,8 +624,8 @@ CREATE TABLE IF NOT EXISTS `pagos` (
 CREATE TABLE IF NOT EXISTS `pquery_categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8_general_ci NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -641,8 +641,8 @@ CREATE TABLE IF NOT EXISTS `pquery_queries` (
   `description` text COLLATE utf8_general_ci,
   `query` text COLLATE utf8_general_ci NOT NULL,
   `ver_online` tinyint(1) NOT NULL DEFAULT '0',
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   `category_id` int(11) NOT NULL DEFAULT '0',
   `expiration_time` timestamp NULL DEFAULT NULL,
   `columns` text COLLATE utf8_general_ci,
@@ -662,8 +662,8 @@ CREATE TABLE IF NOT EXISTS `printers` (
   `driver` varchar(32) NOT NULL,
   `driver_model` varchar(32) NULL,
   `output` varchar(64) DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -682,8 +682,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `precio` float(10,2) NOT NULL,
   `printer_id` int(11) NULL,
   `order` int(11) DEFAULT '0',
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -741,8 +741,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
   `machin_name` VARCHAR( 64 ) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -761,8 +761,8 @@ CREATE TABLE IF NOT EXISTS `sabores` (
   `categoria_id` int(11) NOT NULL,
   `grupo_sabor_id` int(11) NULL,
   `precio` float NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   `deleted_date` timestamp NULL DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -777,8 +777,8 @@ CREATE TABLE IF NOT EXISTS `sabores` (
 CREATE TABLE IF NOT EXISTS `tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -818,8 +818,8 @@ CREATE TABLE IF NOT EXISTS `tipo_facturas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_general_ci NOT NULL,
   `codename` varchar(1) COLLATE utf8_general_ci DEFAULT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -830,8 +830,8 @@ CREATE TABLE IF NOT EXISTS `printer_jobs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `printer_id` int(11) NOT NULL,
   `text` text  CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -841,8 +841,8 @@ CREATE TABLE IF NOT EXISTS `roles_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(36) NOT NULL,
   `rol_id` int(11) NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`rol_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -858,7 +858,7 @@ CREATE TABLE IF NOT EXISTS `media` (
   `size` smallint(6) NOT NULL,
   `name` varchar(48) NOT NULL,
   `file` longblob NOT NULL,
-  `created` timestamp NULL DEFAULT NULL,
-  `modified` timestamp NULL DEFAULT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
