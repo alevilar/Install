@@ -359,8 +359,8 @@ CREATE TABLE IF NOT EXISTS `descuentos` (
 CREATE TABLE IF NOT EXISTS `detalle_comandas` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `producto_id` int(10) unsigned NOT NULL,
-  `cant` tinyint(4) NOT NULL,
-  `cant_eliminada` tinyint(4) NOT NULL DEFAULT '0',
+  `cant` float NOT NULL,
+  `cant_eliminada` float NOT NULL DEFAULT '0',
   `comanda_id` int(11) unsigned NOT NULL,
   `observacion` text CHARACTER SET utf8 COLLATE utf8_general_ci,
   `created` datetime NULL DEFAULT NULL,
