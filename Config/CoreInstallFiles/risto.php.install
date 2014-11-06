@@ -1,7 +1,53 @@
 <?php
 
+
+/**
+ * CakePHP Debug Level:
+ *
+ * Production Mode:
+ * 	0: No error messages, errors, or warnings shown. Flash messages redirect.
+ *
+ * Development Mode:
+ * 	1: Errors and warnings shown, model caches refreshed, flash messages halted.
+ * 	2: As in 1, but also with full debug messages and SQL output.
+ *
+ * In production mode, flash messages redirect after a time interval.
+ * In development mode, you need to click the flash message to continue.
+ */
+Configure::write('debug', 1);
+
+
+
+
+
+
 // If you wan your custom logo
 //Configure::write('Site.logo_path', 'logo.png');
+
+
+
+/**
+ * Default Extra Plugins
+ *
+ *
+ *Configure::write('Plugins', array(
+ *	'PluginName' => array('bootstrap'=>true, 'routes'=>true),
+ *	'OtherPluginName' // this one will not load bootstrap neither routes files
+ *	));
+**/
+Configure::write('Plugins', array(
+		'MtSites' => array( 'routes' => true, 'bootstrap' => true ),
+		'Users',
+		'ExtAuth',
+		'Aditions' => array( 'bootstrap' => true, 'routes' => true ),
+		'Account' => array( 'bootstrap' => true, 'routes' => true ),
+		'Stats' => array( 'routes' => true ),
+		'DebugKit',
+		'Search',
+		'Printers' => array( 'bootstrap' => true ),
+		'Mesa' => array( 'routes' => true ),
+		'Bs3Helpers' => array('bootstrap'=>true),
+	));
 
 
 
