@@ -94,20 +94,23 @@ class GeoPlugin {
 		$data = unserialize($response);
 		
 		//set the geoPlugin vars
-		$ip = $ip;
-		$city = $data['geoplugin_city'];
-		$region = $data['geoplugin_region'];
-		$areaCode = $data['geoplugin_areaCode'];
-		$dmaCode = $data['geoplugin_dmaCode'];
-		$countryCode = $data['geoplugin_countryCode'];
-		$countryName = $data['geoplugin_countryName'];
-		$continentCode = $data['geoplugin_continentCode'];
-		$latitude = $data['geoplugin_latitude'];
-		$longitude = $data['geoplugin_longitude'];
-		$currencyCode = $data['geoplugin_currencyCode'];
-		$currencySymbol = $data['geoplugin_currencySymbol'];
-		$currencyConverter = $data['geoplugin_currencyConverter'];
-		return $countryCode;
+		$data = array(
+			'ip' => $ip,
+			'city' => $data['geoplugin_city'],
+			'region' => $data['geoplugin_region'],
+			'area_code' => $data['geoplugin_areaCode'],
+			'dma_code' => $data['geoplugin_dmaCode'],
+			'country_code' => $data['geoplugin_countryCode'],
+			'country_name' => $data['geoplugin_countryName'],
+			'continent_code' => $data['geoplugin_continentCode'],
+			'latitude' => $data['geoplugin_latitude'],
+			'longitude' => $data['geoplugin_longitude'],
+			'currency_code' => $data['geoplugin_currencyCode'],
+			'currency_symbol' => $data['geoplugin_currencySymbol'],
+			'currency_converter' => $data['geoplugin_currencyConverter'],
+		);
+		
+		return $data;
 	}
 	
 	function fetch($host) {

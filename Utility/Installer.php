@@ -3,7 +3,7 @@
 App::uses('CakeLog', 'Log');
 App::uses('ClassRegistry', 'Utility');
 App::uses('File', 'Utility');
-App::uses('GeoPlugin', 'Install.Lib/Utility');
+
 
 
 
@@ -16,231 +16,6 @@ App::uses('GeoPlugin', 'Install.Lib/Utility');
  */
 class Installer {
 
-
-    public static $_countries = array(
-
-        'Europa'=>array(
-            "Europe/Tirane_AL"=>"Albania",
-            "Europe/Berlin_DE"=>"Alemania",
-            "Europe/Andorra_AD"=>"Andorra",
-            "UTC_AM"=>"Armenia",
-            "Europe/Vienna_AT"=>"Austria",
-            "UTC_AZ"=>"Azerbaiyán",
-            "Europe/Brussels_BE"=>"Bélgica",
-            "Europe/Minsk_BY"=>"Bielorrusia",
-            "Europe/Sarajevo_BA"=>"Bosnia y Herzegovina",
-            "Europe/Sofia_BG"=>"Bulgaria",
-            "Europe/Nicosia_CY"=>"Chipre",
-            "Europe/Vatican_VA"=>"Ciudad del Vaticano (Santa Sede)",
-            "Europe/Zagreb_HR"=>"Croacia",
-            "Europe/Copenhagen_DK"=>"Dinamarca",
-            "Europe/Bratislava_SK"=>"Eslovaquia",
-            "Europe/Ljubljana_SI"=>"Eslovenia",
-            "Europe/Madrid_ES"=>"España",
-            "Europe/Tallinn_EE"=>"Estonia",
-            "Europe/Helsinki_FI"=>"Finlandia",
-            "Europe/Paris_FR"=>"Francia",
-            "UTC_GE"=>"Georgia",
-            "Europe/Athens_GR"=>"Grecia",
-            "Europe/Budapest_HU"=>"Hungría",
-            "Europe/Dublin_IE"=>"Irlanda",
-            "UTC_IS"=>"Islandia",
-            "Europe/Rome_IT"=>"Italia",
-            "UTC_XK"=>"Kosovo",
-            "Europe/Riga_LV"=>"Letonia",
-            "Europe/Vaduz_LI"=>"Liechtenstein",
-            "Europe/Vilnius_LT"=>"Lituania",
-            "Europe/Luxembourg_LU"=>"Luxemburgo",
-            "Europe/Skopje_MK"=>"Macedonia, República de",
-            "Europe/Malta_MT"=>"Malta",
-            "Europe/Chisinau_MD"=>"Moldavia",
-            "Europe/Monaco_MC"=>"Mónaco",
-            "Europe/Podgorica_ME"=>"Montenegro",
-            "Europe/Oslo_NO"=>"Noruega",
-            "Europe/Amsterdam_NL"=>"Países Bajos",
-            "Europe/Warsaw_PL"=>"Polonia",
-            "Europe/Lisbon_PT"=>"Portugal",
-            "Europe/London_UK"=>"Reino Unido",
-            "Europe/Prague_CZ"=>"República Checa",
-            "Europe/Bucharest_RO"=>"Rumanía",
-            "Europe/Moscow_RU"=>"Rusia",
-            "Europe/San_Marino_SM"=>"San Marino",
-            "UTC_SE"=>"Suecia",
-            "Europe/Zurich_CH"=>"Suiza",
-            "Asia/Istanbul_TR"=>"Turquía",
-            "Europe/Kiev_UA"=>"Ucrania",
-            "UTC_YU"=>"Yugoslavia",
-        ),
-
-        "África"=>array(
-            "Africa/Luanda_AO"=>"Angola",
-            "UTC_DZ"=>"Argelia",
-            "Africa/Porto-Novo_BJ"=>"Benín",
-            "Africa/Gaborone_BW"=>"Botswana",
-            "Africa/Ouagadougou_BF"=>"Burkina Faso",
-            "Africa/Bujumbura_BI"=>"Burundi",
-            "UTC_CM"=>"Camerún",
-            "UTC_CV"=>"Cabo Verde",
-            "UTC_TD"=>"Chad",
-            "UTC_KM"=>"Comores",
-            "Africa/Brazzaville"=>"Congo",
-            "Africa/Kinshasa_CG_CD"=>"Congo, República Democrática del",
-            "UTC_CI"=>"Costa de Marfil",
-            "Africa/Cairo_EG"=>"Egipto",
-            "Africa/Asmera_ER"=>"Eritrea",
-            "Africa/Addis_Ababa_ET"=>"Etiopía",
-            "Africa/Libreville_GA"=>"Gabón",
-            "Africa/Banjul_GM"=>"Gambia",
-            "Africa/Accra_GH"=>"Ghana",
-            "Africa/Conakry_GN"=>"Guinea",
-            "Africa/Bissau_GW"=>"Guinea Bissau",
-            "Africa/Malabo_GQ"=>"Guinea Ecuatorial",
-            "Africa/Nairobi_KE"=>"Kenia",
-            "Africa/Maseru_LS"=>"Lesoto",
-            "Africa/Monrovia_LR"=>"Liberia",
-            "Africa/Tripoli_LY"=>"Libia",
-            "UTC_MG"=>"Madagascar",
-            "UTC_MW"=>"Malawi",
-            "Africa/Bamako_ML"=>"Malí",
-            "UTC_MA"=>"Marruecos",
-            "UTC_MU"=>"Mauricio",
-            "Africa/Nouakchott_MR"=>"Mauritania",
-            "Africa/Maputo_MZ"=>"Mozambique",
-            "Africa/Windhoek_NA"=>"Namibia",
-            "Africa/Niamey_NE"=>"Níger",
-            "Africa/Abidjan_NG"=>"Nigeria",
-            "Africa/Bangui_CF"=>"República Centroafricana",
-            "UTC_ZA"=>"República de Sudáfrica",
-            "Africa/Kigali_RW"=>"Ruanda",
-            "UTC_EH"=>"Sahara Occidental",
-            "UTC_ST"=>"Santo Tomé y Príncipe",
-            "Africa/Dakar_SN"=>"Senegal",
-            "UTC_SC"=>"Seychelles",
-            "Africa/Freetown_SL"=>"Sierra Leona",
-            "Africa/Mogadishu_SO"=>"Somalia",
-            "Africa/Khartoum_SD"=>"Sudán",
-            "UTC_SS"=>"Sudán del Sur",
-            "Africa/Luanda_SZ"=>"Suazilandia",
-            "UTC_TZ"=>"Tanzania",
-            "Africa/Lome_TG"=>"Togo",
-            "Africa/Tunis_TN"=>"Túnez",
-            "Africa/Kampala_UG"=>"Uganda",
-            "UTC_DJ"=>"Yibuti",
-            "Africa/Lusaka_ZM"=>"Zambia",
-            "Africa/Harare_ZW"=>"Zimbabue",
-        ),
-
-        "Oceanía"=>array(
-            "Australia/Canberra-AU"=>"Australia",
-            "UTC_FM"=>"Micronesia, Estados Federados de",
-            "UTC_FJ"=>"Fiji",
-            "Pacific/TarawaKI"=>"Kiribati",
-            "Pacific/Majuro_MH"=>"Islas Marshall",
-            "UTC_SB"=>"Islas Salomón",
-            "Pacific/Nauru_NR"=>"Nauru",
-            "UTC_NZ"=>"Nueva Zelanda",
-            "UTC_PW"=>"Palaos",
-            "UTC_PG"=>"Papúa Nueva Guinea",
-            "UTC_WS"=>"Samoa",
-            "UTC_TO"=>"Tonga",
-            "UTC_TV"=>"Tuvalu",
-            "UTC_VU"=>"Vanuatu",
-        ),
-
-        "Sudamérica"=>array(
-            "America/Buenos_Aires_AR"=>"Argentina",
-            "America/La_Paz_BO"=>"Bolivia",
-            "America/Sao_Paulo_BR"=>"Brasil",
-            "America/Santiago_CL"=>"Chile",
-            "America/Bogota_CO"=>"Colombia",
-            "America/Guayaquil_EC"=>"Ecuador",
-            "America/Guyana_GY"=>"Guayana",
-            "America/Asuncion_PY"=>"Paraguay",
-            "America/Lima_PE"=>"Perú",
-            "America/Paramaribo_SR"=>"Surinam",
-            "America/Port_of_Spain_TT"=>"Trinidad y Tobago",
-            "America/Montevideo_UY"=>"Uruguay",
-            "America/CaracasVE"=>"Venezuela",
-        ),
-
-        "Norteamérica y Centroamérica"=>array(
-            "America/St_Johns_AG"=>"Antigua y Barbuda",
-            "America/Nassau_BS"=>"Bahamas",
-            "UTC_BB"=>"Barbados",
-            "America/Belize_BZ"=>"Belice",
-            "America/Toronto_CA"=>"Canadá",
-            "America/Costa_Rica_CR"=>"Costa Rica",
-            "UTC_CU"=>"Cuba",
-            "UTC_DM"=>"Dominica",
-            "UTC_SV"=>"El Salvador",
-            "America/New_York_US"=>"Estados Unidos",
-            "UTC_GD"=>"Granada",
-            "America/Guatemala_GT"=>"Guatemala",
-            "America/Port-au-Prince_HT"=>"Haití",
-            "UTC_HN"=>"Honduras",
-            "America/Jamaica_JM"=>"Jamaica",
-            "America/Mexico_City_MX"=>"México",
-            "America/Managua_NI"=>"Nicaragua",
-            "America/Panama_PA"=>"Panamá",
-            "America/St_Johns_PR"=>"Puerto Rico",
-            "UTC_DO"=>"República Dominicana",
-            "UTC_KN"=>"San Cristóbal y Nieves",
-            "UTC_VC"=>"San Vicente y Granadinas",
-            "UTC_LC"=>"Santa Lucía",
-        ),
-
-        "Asia"=>array(
-            "Asia/Kabul_AF"=>"Afganistán",
-            "Asia/Riyadh_SA"=>"Arabia Saudí",
-            "UTC_BH"=>"Baréin",
-            "Asia/Dacca_BD"=>"Bangladesh",
-            "UTC_MM"=>"Birmania",
-            "Asia/Thimbu_BT"=>"Bután",
-            "UTC_BN"=>"Brunéi",
-            "Asia/Phnom_Penh_KH"=>"Camboya",
-            "Asia/Shanghai_CN"=>"China",
-            "Asia/Pyongyang_KP"=>"Corea, República Popular Democrática de",
-            "Asia/Seoul_KR"=>"Corea, República de",
-            "UTC_AE"=>"Emiratos Árabes Unidos",
-            "Asia/Manila_PH"=>"Filipinas",
-            "Asia/Calcutta_IN"=>"India",
-            "Asia/Yakutsk_ID"=>"Indonesia",
-            "Asia/Baghdad_IQ"=>"Iraq",
-            "Asia/Tehran_IR"=>"Irán",
-            "Asia/Jerusalem_IL"=>"Israel",
-            "Asia/Tokyo_JP"=>"Japón",
-            "Asia/Amman_JO"=>"Jordania",
-            "Asia/Ashgabat_KZ"=>"Kazajistán",
-            "Asia/Bishkek_KG"=>"Kirguizistán",
-            "Asia/Kuwait_KW"=>"Kuwait",
-            "Asia/Vientiane_LA"=>"Laos",
-            "Asia/Beirut_LB"=>"Líbano",
-            "Asia/Kuala_Lumpur_MY"=>"Malasia",
-            "UTC_MV"=>"Maldivas",
-            "Asia/Ulan_Bator_MN"=>"Mongolia",
-            "Asia/Kathmandu_NP"=>"Nepal",
-            "UTC_OM"=>"Omán",
-            "PK"=>"Paquistán",
-            "Asia/Qatar_QA"=>"Qatar",
-            "Asia/Singapore_SG"=>"Singapur",
-            "Asia/Damascus_SY"=>"Siria",
-            "Asia/Colombo_LK"=>"Sri Lanka",
-            "Asia/Dushanbe_TJ"=>"Tayikistán",
-            "Asia/Bangkok_TH"=>"Tailandia",
-            "UTC_TP"=>"Timor Oriental",
-            "Asia/Ashgabat_TM"=>"Turkmenistán",
-            "Asia/Tashkent_UZ"=>"Uzbekistán",
-            "Asia/Vientiane_LAVN"=>"Vietnam",
-            "UTC_YE"=>"Yemen",
-
-        ),
-    );
-
-
-
-    public static function countries() {
-        return self::$_countries;
-    }
 
     public static function createDatabaseFile($data) {
         App::uses('File', 'Utility');
@@ -376,27 +151,17 @@ class Installer {
 
     }
 
-    public static function copySettingFile($site_slug = null,$data = null)
+    public static function copySettingFile($site_slug = null, $data = array() )
     {
 
         App::uses('File', 'Utility');
         $defaultSettingsConfig = array(
-        'name' => 'default',
-        'datasource' => 'Database/Mysql',
-        'persistent' => false,
+            'name' => 'default',
+            'datasource' => 'Database/Mysql',
+            'persistent' => false,
           );
 
-        $config = $defaultSettingsConfig;
-        foreach ($data['Site'] as $key => $value) {
-            if (isset($data['Site'][$key])) {
-                $config[$key] = $value;
-            }
-        }
-        foreach ($data['Config'] as $key => $value) {
-            if (isset($data['Config'][$key])) {
-                $config[$key] = $value;
-            }
-        }
+
         if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
         {
 
@@ -415,13 +180,22 @@ class Installer {
                 throw new CakeException('No se puede leer ningún contenido del archivo de configuración copiado.');
             }
 
-          foreach ($config as $configKey => $configValue) {
+
+            App::uses('GeoPlugin', 'Install.Lib/Utility');
+            
+            $dataLocale = GeoPlugin::locate($data['Site']['ip']);
+            $dataLocale['timezone'] = $data['Site']['timezone'];
+            $dataLocale['ip'] = $data['Site']['ip'];
+            $dataLocale['name'] = $data['Site']['name'];
+            $dataLocale['alias'] = $data['Site']['alias'];
+          foreach ($dataLocale as $configKey => $configValue) {
                 $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
             }
             if (!$file->write($content)) {
                 throw new CakeException('No se puede escribir en el archivo de configuración del comercio.');
-
             }
+
+            $file->close();
         }
         else
         {
@@ -544,15 +318,6 @@ class Installer {
         {
             throw new CakeException("No fue posible retomar la conexión con la base de datos principal, es probable se haya producido un corte de conexión o que los datos de ingresos hayan cambiados.");
         }
-
-    }
-
-
-
-    public static function getCountryData( $ip )
-    {
-
-        return GeoPlugin::locate($ip);
 
     }
 
@@ -694,45 +459,29 @@ class Installer {
 
     public static function deleteSite( $site_alias = null )
     {
+        self::_removeDatabase( $site_alias );
+        self::_deleteTenantFolder( $site_alias );
+        return true;
+    }
+
+
+    public static function _removeDatabase($site_alias) {
         App::uses('ConnectionManager', 'Model');
 
-        if(ConnectionManager::getDataSource('default')->connected)
-        {
-            $db = ConnectionManager::getDataSource('default');
-            $tenantDB = $db->config['database']."_".$site_alias;
-            $delete_db = $db->query("DROP DATABASE IF EXISTS ".$tenantDB);
-            if(!empty($delete_db))
-            {
-                throw new CakeException("Ocurrió un error eliminando la base de datos del Comercio.");
-            }
+        $db = ConnectionManager::getDataSource('default');
+        $tenantDB = $db->config['database']."_".$site_alias;
+        $delete_db = $db->query("DROP DATABASE IF EXISTS ".$tenantDB);
 
-            App::import('model','MtSites.Site');
-            $site = new Site();
-            $site_data = $site->findByAlias($site_alias);
-            App::uses('MtSites','MtSites.Utility');
-            // Se usaria un after delete para eliminar la carpeta
-            if($site->delete($site_data['Site']['id']))
-            {
-                MtSites::loadSessionData();
-                return true;
-            }
-            else
-            {
-                throw new CakeException('No se pudo borrar el tenant. Es probable que la base de datos no haya sido encontrada.');
-            }
-        }
-        else
-        {
-            throw new MissingDatasourceException("No se ha podido establecer la conexion con la base de datos principal.");
-        }
+        return true;
+    }
 
-        if(ConnectionManager::getDataSource('default'))
-        {
 
-        }
-        else
-        {
-            throw new CakeException('No se pude reestabecer conexión a la base de datos principal');
-        }
+    public static function _deleteTenantFolder($site_alias) {
+        App::uses('Folder', 'Utility');
+
+        $folder = new Folder( APP . 'Tenants' . DS . $site_alias);
+        $folder->delete();
+
+        return true;
     }
 }

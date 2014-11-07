@@ -4,9 +4,11 @@ name = {default_name}
 country_code = {default_country_code}
 # puede ser: restaurante, hotel o generic
 type = generic
+ip = {default_ip}
 
 [Config]
 timezone = {default_timezone}
+currency_code = {default_currency_code}
 
 [Printers]
 ticket_template  = ticket

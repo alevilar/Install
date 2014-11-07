@@ -134,7 +134,7 @@ class InstallController extends Controller {
 
                 if($this->User->save($this->request->data))
                 {
-                        return $this->redirect(array('plugin'=>'install','admin'=>false,'controller'=>'site_setup','action' => 'installsite'));
+                        return $this->redirect(array('plugin'=>'mt_sites','admin'=>false,'controller'=>'sites','action' => 'install'));
                 }
                 else
                 {
