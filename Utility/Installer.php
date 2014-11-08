@@ -3,7 +3,7 @@
 App::uses('CakeLog', 'Log');
 App::uses('ClassRegistry', 'Utility');
 App::uses('File', 'Utility');
-
+App::uses('GeoPlugin', 'Install.Lib/Utility');
 
 
 
@@ -138,23 +138,16 @@ class Installer {
     {
         $dir = new Folder(APP . 'Tenants' . DS . $site_slug, true);
 
-        if($dir)
-        {
-
-        }
-        else
-        {
+        if( !$dir) {
             throw new CakeException('No se pudo crear el sitio: '.$site_slug. ' verifique que tenga permisos de escritura.');
         }
 
         return $dir;
-
     }
 
-    public static function copySettingFile($site_slug = null, $data = array() )
+    public static function copyTenantSettingFile( $data = array() )
     {
-
-        App::uses('File', 'Utility');
+        $site_slug = $data['Site']['alias'];
         $defaultSettingsConfig = array(
             'name' => 'default',
             'datasource' => 'Database/Mysql',
@@ -181,7 +174,7 @@ class Installer {
             }
 
 
-            App::uses('GeoPlugin', 'Install.Lib/Utility');
+         
             
             $dataLocale = GeoPlugin::locate($data['Site']['ip']);
             $dataLocale['timezone'] = $data['Site']['timezone'];
@@ -208,13 +201,15 @@ class Installer {
     }
 
 
-    public static function createDumpTenantDB($slug = null, $data = null)
+    public static function dumpTenantDB( $data = null)
     {
         $tenantontheFlyConfig = array(
         'name' => 'default',
         'datasource' => 'Database/Mysql',
         'persistent' => false,
         );
+
+        $slug = $data['Site']['alias'];
 
        $tenantDB = "";
 
@@ -232,17 +227,9 @@ class Installer {
 
             $tenantDB = ConnectionManager::getDataSource('default')->config['database']."_".$slug;
 
-            $tenantontheFlyConfig = array(
-                'datasource' => 'Database/Mysql',
-                'persistent' => false,
-                'host' => ConnectionManager::getDataSource('default')->config['host'],
-                'login' => ConnectionManager::getDataSource('default')->config['login'],
-                'password' => ConnectionManager::getDataSource('default')->config['password'],
-                'database' => $tenantDB,
-                'prefix' => ConnectionManager::getDataSource('default')->config['prefix'],
-                'encoding' => 'UTF8',
-                'port' => ConnectionManager::getDataSource('default')->config['port'],
-            );
+            $tenantontheFlyConfig = ConnectionManager::getDataSource('default')->config;
+            $tenantontheFlyConfig['database'] = $tenantDB;
+
 
             // 1) Primero se corrobora si se puede crear la base de datos, sino se puede promover la desinstalacion del site
            $create_tenant = ConnectionManager::getDataSource('default')->query("CREATE DATABASE ".$tenantDB);
