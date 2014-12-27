@@ -28,8 +28,9 @@ INSERT INTO `comandas` (`id`, `mesa_id`, `prioridad`, `impresa`, `created`, `obs
 
 
 
-INSERT INTO  `printers` ( `id` , `name` ,`alias` ,`driver` ,`driver_model` ,`output` ,`created` ,`modified`) 
-VALUES ( NULL ,  'comanderacocina',  'comanderacocina',  'Receipt',  'Bematech',  'Database', NULL , NULL );
+INSERT INTO  `printers` (  `id` ,  `name` ,  `alias` ,  `driver` ,  `driver_model` ,  `output` ,  `created` ,  `modified` ) VALUES 
+  (NULL ,  'fiscal',  'fiscal',  'Fiscal',  'Hasar441',  'Database', NULL , NULL), 
+  (NULL ,  'comanderacocina',  'comanderacocina',  'Receipt',  'Bematech',  'Database', NULL , NULL);
 
 
 
@@ -86,13 +87,13 @@ INSERT INTO `mozos` ( `numero`, `nombre`, `apellido` ,`activo`, `deleted_date`, 
 
 
 INSERT INTO `productos` (`id`, `name`, `abrev`, `description`, `categoria_id`, `precio`, `printer_id`, `order`, `created`, `modified`, `deleted_date`, `deleted`) VALUES
-(1, 'Leche', 'leche', '', 2, 100.00, 1, NULL, '2012-11-28 23:11:57', '2012-11-28 23:11:57', NULL, 0),
-(2, 'Pebete JyQ', 'pebete', '', 4, 12.00, 1, 2, '2013-05-17 13:50:34', '2013-05-17 13:50:34', NULL, 0),
-(3, 'Sanguche de Miga', 'sanguche', '', 4, 33.00, 1, NULL, '2013-05-17 13:50:46', '2013-05-17 13:50:46', NULL, 0),
-(4, 'Pebete Serrano', 'pebete', '', 4, 21.00, 1, 2, '2013-05-17 13:51:09', '2013-05-17 13:51:09', NULL, 0),
-(5, 'Gaseosa', 'gaseosa', '', 3, 20.00, 1, NULL, '2014-04-02 06:52:34', '2014-04-02 06:52:34', NULL, 0),
-(6, 'Big Ristorantino', 'bg risto', '', 1, 40.00, 1, 2, '2014-04-02 06:56:37', '2014-04-02 06:56:37', NULL, 0),
-(7, 'Super de Pollo', 'pollo', '', 1, 33.00, 1, NULL, '2014-04-02 06:57:03', '2014-04-02 06:57:03', NULL, 0);
+(1, 'Leche', 'leche', '', 2, 100.00, 2, NULL, '2012-11-28 23:11:57', '2012-11-28 23:11:57', NULL, 0),
+(2, 'Pebete JyQ', 'pebete', '', 4, 12.00, 2, 2, '2013-05-17 13:50:34', '2013-05-17 13:50:34', NULL, 0),
+(3, 'Sanguche de Miga', 'sanguche', '', 4, 33.00, 2, NULL, '2013-05-17 13:50:46', '2013-05-17 13:50:46', NULL, 0),
+(4, 'Pebete Serrano', 'pebete', '', 4, 21.00, 2, 2, '2013-05-17 13:51:09', '2013-05-17 13:51:09', NULL, 0),
+(5, 'Gaseosa', 'gaseosa', '', 3, 20.00, 2, NULL, '2014-04-02 06:52:34', '2014-04-02 06:52:34', NULL, 0),
+(6, 'Big Ristorantino', 'bg risto', '', 1, 40.00, 2, 2, '2014-04-02 06:56:37', '2014-04-02 06:56:37', NULL, 0),
+(7, 'Super de Pollo', 'pollo', '', 1, 33.00, 2, NULL, '2014-04-02 06:57:03', '2014-04-02 06:57:03', NULL, 0);
 
 -- --------------------------------------------------------
 

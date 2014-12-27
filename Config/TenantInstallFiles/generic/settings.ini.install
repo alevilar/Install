@@ -11,9 +11,14 @@ timezone = {default_timezone}
 currency_code = {default_currency_code}
 
 [Printers]
+default_tipo_factura_codename  = C
+default_tipo_factura_a_codename  = A
+default_tipo_factura = B
 ticket_template  = ticket
 receipt_template = comandas
 output = Database
+receipt_id = 2
+fiscal_id = 1
 
 [Adicion]
 reload_interval_timeout = 60000

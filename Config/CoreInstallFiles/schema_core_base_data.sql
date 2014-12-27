@@ -8,3 +8,14 @@ INSERT INTO `sites` (`id`, `name`, `alias`, `enabled`, `created`, `modified`) VA
 
 INSERT INTO `sites_users` (`id`, `user_id`, `site_id`, `created`, `updated`) VALUES
 (1, 1, 1, NULL, NULL);
+
+
+
+
+INSERT INTO `roles` (`id`, `name`, `machin_name`, `created`, `modified`) VALUES
+(1, 'Superadmin', 'superadmin', NULL, NULL);
+
+
+
+INSERT INTO `roles_users` (`id`, `user_id`, `rol_id`, `created`, `modified`) VALUES
+(9, '51c72ce4-3d19-11e4-b73c-208984c70abd', 1, NULL, '2014-09-30 18:08:49');

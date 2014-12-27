@@ -3,7 +3,7 @@ App::uses('Installer', 'Install.Utility');
 
 $request = Router::getRequest();
 
-if (strpos($request->url, 'install') === false) {
+if ($request && strpos($request->url, 'install') === false) {
     if(
         file_exists(APP . 'Config' . DS . 'database.php')==false
         ||file_exists(APP . 'Config' . DS . 'core.php')==false

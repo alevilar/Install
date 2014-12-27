@@ -85,3 +85,32 @@ CREATE TABLE IF NOT EXISTS `users` (
   KEY `BY_USERNAME` (`username`),
   KEY `BY_EMAIL` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `machin_name` varchar(64) NOT NULL,
+  `created` timestamp NULL DEFAULT NULL,
+  `modified` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles_users`
+--
+
+CREATE TABLE IF NOT EXISTS `roles_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(36) NOT NULL,
+  `rol_id` int(11) NOT NULL,
+  `created` timestamp NULL DEFAULT NULL,
+  `modified` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`,`rol_id`)
+);
+
