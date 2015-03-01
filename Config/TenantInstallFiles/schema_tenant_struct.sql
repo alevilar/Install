@@ -657,8 +657,8 @@ CREATE TABLE IF NOT EXISTS `pquery_queries` (
 
 CREATE TABLE IF NOT EXISTS `printers` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL,
-  `alias` varchar(32) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `alias` varchar(124) NOT NULL,
   `driver` varchar(32) NOT NULL,
   `driver_model` varchar(32) NULL,
   `output` varchar(64) DEFAULT NULL,

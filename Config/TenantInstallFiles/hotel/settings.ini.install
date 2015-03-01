@@ -11,8 +11,11 @@ timezone = {default_timezone}
 currency_code = {default_currency_code}
 
 [Printers]
-default_tipo_factura_codename  = C
+server = auto
+#codigo fiscal
+default_tipo_factura_codename  = B
 default_tipo_factura_a_codename  = A
+#nombre del comprobante
 default_tipo_factura = B
 ticket_template  = ticket
 receipt_template = comandas
