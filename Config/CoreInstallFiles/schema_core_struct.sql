@@ -1,5 +1,18 @@
 
 
+CREATE TABLE IF NOT EXISTS `printer_jobs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `printer_id` int(11) NOT NULL,
+  `site_alias` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `text` text  CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  `created` datetime NULL DEFAULT NULL,
+  `modified` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -10,12 +23,16 @@ CREATE TABLE IF NOT EXISTS `sites` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) CHARACTER SET utf8 NOT NULL,
   `alias` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `machine_uuid` varchar(128) DEFAULT NULL,
   `enabled` tinyint(1) DEFAULT '1',
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `alias` (`alias`)
+  UNIQUE KEY `alias` (`alias`),
+  KEY `machine_uuid` (`machine_uuid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+
 
 -- --------------------------------------------------------
 
@@ -113,4 +130,5 @@ CREATE TABLE IF NOT EXISTS `roles_users` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`,`rol_id`)
 );
+
 

@@ -51,16 +51,28 @@ generica_mozo_id = 1
 descuento_maximo = 15
 
 [Restaurante]
-tipofactura_name = B
+tipofactura_name = C
 valorCubierto = 0
-iva_resp =
+#Id de la tabla iva_responsabilidades
+# monotributista en este caso
+iva_responsabilidad = 6
 razon_social = RAZON SOCIAL S.A
-ib = 
+ib = ND
 mail = info@resto.com
-cuit = 30-00000000-1
+cuit = 20303683268
+domicilio = "Calle X Altura 2323 1º B"
+domicilio_fiscal = "Calle FISCAL X Altura 1111"
+punto_de_venta = 3
 backup_mail = mails-backups@gmail.com
 # Cantidad de decimales a mostrar en los totales y en el ticket
 precision = 2
 
 [Search]
 Prg.presetForm = querystring
+
+[Afip]
+#Afip WS Code del tipo de factura ID, En este caso factura C
+tipofactura_id = 11
+# El concepto puede ser: 1 para productos, 2 para servicios, 3 para productos y servicios, 4 Otro
+concepto = 2
+inicio_actividades = 2010/12/12

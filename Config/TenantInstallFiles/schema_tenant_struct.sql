@@ -826,16 +826,6 @@ CREATE TABLE IF NOT EXISTS `tipo_facturas` (
 
 
 
-CREATE TABLE IF NOT EXISTS `printer_jobs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `printer_id` int(11) NOT NULL,
-  `text` text  CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
-  `created` datetime NULL DEFAULT NULL,
-  `modified` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
-
 
 CREATE TABLE IF NOT EXISTS `roles_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
