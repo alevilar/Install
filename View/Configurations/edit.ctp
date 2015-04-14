@@ -19,6 +19,12 @@
 			'value' => 1
 		));
 
+		echo $this->Form->input('Site.name', array(
+			'type'=>'text', 
+			'label' => __('Nombre del Sitio')
+			));
+
+
 		echo $this->Form->input('Config.currency_code', array(
 			'type'=>'text', 
 			'length'=>3,

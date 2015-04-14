@@ -20,18 +20,17 @@ class ConfigurationsController extends AppNoModelController
     public function edit( $advanced = null) {
 
     	if ( $this->request->is('put') || $this->request->is('post')) {
+            $tipoFactId = $this->request->data['Afip']['tipofactura_id'];
+            $TipoFact = Classregistry::init('Risto.TipoFactura')->find('first', array(
+                'conditions' => array('TipoFactura.id' => $tipoFactId ),
+                'recursive' => -1,
+                )
+            );
+
+            $this->request->data['Restaurante']['tipofactura_name'] = $TipoFact['TipoFactura']['name'];
+            $this->request->data['Printers']['default_tipo_factura_codename'] = $TipoFact['TipoFactura']['codename'];
+
     		if ( TenantSettings::write($this->data) ) {
-
-    			$tipoFactId = $this->data['Afip']['tipofactura_id'];
-    			$TipoFact = Classregistry::init('Risto.TipoFactura')->find('first', array(
-    				'conditions' => array('TipoFactura.id' => $tipoFactId ),
-    				'recursive' => -1,
-    				)
-    			);
-
-    			$this->request->data['Restaurante']['tipofactura_name'] = $TipoFact['TipoFactura']['name'];
-    			$this->request->data['Printers']['default_tipo_factura_codename'] = $TipoFact['TipoFactura']['codename'];
-
 	    		MtSites::loadConfigFiles();
 	    		$this->Session->setFlash(__('Se han guardado los cambios de configuración'));
     		} else {

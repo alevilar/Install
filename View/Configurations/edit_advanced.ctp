@@ -18,7 +18,11 @@
 			'value' => 1
 		));
 
-
+		echo $this->Form->input('Site.name', array(
+			'type'=>'text', 
+			'label' => __('Nombre del Sitio')
+			));
+		
 		echo $this->Form->input('Adicion.cantidadCubiertosObligatorio', array(
 			'options'=> array(0 => __('No'), 1 => __('Si') ), 
 			'label' => __('Es Obligatorio Indicar la Cantidad de %s', Inflector::pluralize(Configure::read('Mesa.tituloCubierto') ) ),
