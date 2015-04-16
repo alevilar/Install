@@ -166,18 +166,18 @@ CREATE TABLE IF NOT EXISTS `account_tipo_impuestos` (
 
 
 CREATE TABLE IF NOT EXISTS `afip_facturas` (
-  `id` varchar(32) NOT NULL,
+  `id` char(36) NOT NULL,
   `mesa_id` int(11) NOT NULL,
   `punto_de_venta` int(11) NOT NULL,
   `comprobante_nro` int(11) NOT NULL,
   `cae` varchar(64) NOT NULL,
+  `importe_total` decimal(10,2) NOT NULL,
+  `importe_neto` decimal(10,2) NOT NULL,
+  `importe_iva` decimal(10,2) NOT NULL,
   `json_data` text NOT NULL,
   `created` timestamp NULL DEFAULT NULL,
   `modified` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `mesa_id` (`mesa_id`,`cae`)
-  PRIMARY KEY (`id`),
-  KEY `mesa_id` (`mesa_id`,`cae`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 
