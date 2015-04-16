@@ -526,7 +526,7 @@ CREATE TABLE IF NOT EXISTS `inventory_products` (
 CREATE TABLE IF NOT EXISTS `iva_responsabilidades` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_fiscal` varchar(1) COLLATE utf8_general_ci NOT NULL,
-  `name` varchar(24) COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `tipo_factura_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -694,7 +694,7 @@ CREATE TABLE IF NOT EXISTS `printers` (
 
 CREATE TABLE IF NOT EXISTS `productos` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `abrev` varchar(28) COLLATE utf8_general_ci NOT NULL,
   `description` text COLLATE utf8_general_ci NOT NULL,
   `categoria_id` int(10) unsigned NOT NULL,
@@ -823,7 +823,7 @@ CREATE TABLE IF NOT EXISTS `tipo_de_pagos` (
 CREATE TABLE IF NOT EXISTS `tipo_documentos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_fiscal` varchar(1) COLLATE utf8_general_ci NOT NULL,
-  `name` varchar(24) COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 

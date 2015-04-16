@@ -57,7 +57,7 @@ INSERT INTO `iva_responsabilidades` (`id`, `codigo_fiscal`, `name`, `tipo_factur
 (3, 'A', 'No Responsable', 2),
 (4, 'C', 'Consumidor Final', 2),
 (5, 'T', 'No Categorizado', 2),
-(6, '', 'Monotributista', 2);
+(6, 'M', 'Responsable Monotributo', 2);
 
 -- --------------------------------------------------------
 
