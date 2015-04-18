@@ -4,7 +4,8 @@ App::uses('CakeLog', 'Log');
 App::uses('ClassRegistry', 'Utility');
 App::uses('File', 'Utility');
 App::uses('GeoPlugin', 'Install.Lib/Utility');
-
+App::uses('TenantSettings', 'MtSites.Utility');
+App::uses('IniReader', 'Configure');
 
 
 
@@ -153,56 +154,26 @@ class Installer {
             'datasource' => 'Database/Mysql',
             'persistent' => false,
           );
+        $installSettingsIniPath = App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS;
 
-
-        if(!file_exists(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini'))
-        {
-
-            $type_site = copy(App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS .'settings.ini.install', APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini');
-
-          if (!$type_site) {
-              throw new CakeException('No se puede copiar el archivo de configuración del comercio.');
-            }
-            $file = new File(APP . 'Tenants' . DS . $site_slug . DS . 'settings.ini', true);
-            if (!$file) {
-                throw new CakeException('No se puede leer el archivo de configuración del archivo copiado.');
-            }
-            $content = $file->read();
-
-            if ($content=='') {
-                throw new CakeException('No se puede leer ningún contenido del archivo de configuración copiado.');
-            }
-
-
-         
+        $IniSetting = new IniReader($installSettingsIniPath);
+        $settings = $IniSetting->read( 'settings.ini' );
+        $settings['Config']['timezone'] = $data['Site']['timezone'];
+        $settings['Site']['ip'] = $data['Site']['ip'];
+        $settings['Site']['name'] = $data['Site']['name'];
+        $settings['Site']['alias'] = $data['Site']['alias'];
+        debug( $data['Site']['ip'] );
             
-            $dataLocale = GeoPlugin::locate($data['Site']['ip']);
-            $dataLocale['timezone'] = $data['Site']['timezone'];
-            $dataLocale['ip'] = $data['Site']['ip'];
-            $dataLocale['name'] = $data['Site']['name'];
-            $dataLocale['alias'] = $data['Site']['alias'];
-          foreach ($dataLocale as $configKey => $configValue) {
-                $content = str_replace('{default_' . $configKey . '}', $configValue, $content);
-            }
-            if (!$file->write($content)) {
-                throw new CakeException('No se puede escribir en el archivo de configuración del comercio.');
-            }
-
-            $file->close();
-        }
-        else
-        {
-            throw new CakeException('El archivo deconfiguración de este sitio ya existe, favor elimínelo para continuar.');
-        }
+        $settings['Geo'] = GeoPlugin::locate($data['Site']['ip']);
+        unset( $settings['Geo']['currency_symbol'] ); // el simbolo me rompe el settings.ini file
+        TenantSettings::write( $settings, $site_slug);       
 
         return true;
-
-
     }
 
 
     public static function dumpTenantDB( $data = null)
-    {
+    {        
         $tenantontheFlyConfig = array(
         'name' => 'default',
         'datasource' => 'Database/Mysql',

@@ -1,8 +1,8 @@
 <?php echo $this->Form->create('Configuration'); ?>
 
-<div class="btn-group  pull-right" role="group" aria-label="controles">
+<div class="btns  pull-right" role="group" aria-label="">
+	<?php echo $this->Html->link(__('Ir a Configuración Avanzada'), array('action'=>'edit', 'advanced'),array('class'=>'btn btn-link')) ?>
 	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success')) ?>
-	<?php echo $this->Html->link(__('Ir a Configuración Avanzada'), array('action'=>'edit', 'advanced'),array('class'=>'btn btn-primary pull-right')) ?>
 </div>
 
 <h1>Configuración del Sitio</h1>
@@ -33,36 +33,27 @@
 				));
 		}
 
-		echo $this->Form->input('Restaurante.precision', array(
-			'type' => 'number',
-			'after' => __('Precisión de los precios. Cantidad de centavos.')
-			));
-
 
 		echo $this->Form->input('Restaurante.mail', array(
 			'type' => 'email',
 			'empty' => true
 			));
 			
-			?>
 
 
-			
-		<?php
-	if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
-		echo $this->Form->input('Printers.receipt_id', array(
-			'options'=> $printers, 
-			'label' => __('Impresora de Comandas por Defecto')
-			));
-	}
-
-	echo $this->Form->input('Printers.fiscal_id', array(
-		'options'=> $printers, 
-		'label' => __('Impresora Fiscal por Defecto')
+		echo $this->Form->input('Afip.tipofactura_id', array(
+			'options' => $tipoFacturas,
+			'label' => __('Tipo de Factura por Defecto (Consumidor Final)'),
 		));
 
-		?>
 
+		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
+			echo $this->Form->input('Printers.receipt_id', array(
+				'options'=> $printers, 
+				'label' => __('Impresora de Comandas por Defecto')
+				));
+		}
+		?>
 	</div>
 
 	<div class="col-md-4">
@@ -86,24 +77,28 @@
 			'label' => __('Domicilio Fiscal')
 			));
 
-		echo $this->Form->input('Restaurante.ib', array(
-			'type' => 'text',
-			'label' => __('Ingresos Brutos'),
-			'after' => __('Si se deja vacio no se mostrará nada')
-			));
-
-		echo $this->Form->input('Restaurante.iva_responsabilidad', array(
-			'options' => $ivaResponsabilidades,
-			'label' => __('Responsabilidad Ante el IVA'),
-			'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
-			));
-
-			?>
+		?>
 
 
 	</div>
 
 	<div class="col-md-4">
+
+
+	<h3>Fiscal</h3>
+			
+		<?php
+
+		echo $this->Form->input('Printers.fiscal_id', array(
+			'options'=> $printers, 
+			'empty' => __('Sin Impresora Fiscal'),
+			'label' => __('Impresora Fiscal por Defecto'),
+			'after' => __('Probablemente quieras agregar, quitar y configurar tus impresoras %s', $this->Html->link(__('haciendo click aquí'), array('plugin'=>'printers', 'controller'=>'printers', 'action'=>'index'),array('escape'=>false))),
+			));
+
+		?>
+
+		<?php if ( $fiscal_printer['Printer']['driver'] == PRINTERS_AFIP ) { ?>
 			<h3>Factura Electrónica Afip</h3>
 			<?php
 			echo $this->Form->input('Afip.default_iva_porcentaje', array(
@@ -126,10 +121,20 @@
 			));
 
 
-			echo $this->Form->input('Afip.tipofactura_id', array(
-				'options' => $tipoFacturas,
-				'label' => __('Tipo de Factura por Defecto (Consumidor Final)'),
-			));
+
+			echo $this->Form->input('Restaurante.ib', array(
+				'type' => 'text',
+				'label' => __('Ingresos Brutos'),
+				'after' => __('Si se deja vacio no se mostrará nada')
+				));
+
+			echo $this->Form->input('Restaurante.iva_responsabilidad', array(
+				'options' => $ivaResponsabilidades,
+				'label' => __('Responsabilidad Ante el IVA'),
+				'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
+				));
+
+
 
 			echo $this->Form->input('Afip.concepto', array(
 				'options' => array(
@@ -144,9 +149,10 @@
 			echo $this->Form->input('Afip.inicio_actividades', array(
 				'type' => 'text',
 				'label' => __('Inicio de Actividades'),
-				'after' => __('Formato DD-MM-AAAA')
+				'after' => __('Formato DD-MM-AAAA o DD/MM/AAAA')
 			));
 			?>
+		<?php } ?>
 	</div>
 </div>
 

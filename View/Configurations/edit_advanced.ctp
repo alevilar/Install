@@ -46,7 +46,7 @@
 			));
 
 
-		echo $this->Form->input('Config.currency_code', array(
+		echo $this->Form->input('Geo.currency_code', array(
 			'type'=>'text', 
 			'length'=>3,
 			'label' => __('Código de Moneda')
@@ -105,11 +105,13 @@
 			'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
 			));
 
+		
 		echo $this->Form->input('Restaurante.precision', array(
 			'type' => 'number',
-			'after' => __('Precisión de los precios. Cantidad de centavos.')
+			'after' => __('Cantidad de centavos a redondear al sumar productos. Por ejemplo: si se coloca cero, entonces los totales siempre serán redondeados (para arriba) con el objetivo de que nunca nos de un resultado con centavos. Esto mas que nada sirve en los descuentos.')
 			));
 
+		
 		echo $this->Form->input('Restaurante.mail', array(
 			'type' => 'email',
 			'empty' => true
