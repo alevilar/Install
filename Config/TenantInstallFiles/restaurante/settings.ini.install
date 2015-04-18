@@ -57,7 +57,7 @@ valorCubierto = 0
 # monotributista en este caso
 iva_responsabilidad = 6
 razon_social = RAZON SOCIAL S.A
-ib = ND
+ib = 
 mail = info@resto.com
 cuit = 20303683268
 domicilio = "Calle X Altura 2323 1º B"

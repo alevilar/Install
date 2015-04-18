@@ -30,7 +30,7 @@ INSERT INTO `comandas` (`id`, `mesa_id`, `prioridad`, `impresa`, `created`, `obs
 
 INSERT INTO  `printers` (  `id` ,  `name` ,  `alias` ,  `driver` ,  `driver_model` ,  `output` ,  `created` ,  `modified` ) VALUES 
   (NULL ,  'fiscal',  'fiscal',  'Fiscal',  'Hasar441',  'Database', NULL , NULL), 
-  (NULL ,  'comanderacocina',  'comanderacocina',  'Receipt',  'Bematech',  'Database', NULL , NULL);
+  (NULL ,  'comandera',  'comanderacocina',  'Receipt',  'Bematech',  'Database', NULL , NULL);
 
 
 
@@ -72,8 +72,7 @@ INSERT INTO `mesas` (`id`, `numero`, `mozo_id`, `subtotal`, `total`, `cliente_id
 --
 
 INSERT INTO `mozos` ( `numero`, `nombre`, `apellido` ,`activo`, `deleted_date`, `deleted`) VALUES
-(1, "Carlos", "Lopez", 1, NULL, 0),
-(4, "Mariano", "Gomez", 1, NULL, 0);
+("vendedor1", "Vendedor", "Uno", 1, NULL, 0);
 
 -- --------------------------------------------------------
 

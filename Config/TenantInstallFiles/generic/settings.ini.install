@@ -31,7 +31,7 @@ usarCajero = 1
 reload_interval = 19700
 cobrada_hide_ms = 0
 jqm_page_transition = 1
-numeroMesaObligatorio = 0
+numeroMesaObligatorio = 1
 
 [Horario]
 corte_del_dia = 6
@@ -40,10 +40,10 @@ corte_del_dia = 6
 [Mesa]
 imprimePrimeroRemito = 1
 tituloMozo = Vendedor
-tituloMesa = Ticket
-tituloCubierto = Cliente
+tituloMesa = Remito
+tituloCubierto = Consumidor
 tituloCliente = Cliente
-usar_generica = 1
+usar_generica = 0
 generica_name = Kiosko
 generica_mozo_id = 1
 
@@ -52,12 +52,12 @@ descuento_maximo = 15
 
 [Restaurante]
 tipofactura_name = C
-valorCubierto = 0
+valorCubierto = 
 #Id de la tabla iva_responsabilidades
 # monotributista en este caso
 iva_responsabilidad = 6
 razon_social = RAZON SOCIAL S.A
-ib = ND
+ib =
 mail = info@resto.com
 cuit = 20303683268
 domicilio = "Calle X Altura 2323 1º B"

@@ -30,7 +30,7 @@ INSERT INTO `comandas` (`id`, `mesa_id`, `prioridad`, `impresa`, `created`, `obs
 
 INSERT INTO  `printers` (  `id` ,  `name` ,  `alias` ,  `driver` ,  `driver_model` ,  `output` ,  `created` ,  `modified` ) VALUES 
   (NULL ,  'fiscal',  'fiscal',  'Fiscal',  'Hasar441',  'Database', NULL , NULL), 
-  (NULL ,  'comanderacocina',  'comanderacocina',  'Receipt',  'Bematech',  'Database', NULL , NULL);
+  (NULL ,  'comanderabarra',  'comanderabarra',  'Receipt',  'Bematech',  'Database', NULL , NULL);
 
 
 

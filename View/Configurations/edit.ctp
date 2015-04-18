@@ -21,22 +21,17 @@
 
 		echo $this->Form->input('Site.name', array(
 			'type'=>'text', 
-			'label' => __('Nombre del Sitio')
+			'label' => __('Nombre de Fantasía')
 			));
 
 
-		echo $this->Form->input('Config.currency_code', array(
-			'type'=>'text', 
-			'length'=>3,
-			'label' => __('Código de Moneda')
-			));
-
-	
-		echo $this->Form->input('Restaurante.valorCubierto', array(
-			'type' => 'text',
-			'label' => __('Valor %s', Configure::read('Mesa.tituloCubierto')),
-			'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
-			));
+		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
+			echo $this->Form->input('Restaurante.valorCubierto', array(
+				'type' => 'text',
+				'label' => __('Valor %s', Configure::read('Mesa.tituloCubierto')),
+				'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
+				));
+		}
 
 		echo $this->Form->input('Restaurante.precision', array(
 			'type' => 'number',
@@ -54,11 +49,12 @@
 
 			
 		<?php
-
-	echo $this->Form->input('Printers.receipt_id', array(
-		'options'=> $printers, 
-		'label' => __('Impresora de Comandas por Defecto')
-		));
+	if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
+		echo $this->Form->input('Printers.receipt_id', array(
+			'options'=> $printers, 
+			'label' => __('Impresora de Comandas por Defecto')
+			));
+	}
 
 	echo $this->Form->input('Printers.fiscal_id', array(
 		'options'=> $printers, 
@@ -108,15 +104,15 @@
 	</div>
 
 	<div class="col-md-4">
-			<h3>Afip</h3>
+			<h3>Factura Electrónica Afip</h3>
 			<?php
 			echo $this->Form->input('Afip.default_iva_porcentaje', array(
 			'type' => 'number',
 			'min' => 0,
 			'max'=> 100,
 			'step' => 1,
-			'label' => __('Porcentaje de IVA'),
-			'after' => __('EJ: 0, 21, 10.5')
+			'label' => __('Porcentaje de IVA aplicado a sus productos'),
+			'after' => __('Ingresar solo el valor numérico. EJ: 0, 21, 10.5')
 			));
 
 
@@ -126,12 +122,13 @@
 				'max'=> 100,
 				'step' => 1,
 				'label' => __('Punto de Venta'),
+				'after' => 'Número de punto de venta declarado en Afip'
 			));
 
 
 			echo $this->Form->input('Afip.tipofactura_id', array(
 				'options' => $tipoFacturas,
-				'label' => __('Tipo de Factura por Defecto'),
+				'label' => __('Tipo de Factura por Defecto (Consumidor Final)'),
 			));
 
 			echo $this->Form->input('Afip.concepto', array(
@@ -147,6 +144,7 @@
 			echo $this->Form->input('Afip.inicio_actividades', array(
 				'type' => 'text',
 				'label' => __('Inicio de Actividades'),
+				'after' => __('Formato DD-MM-AAAA')
 			));
 			?>
 	</div>
