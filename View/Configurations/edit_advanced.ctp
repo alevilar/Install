@@ -52,6 +52,13 @@
 			'label' => __('Código de Moneda')
 			));
 
+
+
+		echo $this->Form->input('Adicion.cobrada_hide_ms', array(
+			'type'=>'number', 
+			'label' => __('Ocultar %s al borrar. Indicar milisegundos que permanecerá mostrándose', Configure::read('Mesa.tituloMesa')),
+			'after' => __('Si se coloca 0 o se deja vacio, no se va a ir nunca (por ejemplo es válido en un hotel, donde yo quiero seguir viendo %s aunque me hayan pagado). Si se coloca 1, se va inmediatamente',  Inflector::pluralize(Configure::read('Mesa.tituloMesa') ))
+			));
 			
 			?>
 
