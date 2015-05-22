@@ -42,7 +42,8 @@
 
 		echo $this->Form->input('Mesa.imprimePrimeroRemito', array(
 			'options'=> array( 0 => __('Directo a la Fiscal'), 1 => __('Imprimir Remito')) , 
-			'label' => __('Al cerrar, o facturar mesa, sacar un remito o imprimir directo en la fiscal') 
+			'label' => __('Al cerrar, o facturar mesa, sacar un remito o imprimir directo en la fiscal'),
+			'empty' => __("No hacer nada"),
 			));
 
 
@@ -172,12 +173,14 @@
 
 		echo $this->Form->input('Printers.receipt_id', array(
 			'options'=> $printers, 
-			'label' => __('Impresora de Comandas por Defecto')
+			'label' => __('Impresora de Comandas por Defecto'),
+			'empty' => __('Ninguna'),
 			));
 
 		echo $this->Form->input('Printers.fiscal_id', array(
 			'options'=> $printers, 
-			'label' => __('Impresora Fiscal por Defecto')
+			'label' => __('Impresora Fiscal por Defecto'),
+			'empty' => __('Sin Impresora Fiscal'),
 			));
 
 			?>
