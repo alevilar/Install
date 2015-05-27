@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `account_egresos_gastos` (
 
 CREATE TABLE IF NOT EXISTS `account_gastos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cierre_id` tinyint(4) DEFAULT NULL,
+  `cierre_id` int(11) DEFAULT NULL,
   `proveedor_id` int(11) DEFAULT NULL,
   `clasificacion_id` int(11) DEFAULT NULL,
   `tipo_factura_id` int(11) DEFAULT NULL,
@@ -428,8 +428,8 @@ CREATE TABLE IF NOT EXISTS `grupo_sabores` (
   `seleccion_de_sabor_obligatorio` tinyint(1) NOT NULL,
   `tipo_de_seleccion` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `created` datetime NULL DEFAULT NULL,
-  `modified` datetime NULL DEFAULT NULL,
+  `created` timestamp NULL DEFAULT NULL,
+  `modified` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -547,9 +547,9 @@ CREATE TABLE IF NOT EXISTS `mesas` (
   `descuento_id` int(11) DEFAULT NULL,
   `menu` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'es para cuando un cliente quiere imprimir el importe como MENU sin que se vea lo que consumio',
   `cant_comensales` int(11) DEFAULT '0',
-  `estado_id` tinyint(4) NOT NULL DEFAULT '0',
+  `estado_id` tinyint(4) NOT NULL DEFAULT '1',
 
-  `observation` text NOT NULL DEFAULT  '',
+  `observation` text NULL DEFAULT  '',
   `checkin` datetime NULL DEFAULT NULL,
   `checkout` datetime NULL DEFAULT NULL,
 
