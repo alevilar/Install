@@ -20,8 +20,8 @@ class ConfigurationsController extends AppNoModelController
     public function edit( $advanced = null) {
 
     	if ( $this->request->is('put') || $this->request->is('post')) {
-            if (!empty($this->request->data['Afip']['tipofactura_id'])) {
-                $tipoFactId = $this->request->data['Afip']['tipofactura_id'];
+            if (!empty($this->request->data['Afip']['tipo_factura_id'])) {
+                $tipoFactId = $this->request->data['Afip']['tipo_factura_id'];
                 $TipoFact = Classregistry::init('Risto.TipoFactura')->find('first', array(
                     'conditions' => array('TipoFactura.id' => $tipoFactId ),
                     'recursive' => -1,

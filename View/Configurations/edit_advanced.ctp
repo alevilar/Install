@@ -208,7 +208,7 @@
 
 
 
-			echo $this->Form->input('Afip.tipofactura_id', array(
+			echo $this->Form->input('Afip.tipo_factura_id', array(
 				'options' => $tipoFacturas,
 				'label' => __('Tipo de Factura por Defecto'),
 			));
