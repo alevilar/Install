@@ -128,7 +128,7 @@ INSERT INTO `tipo_documentos` (`id`, `codigo_fiscal`, `name`) VALUES
 (5, '2', 'DNI'),
 (6, '3', 'Pasaporte'),
 (7, '4', 'Cédula de Identidad'),
-(8, '-', 'Sin identificar');
+(8, '', 'Sin identificar');
 
 -- --------------------------------------------------------
 
