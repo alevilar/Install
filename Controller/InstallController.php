@@ -2,9 +2,9 @@
 App::uses('Controller', 'Controller');
 App::uses('Installer', 'Install.Utility');
 
-class InstallController extends Controller {
+class InstallController extends AppController {
 
-    public $layout = 'Risto.default';
+   // public $layout = 'Risto.default';
  
     protected function _check() {
         // Si esta instalado no habra necesidad de checkear permisos

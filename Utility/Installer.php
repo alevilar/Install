@@ -162,7 +162,6 @@ class Installer {
         $settings['Site']['ip'] = $data['Site']['ip'];
         $settings['Site']['name'] = $data['Site']['name'];
         $settings['Site']['alias'] = $data['Site']['alias'];
-        debug( $data['Site']['ip'] );
             
         $settings['Geo'] = GeoPlugin::locate($data['Site']['ip']);
         unset( $settings['Geo']['currency_symbol'] ); // el simbolo me rompe el settings.ini file

@@ -30,7 +30,7 @@ class Install extends InstallAppModel {
     public $validate = array(
         'host' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor ingresar un nombre de Host.'
             ),
@@ -41,7 +41,7 @@ class Install extends InstallAppModel {
         ),
         'login' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor ingresar un nombre de Usuario.'
             ),
@@ -52,7 +52,7 @@ class Install extends InstallAppModel {
         ),
         'password' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor ingresar un nombre de Contraseña.'
             ),
@@ -63,7 +63,7 @@ class Install extends InstallAppModel {
         ),
         'database' => array(
             'required' => array(
-                'rule' => array('notEmpty'),
+                'rule' => array('notBlank'),
                 'required' => true, 'allowEmpty' => false,
                 'message' => 'Favor de ingresar un nombre de Base de Datos.'
             ),
