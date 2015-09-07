@@ -5,6 +5,12 @@ App::uses('Installer', 'Install.Utility');
 class InstallController extends AppController {
 
    // public $layout = 'Risto.default';
+
+    public function beforeFilter () {
+
+        parent::beforeFilter();
+        $this->Auth->allow(array('index'));       
+    }
  
     protected function _check() {
         // Si esta instalado no habra necesidad de checkear permisos
