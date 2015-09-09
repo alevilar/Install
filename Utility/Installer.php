@@ -325,30 +325,13 @@ class Installer {
 
     public static function checkAppInstalled()
     {
-        $res = true;
-        if(
-            file_exists(APP . 'Config' . DS . 'database.php')==false
-            ||file_exists(APP . 'Config' . DS . 'core.php')==false
+        $res = false;
+        if( file_exists(APP . 'Config' . DS . 'database.php') && file_exists(APP . 'Config' . DS . 'core.php') ) {
 
-        )
-        {
-
-            $res = false;
-
-        }
-
-        if(
-            file_exists(APP . 'Config' . DS . 'database.php')==true
-            &&file_exists(APP . 'Config' . DS . 'core.php')==true
-
-        )
-        {
             // Si exxiste los dos hacemos un checkeo si existen por lo menos una tabla
             $checkUserAdmin = Installer::check_table_exists();
-            if(!$checkUserAdmin)
-            {
-                $res = false;
-
+            if ( $checkUserAdmin ) {
+                $res = true;
             }
         }
 

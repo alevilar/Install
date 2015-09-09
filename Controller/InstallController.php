@@ -7,24 +7,22 @@ class InstallController extends AppController {
    // public $layout = 'Risto.default';
 
     public function beforeFilter () {
-
         parent::beforeFilter();
-        $this->Auth->allow(array('index'));       
+       // $this->Auth->allow('*');
+        $this->Auth->allow(array('index', 'database'));        
     }
  
     protected function _check() {
         // Si esta instalado no habra necesidad de checkear permisos
         if (Installer::checkAppInstalled()) {
             $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.', 'Risto.flash_success');
-            return $this->redirect('/users/login');
+            return $this->redirect('/');
         }
         // Si no esta instalado y no se puede escribir en las pcarpetas volvera al inicio
         if (!Installer::checkAppInstalled()&&!Installer::checkPerms())
         {
-
             return $this->redirect('/install');
         }
-
     }
 
 
