@@ -7,7 +7,6 @@ echo $this->Form->create(null, array(
 	));
 ?>
     <div class="install">
-        <?php echo __d('croogo', 'Nota: Por defecto se creo el usuario admin con contraseña admin, sin embargo usted puede crear otro usuario personalizado.'); ?>
         <h2><?php echo __d('croogo', 'Paso 3: Crear un Usuario Admin.'); ?></h2>
         <table>
             <tr>
