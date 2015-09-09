@@ -118,39 +118,17 @@ class InstallController extends AppController {
         if ($this->request->is('post')) {
 
             $this->loadModel('Users.User');
-            $this->Components->load('Auth');
+            //$this->Components->load('Auth');
             // El nuevo plugin pide mail como un dato a validar, por de pronto on the ly lo desactivamos
 
-            $this->User->validate = array(
-                        'email' => array(
-                            'allowEmpty' => true,
-                            'required'   => false,
-                        )
-                );
-
             $this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
-
-            $this->User->set($this->request->data);
-            if ($this->User->validates())
-            {
-
-                $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
-
-                if($this->User->save($this->request->data))
-                {
-                     $this->Session->setFlash("Se ha instalado todo correctamente, puede ingresar con su nuevo usuario");
-                        return $this->redirect('/');
-                }
-                else
-                {
-                    $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'default', 'Risto.flash_error');
-                }
-
-            }
-            else
-            {
-                $this->Session->setFlash("No se ha podido crear el usuario, se ha encontrado errores en la validación: ".print_r($this->User->invalidFields()), 'default', 'Risto.flash_error');
-
+            $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
+           
+            if($this->User->save($this->request->data)) {
+                $this->Session->setFlash("Se ha instalado todo correctamente, puede ingresar con su nuevo usuario");
+                $this->redirect('/');
+            } else {
+                $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'default', 'Risto.flash_error');
             }
         }
     }
