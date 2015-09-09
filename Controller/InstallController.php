@@ -138,17 +138,18 @@ class InstallController extends AppController {
 
                 if($this->User->save($this->request->data))
                 {
-                        return $this->redirect(array('plugin'=>'mt_sites','admin'=>false,'controller'=>'sites','action' => 'install'));
+                     $this->Session->setFlash("Se ha instalado todo correctamente, puede ingresar con su nuevo usuario");
+                        return $this->redirect('/');
                 }
                 else
                 {
-                    echo $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'default', 'Risto.flash_error');
+                    $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'default', 'Risto.flash_error');
                 }
 
             }
             else
             {
-                echo $this->Session->setFlash("No se ha podido crear el usuario, se ha encontrado errores en la validación: ".print_r($this->User->invalidFields()), 'default', 'Risto.flash_error');
+                $this->Session->setFlash("No se ha podido crear el usuario, se ha encontrado errores en la validación: ".print_r($this->User->invalidFields()), 'default', 'Risto.flash_error');
 
             }
         }
