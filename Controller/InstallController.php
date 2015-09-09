@@ -120,7 +120,7 @@ class InstallController extends AppController {
             $this->loadModel('Users.User');
             //$this->Components->load('Auth');
             // El nuevo plugin pide mail como un dato a validar, por de pronto on the ly lo desactivamos
-            $this->request->data['User']['username'] = $this->request->data['User']['password'];
+            $this->request->data['User']['username'] = $this->request->data['User']['email'];
             $this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
             $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
            
