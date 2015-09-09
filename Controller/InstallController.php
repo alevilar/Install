@@ -113,14 +113,14 @@ class InstallController extends AppController {
 
 
     public function adminuser() {
-        $this->_check();
+       // $this->_check();
         $this->set('title_for_layout', __d('croogo', 'Paso 3: Crear un usuario admin.'));
         if ($this->request->is('post')) {
 
             $this->loadModel('Users.User');
             //$this->Components->load('Auth');
             // El nuevo plugin pide mail como un dato a validar, por de pronto on the ly lo desactivamos
-
+            $this->request->data['User']['username'] = $this->request->data['User']['password'];
             $this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
             $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
            
@@ -128,7 +128,7 @@ class InstallController extends AppController {
                 $this->Session->setFlash("Se ha instalado todo correctamente, puede ingresar con su nuevo usuario");
                 $this->redirect('/');
             } else {
-                $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'default', 'Risto.flash_error');
+                $this->Session->setFlash("No se ha podido crear el usuario, revise los datos, o intentelo mas tarde.", 'Risto.flash_error');
             }
         }
     }
