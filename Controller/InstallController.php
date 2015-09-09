@@ -9,7 +9,7 @@ class InstallController extends AppController {
     public function beforeFilter () {
         parent::beforeFilter();
        // $this->Auth->allow('*');
-        $this->Auth->allow(array('index', 'database'));        
+        $this->Auth->allow(array('index', 'database', 'adminuser', 'data', 'cancel'));        
     }
  
     protected function _check() {
