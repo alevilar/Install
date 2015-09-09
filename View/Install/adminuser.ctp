@@ -2,7 +2,7 @@
 if(empty($this->request->data))
 {
 
-echo $this->Form->create(null, array(
+echo $this->Form->create('User', array(
 	'url' => array('controller' => 'install', 'action' => 'adminuser'),'id'=>'AdminUser'
 	));
 ?>
@@ -13,12 +13,10 @@ echo $this->Form->create(null, array(
                 <td>Usuario</td>
                 <td>
                     <?php
-                    echo $this->Form->input('User.username', array(
-                        'label' => false,
-                        'placeholder' => __d('croogo', 'Nombre de Usuario'),
-                        'value' => '',
-
-                    ));
+                    echo $this->Form->input('email', array(
+                    'label' => __d('users', 'E-mail (used as login)'),
+                    'error' => array('isValid' => __d('users', 'Must be a valid email address'),
+                    'isUnique' => __d('users', 'An account with that email already exists'))));
                     ?>
                 </td>
             </tr>
@@ -26,7 +24,7 @@ echo $this->Form->create(null, array(
                 <td>Contraseña</td>
                 <td>
                     <?php
-                    echo $this->Form->input('User.password', array(
+                    echo $this->Form->input('password', array(
                         'label' => false,
                         'type' => 'password',
                         'placeholder' => __d('croogo', 'Contraseña de Usuario'),
@@ -38,7 +36,7 @@ echo $this->Form->create(null, array(
                 <td>Verificar Contraseña</td>
                 <td>
                     <?php
-                    echo $this->Form->input('User.verify_password', array(
+                    echo $this->Form->input('verify_password', array(
                         'label' => false,
                         'type' => 'password',
                         'placeholder' => __d('croogo', 'Verificar Contraseña de Base de datos'),
