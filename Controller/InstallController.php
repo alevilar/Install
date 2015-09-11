@@ -8,20 +8,18 @@ class InstallController extends AppController {
 
     public function beforeFilter () {
         parent::beforeFilter();
-       // $this->Auth->allow('*');
         $this->Auth->allow(array('index', 'database', 'adminuser', 'data', 'cancel'));        
     }
  
     protected function _check() {
         // Si esta instalado no habra necesidad de checkear permisos
-        if (Installer::checkAppInstalled()) {
+        if ( Installer::checkAppInstalled() == 2) {
             $this->Session->setFlash('La Aplicación Ristorantino ya esta instalada.', 'Risto.flash_success');
             return $this->redirect('/');
         }
         // Si no esta instalado y no se puede escribir en las pcarpetas volvera al inicio
-        if (!Installer::checkAppInstalled()&&!Installer::checkPerms())
-        {
-            return $this->redirect('/install');
+        if (Installer::checkAppInstalled() < 2 &&!Installer::checkPerms()) {
+            return $this->redirect( array('action' => 'install') );
         }
     }
 
@@ -29,32 +27,29 @@ class InstallController extends AppController {
     public function index() {
 
         $this->set('title_for_layout', __d('croogo', 'Bienvenido a la Instalación de Ristorantino Magíco.'));
+        Installer::createCoresFile();
     }
+
 
 
     public function database() {
         $this->set('title_for_layout', __d('croogo', 'Paso 1: Base de datos.'));
         $this->_check();
 
-        if (Configure::read('Croogo.installed')) {
+        if ( Installer::checkAppInstalled() == 2 ) {
             return $this->redirect(array('action' => 'adminuser'));
         }
 
         if (!empty($this->request->data)) {
 
             $this->Install->set($this->request->data);
-            if ($this->Install->validates())
-            {
-                  foreach($this->request->data as $this->request->data){
-                      $result = Installer::createDatabaseFile(array(
-                          'Install' => $this->request->data,
-                      ));
-                      if ($result !== true) {
-                          return $this->Session->setFlash($result, 'Risto.flash_error');
-                      } else {
-                          return $this->redirect(array('action' => 'data'));
-                      }
-                  }
+            if ($this->Install->validates()) {
+                $result = Installer::createDatabaseFile( $this->request->data );
+                if ($result !== true) {
+                    $this->Session->setFlash($result, 'Risto.flash_error');
+                } else {
+                    $this->redirect(array('action' => 'data'));
+                }
             }
         }
 
@@ -64,16 +59,11 @@ class InstallController extends AppController {
         );
         if (file_exists(APP . 'Config' . DS . 'database.php')) {
             $currentConfiguration['exists'] = true;
-        }
-        if ($currentConfiguration['exists']) {
-            try {
-                $this->loadModel('Install.Install');
-                $ds = $this->Install->getDataSource();
-                $ds->cacheSources = false;
-                $sources = $ds->listSources();
-                $currentConfiguration['valid'] = true;
-            } catch (Exception $e) {
-            }
+
+            $ds = $this->Install->getDataSource();
+            $ds->cacheSources = false;
+            $sources = $ds->listSources();
+            $currentConfiguration['valid'] = true;
         }
         $this->set(compact('currentConfiguration'));
     }
@@ -95,7 +85,7 @@ class InstallController extends AppController {
 
         if ($this->request->query('run')) {
 
-            set_time_limit(10 * MINUTE);
+            //set_time_limit(10 * MINUTE);
 
             $sqlMigration = Installer::setupDatabase();
 
@@ -120,11 +110,15 @@ class InstallController extends AppController {
             $this->loadModel('Users.User');
             //$this->Components->load('Auth');
             // El nuevo plugin pide mail como un dato a validar, por de pronto on the ly lo desactivamos
+
             $this->request->data['User']['username'] = $this->request->data['User']['email'];
-            $this->request->data['User']['password'] = Security::hash($this->request->data['User']['password'], null, true);
             $this->request->data['User']['rol_id'] = ADMIN_ROLE_ID;
+
+            $regOk = $this->User->register($this->request->data, array(
+                'emailVerification' => false,
+                ));
            
-            if($this->User->save($this->request->data)) {
+            if( $regOk ) {
                 $this->Session->setFlash("Se ha instalado todo correctamente, puede ingresar con su nuevo usuario");
                 $this->redirect('/');
             } else {
@@ -136,13 +130,11 @@ class InstallController extends AppController {
 
     public function cancel()
     {
-        if(Installer::cancelInstall())
-        {
-            $this->Session->setFlash(_("Se cancelo la instalación. Puede recomenzar si asi lo desea."));
-
-            $this->redirect("/install");
-
+        if( !Installer::cancelInstall() ) {
+            $this->log('No se pudo cancelar la instalacion correctamente', 'error');
         }
+        $this->Session->setFlash(_("Se cancelo la instalación. Puede recomenzar si asi lo desea."));
+        $this->redirect('/');
 
     }
 

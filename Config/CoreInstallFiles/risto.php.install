@@ -35,19 +35,7 @@ Configure::write('debug', 1);
  *	'OtherPluginName' // this one will not load bootstrap neither routes files
  *	));
 **/
-Configure::write('Plugins', array(
-		'MtSites' => array( 'routes' => true, 'bootstrap' => true ),
-		'Users',
-		'ExtAuth',
-		'Aditions' => array( 'bootstrap' => true, 'routes' => true ),
-		'Account' => array( 'bootstrap' => true, 'routes' => true ),
-		'Stats' => array( 'routes' => true ),
-		'DebugKit',
-		'Search',
-		'Printers' => array( 'bootstrap' => true ),
-		'Mesa' => array( 'routes' => true ),
-		'Bs3Helpers' => array('bootstrap'=>true),
-	));
+Configure::write('Plugins', array());
 
 
 
@@ -66,6 +54,8 @@ Configure::write('Plugins', array(
 // Configure::write('Site.favicon', '/img/mozomonio.png');
 
 
+
+Configure::write('Risto.dataSourceType', 'Risto.Database/RistoMysqlExtended');
 
 
 

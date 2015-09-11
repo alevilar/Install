@@ -6,6 +6,7 @@ App::uses('File', 'Utility');
 App::uses('GeoPlugin', 'Install.Lib/Utility');
 App::uses('TenantSettings', 'MtSites.Utility');
 App::uses('IniReader', 'Configure');
+App::uses('SchemaShell', 'Console/Command');
 
 
 
@@ -24,12 +25,12 @@ class Installer {
 
         $defaultConfig = array(
             'name' => 'default',
-            'datasource' => 'Database/Mysql',
+            'datasource' => Configure::read('Risto.dataSourceType'),
             'persistent' => false,
             'host' => 'localhost',
             'login' => 'root',
             'password' => '',
-            'database' => 'croogo',
+            'database' => 'risto',
             'schema' => null,
             'prefix' => null,
             'encoding' => 'UTF8',
@@ -40,16 +41,11 @@ class Installer {
 
         $database_file = copy(App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'database.php.default', APP . 'Config' . DS . 'database.php');
 
-        $email_file = copy(App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default', APP . 'Config' . DS . 'email.php');
 
         if (!$database_file) {
             return __d('croogo', 'No se puede copiar el database.php para iniciar la instalación.');
         }
-
-        if (!$database_file) {
-            return __d('croogo', 'No se puede copiar el email.php para iniciar la instalación.');
-        }
-
+    
         foreach ($data['Install'] as $key => $value) {
             if (isset($data['Install'][$key])) {
                 $config[$key] = $value;
@@ -85,54 +81,33 @@ class Installer {
         return true;
     }
 
-    public static function setupDatabase() {
-
-        App::uses('ConnectionManager', 'Model');
-
-        $db = ConnectionManager::getDataSource('default');
-
-        $dumpsSqls = array(
-            App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_drop_tables.sql',
-            App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_struct.sql',
-            App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'schema_core_base_data.sql'
-        );
-
-        $migrationsSucceed = true;
+    public static function setupDatabase() {    
+        return self::loadFileSchema('Risto', 'default');
+    }
 
 
-        foreach($dumpsSqls as $dumpsSql)
-        {
 
-            $File =& new File($dumpsSql);
-            $contents = $File->read();
-            $migrateNow = $db->query($contents);
-
-            if(!$migrateNow)
-            {
-                if(is_array($migrateNow))
-                {
-                    if(!empty($migrateNow))
-                    {
-                        throw new CakeException("Ha ocurrido un error con el sql del sistema principal. Favor verificarlo.");
-                    }
-
-                }
-                if(!is_array($migrateNow))
-                {
-                    throw new CakeException("Ha ocurrido un error con el sql del sistema principal. Favor verificarlo.");
-                }
-
-            }
-
-
-            if($migrateNow==false)
-            {
-
-            }
-
-        }
-
-        return $migrationsSucceed;
+    /**
+    *
+    *
+    *   @param $file string FIle name
+    *   @param $connection database connection 
+    *   @param $mode 'string' cant be "create" or "update". create is the default value
+    **/
+    public static function loadFileSchema( $name, $connection, $mode = 'create' ) {
+        $m = new SchemaShell();
+        $m->params = array(
+            'force' => 1, 
+            'name' => $name,
+            'plugin' => 'Risto',
+            'connection' => $connection,
+            'yes' => true,
+            );
+        $m->startup();
+        debug("asasajoij  22323 ".$mode);
+        $m->create();
+        debug("papra FINISHHSSHH");
+        return true;
     }
 
     public static function createTenantsDir($site_slug = null)
@@ -151,7 +126,7 @@ class Installer {
         $site_slug = $data['Site']['alias'];
         $defaultSettingsConfig = array(
             'name' => 'default',
-            'datasource' => 'Database/Mysql',
+            'datasource' => Configure::read('Risto.dataSourceType'),
             'persistent' => false,
           );
         $installSettingsIniPath = App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . $data['Site']['type'] . DS;
@@ -173,124 +148,40 @@ class Installer {
 
     public static function dumpTenantDB( $data = null)
     {        
-        $tenantontheFlyConfig = array(
-        'name' => 'default',
-        'datasource' => 'Database/Mysql',
-        'persistent' => false,
-        );
+        App::uses('ConnectionManager', 'Model');
 
         $slug = $data['Site']['alias'];
 
-       $tenantDB = "";
+        $tenantDB = MtSites::getTenantDbName( $slug );
 
-       $defaultSettingsConfig = array(
-        'name' => 'default',
-        'datasource' => 'Database/Mysql',
-        'persistent' => false,
+        // 1) Primero se corrobora si se puede crear la base de datos, sino se puede promover la desinstalacion del site
+        $create_tenant = ConnectionManager::getDataSource('default')->query("CREATE DATABASE ".$tenantDB);
 
-        );
-
-        App::uses('ConnectionManager', 'Model');
-
-        if(ConnectionManager::getDataSource('default')->connected)
-        {
-
-            $tenantDB = ConnectionManager::getDataSource('default')->config['database']."_".$slug;
-
-            $tenantontheFlyConfig = ConnectionManager::getDataSource('default')->config;
-            $tenantontheFlyConfig['database'] = $tenantDB;
-
-
-            // 1) Primero se corrobora si se puede crear la base de datos, sino se puede promover la desinstalacion del site
-           $create_tenant = ConnectionManager::getDataSource('default')->query("CREATE DATABASE ".$tenantDB);
-
-            if(!empty($create_tenant))
-            {
-                throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes. Tal vez la base de datos ya exista.');
-            }
-
-            if(ConnectionManager::create('tenantInstance',$tenantontheFlyConfig))
-            {
-                $tenantConnection = ConnectionManager::getDataSource('tenantInstance');
-            }
-            else
-            {
-                throw new CakeException('No fue posible crear una instancia de conexión a la base de datos del tenant. Favor revisar el Estado del Servidor Mysql y usuarios/privilegios.');
-            }
-
-            // El schema struct es comuna a todos, el data es diferente
-            $dumpsSqls = array(
-                App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles' . DS . 'schema_tenant_struct.sql',
-                App::pluginPath('Install') . 'Config' . DS . 'TenantInstallFiles'. DS . $data['Site']['type'] . DS . 'schema_tenant_base_data.sql',
-            );
-
-          //  debug(ConnectionManager::getDataSource('tenantInstance')->config);
-          //  debug(ConnectionManager::getDataSource('tenantInstance')->connected);
-            foreach($dumpsSqls as $dumpsSql)
-            {
-            //    debug($dumpsSql);
-                $File =& new File($dumpsSql);
-                $contents = $File->read();
-             //   debug($contents);
-                // El sql puede fallar, entonces ponemos una excepcion
-                $execute_query_tenant = $tenantConnection->query($contents);
-              //  debug($execute_query_tenant);
-                if(!$execute_query_tenant)
-                {
-                    // Si es false hay que corroborar que si es un array
-                    if(is_array($execute_query_tenant))
-                    {
-                        // Si es un array y no esta vacio algo malo paso en la consulta query sql
-                        if(!empty($execute_query_tenant))
-                        {
-                            throw new CakeException("Se ha producido un error en el volcado de datos en la generación de la base de datos para el tenant.");
-                        }
-                    }
-                    if(!is_array($execute_query_tenant))
-                    {
-                        // Si no es un array fue una ejecucion en falso, entonces deberia de mostrar la excepcion
-                        throw new CakeException("Se ha producido un error en el volcado de datos en el tenant.");
-                    }
-
-                }
-
-
-                    $File->close();
-                    continue;
-
-            }
-            // Una ves que coloque todo, devolver el control a la conexion principal
-        }
-        else
-        {
-            throw new CakeException("No fue posible establecer la conexión con la base de datos principal, es probable que se haya producido un corte de conexión o que los datos de ingresos hayan cambiados.");
-
+        if(!empty($create_tenant)) {
+            throw new CakeException('No se pudo crear la base de datos del tenant: '.$tenantDB.'. Verifique que su usuario de conexión tenga los permisos suficientes. Tal vez la base de datos ya exista.');
         }
 
-        if(ConnectionManager::getDataSource('default'))
-        {
-            ConnectionManager::getDataSource('default')->cacheSources = false;
-        }
-        else
-        {
-            throw new CakeException("No fue posible retomar la conexión con la base de datos principal, es probable se haya producido un corte de conexión o que los datos de ingresos hayan cambiados.");
-        }
+        MtSites::connectDatasourceWithCurrentTenant( $slug );
+        $datasource = MtSites::getTenantDataSourceName( $slug );
+        return self::loadFileSchema('Tenant', $datasource);
 
     }
 
 
 
-    public static function createCoresFile()
-    {
-        $ristoConfigFile = App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
-        if(copy($ristoConfigFile, APP . 'Config' . DS . 'risto.php'))
-        {
-            return true;
+    public static function createCoresFile () {
+        $emailFilePath = APP . 'Config' . DS . 'email.php';
+        $newEmailFilePath = App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS . 'email.php.default';
+        if ( !file_exists($emailFilePath) && !copy($newEmailFilePath, $emailFilePath) ) {
+            throw new CakeException(__d('install', 'No se puede escribir el archivo email.php.'));
         }
-        else
-        {
-            throw new CakeException('No se puede escribir el archivo risto.php.');
+
+        $newRistoConfigFilePath = App::pluginPath('Install') . 'Config' . DS . 'CoreInstallFiles' . DS .  'risto.php.install';
+        $ristoFilePath =  APP . 'Config' . DS . 'risto.php';
+        if( !file_exists($ristoFilePath) && !copy($newRistoConfigFilePath,$ristoFilePath)) {
+            throw new CakeException(__d('install', 'No se puede escribir el archivo risto.php.'));
         }
+        return true;
     }
 
 
@@ -323,18 +214,22 @@ class Installer {
 
     }
 
+    /**
+    *
+    *
+    *   @return integer 0 si no esta instalada, 1 si estan los archivos pero no hay Bases de Datos instaladas y 2 si esta completamente instalada
+    **/
     public static function checkAppInstalled()
     {
-        $res = false;
-        if( file_exists(APP . 'Config' . DS . 'database.php') && file_exists(APP . 'Config' . DS . 'core.php') ) {
-
+        $res = 0;
+        if( file_exists(APP . 'Config' . DS . 'database.php') && file_exists(APP . 'Config' . DS . 'risto.php') ) {
             // Si exxiste los dos hacemos un checkeo si existen por lo menos una tabla
+            $res++;
             $checkUserAdmin = Installer::check_table_exists();
             if ( $checkUserAdmin ) {
-                $res = true;
+                $res++;
             }
         }
-
         return $res;
     }
 

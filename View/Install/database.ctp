@@ -13,30 +13,23 @@ echo $this->Form->create('Install', array(
         <h2><?php echo __d('croogo', 'Paso 1: Base de datos.'); ?></h2>
         <table>
             <tr>
-                <td>Tipo de Base de Datos</td>
+                <td>La Base de Datos debe ser</td>
                 <td>
-                    <?php
-                    echo $this->Form->input('Install.datasource', array(
-                        'default' => 'Database/Mysql',
-                        'label'=>false,
-                        'options' => array(
-                            'Database/Mysql' => 'mysql',
-                            'Database/Sqlite' => 'sqlite',
-                            'Database/Postgres' => 'postgres',
-                            'Database/Sqlserver' => 'mssql',
-                        ),
-                    ));
-                    ?>
+                    <span class="text-danger">MySql</span>
+                    <?php 
+                    echo $this->Form->hidden('datasource', array(
+                            'value' => Configure::read('Risto.dataSourceType') 
+                            )); ?>
                 </td>
             </tr>
             <tr>
                 <td>Host</td>
                 <td>
                     <?php
-                    echo $this->Form->input('Install.host', array(
+                    echo $this->Form->input('host', array(
                         'label' => false,
-                        'placeholder' => __d('croogo', 'Host'),
-                        'value' => ''
+                        'placeholder' => __d('install', 'Host'),
+                        'default' => 'localhost',
                     ));
                     ?>
                 </td>
@@ -45,9 +38,9 @@ echo $this->Form->create('Install', array(
                 <td>Usuario</td>
                 <td>
                     <?php
-                    echo $this->Form->input('Install.login', array(
+                    echo $this->Form->input('login', array(
                         'label' => false,
-                        'placeholder' => __d('croogo', 'Usuario de Base de datos'),
+                        'placeholder' => __d('install', 'Usuario de Base de datos'),
                     ));
                     ?>
                 </td>
@@ -57,10 +50,10 @@ echo $this->Form->create('Install', array(
                 <td>Contraseña</td>
                 <td>
                     <?php
-                    echo $this->Form->input('Install.password', array(
+                    echo $this->Form->input('password', array(
                         'label' => false,
                         'type'=>'password',
-                        'placeholder' => __d('croogo', 'Contraseña de Base de datos'),
+                        'placeholder' => __d('install', 'Contraseña de Base de datos'),
                     ));
                     ?>
                 </td>
@@ -69,8 +62,8 @@ echo $this->Form->create('Install', array(
                 <td>Base de Datos</td>
                 <td>
                     <?php
-                    echo $this->Form->input('Install.database', array(
-                        'placeholder' => __d('croogo', 'Base de Datos'),
+                    echo $this->Form->input('database', array(
+                        'placeholder' => __d('instal', 'Base de Datos'),
                         'label' => false,
                         'value' => '',
                     ));
@@ -81,9 +74,9 @@ echo $this->Form->create('Install', array(
                 <td>Prefijo</td>
                 <td>
                     <?php
-                    echo $this->Form->input('Install.prefix', array(
+                    echo $this->Form->input('prefix', array(
                         'label' => false,
-                        'placeholder' => __d('croogo', 'Prefijo'),
+                        'placeholder' => __d('install', 'Prefijo'),
                         'value' => '',
                     ));
                     ?>
@@ -93,9 +86,9 @@ echo $this->Form->create('Install', array(
                 <td>Puerto</td>
                 <td>
                     <?php
-                    echo $this->Form->input('Install.port', array(
+                    echo $this->Form->input('port', array(
                         'label' => false,
-                        'placeholder' => __d('croogo', 'Prefijo'),
+                        'placeholder' => __d('install', 'Puerto'),
                         'value' => '',
                     ));
                     ?>
