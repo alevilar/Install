@@ -16,5 +16,5 @@ if ($request && strpos($request->url, 'install') === false) {
         Router::redirect('/*', $url, array('status' => 307));
     }
  } else {
- 	Configure::write('debug',0);
+ 	//Configure::write('debug',0);
  }

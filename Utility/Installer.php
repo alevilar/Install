@@ -104,9 +104,7 @@ class Installer {
             'yes' => true,
             );
         $m->startup();
-        debug("asasajoij  22323 ".$mode);
         $m->create();
-        debug("papra FINISHHSSHH");
         return true;
     }
 
@@ -163,7 +161,10 @@ class Installer {
 
         MtSites::connectDatasourceWithCurrentTenant( $slug );
         $datasource = MtSites::getTenantDataSourceName( $slug );
-        return self::loadFileSchema('Tenant', $datasource);
+        
+        $tenantType = $data['Site']['type'];
+        
+        return self::loadFileSchema($tenantType, $datasource);
 
     }
 

@@ -96,12 +96,14 @@
 			'after' => __('Probablemente quieras agregar, quitar y configurar tus impresoras %s', $this->Html->link(__('haciendo click aquí'), array('plugin'=>'printers', 'controller'=>'printers', 'action'=>'index'),array('escape'=>false))),
 			));
 
-		?>
+		echo $this->Form->input('Printers.receipt_id', array(
+			'options'=> $printers, 
+			'label' => __('Impresora de Comandas por Defecto'),
+			'empty' => __('Sin Impresora de Comandas'),
+			));
 
-		<?php if ( $fiscal_printer['Printer']['driver'] == PRINTERS_AFIP ) { ?>
-			<h3>Factura Electrónica Afip</h3>
-			<?php
-			echo $this->Form->input('Afip.default_iva_porcentaje', array(
+
+		echo $this->Form->input('Afip.default_iva_porcentaje', array(
 			'type' => 'number',
 			'min' => 0,
 			'max'=> 100,
@@ -110,6 +112,12 @@
 			'after' => __('Ingresar solo el valor numérico. EJ: 0, 21, 10.5')
 			));
 
+		?>
+
+		<?php if ( $fiscal_printer['Printer']['driver'] == PRINTERS_AFIP ) { ?>
+			<h3>Factura Electrónica Afip</h3>
+			<?php
+			
 
 			echo $this->Form->input('Afip.punto_de_venta', array(
 				'type' => 'number',
@@ -151,6 +159,8 @@
 				'label' => __('Inicio de Actividades'),
 				'after' => __('Formato DD-MM-AAAA o DD/MM/AAAA')
 			));
+
+
 			?>
 		<?php } ?>
 	</div>
