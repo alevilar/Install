@@ -95,10 +95,15 @@ class Installer {
     *   @param $mode 'string' cant be "create" or "update". create is the default value
     **/
     public static function loadFileSchema( $name, $connection, $mode = 'create' ) {
+        $archs = array(
+            'generic'    => 'GenericTenant',
+            'hotel'      => 'HotelTenant',
+            'restaurant' => 'RestaurantTenant',
+            );
         $m = new SchemaShell();
         $m->params = array(
             'force' => 1, 
-            'name' => $name,
+            'name' => $archs[$name],
             'plugin' => 'Risto',
             'connection' => $connection,
             'yes' => true,
