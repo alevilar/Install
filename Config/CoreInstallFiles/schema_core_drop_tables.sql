@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS `users`, `sites`, `sites_users`;
