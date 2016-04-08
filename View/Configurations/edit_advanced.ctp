@@ -2,7 +2,6 @@
 <?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success pull-right')) ?>
 <h1>Configuración Avanzada del Sitio</h1>
 
-<?php echo $this->element('no_config_yet'); ?>
 
 
 <div class="row">

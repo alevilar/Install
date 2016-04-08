@@ -16,6 +16,15 @@ class ConfigurationsController extends AppNoModelController
     }
 
 
+    public function first_configuration_wizard( $advanced = null) {
+        $this->edit();
+
+        if ( $this->request->is('put') || $this->request->is('post')) { 
+
+            $this->redirect(array('plugin'=>'risto', 'controller' => 'pages', 'action' => 'display', 'dashboard'));
+        }
+    }
+
 
     public function edit( $advanced = null) {
 

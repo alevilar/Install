@@ -1,11 +1,7 @@
 <?php echo $this->Form->create('Configuration'); ?>
 
-<div class="btns  pull-right" role="group" aria-label="">
-	<?php echo $this->Html->link(__('Ir a Configuración Avanzada'), array('action'=>'edit', 'advanced'),array('class'=>'btn btn-link')) ?>
-	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success')) ?>
-</div>
 
-<h1>Configuración del Sitio</h1>
+<h1 class="center text-success" style="border-bottom: 2px solid #2e8924; padding-bottom: 6px; ">Setup Inicial</h1>
 
 
 <div class="row">
@@ -27,8 +23,7 @@
 		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
 			echo $this->Form->input('Restaurante.valorCubierto', array(
 				'type' => 'text',
-				'label' => __('($) Valor %s', Configure::read('Mesa.tituloCubierto')),
-				'after' => '<span class="text-info">Dejar vacío si no desea cobrar el cubierto.</span>'
+				'label' => __('($) Valor del Cubierto o Servicio de Mesa'),
 				));
 		}
 
@@ -96,15 +91,6 @@
 			'empty' => __('Sin Impresora de Comandas'),
 			));
 
-
-		echo $this->Form->input('Afip.default_iva_porcentaje', array(
-			'type' => 'number',
-			'min' => 0,
-			'max'=> 100,
-			'step' => 1,
-			'label' => __('Porcentaje de IVA aplicado a sus productos'),
-			'after' => __('Ingresar solo el valor numérico. EJ: 0, 21, 10.5')
-			));
 
 		?>
 
