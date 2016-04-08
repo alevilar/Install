@@ -28,14 +28,15 @@
 		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
 			echo $this->Form->input('Restaurante.valorCubierto', array(
 				'type' => 'text',
-				'label' => __('Valor %s', Configure::read('Mesa.tituloCubierto')),
-				'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
+				'label' => __('($) Valor %s', Configure::read('Mesa.tituloCubierto')),
+				'after' => '<span class="text-info">Dejar vacío si no desea cobrar el cubierto.</span>'
 				));
 		}
 
 
 		echo $this->Form->input('Restaurante.mail', array(
 			'type' => 'email',
+			'label' => __('Mail de la Empresa'),
 			'empty' => true
 			));
 			
@@ -47,12 +48,6 @@
 		));
 
 
-		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
-			echo $this->Form->input('Printers.receipt_id', array(
-				'options'=> $printers, 
-				'label' => __('Impresora de Comandas por Defecto')
-				));
-		}
 		?>
 	</div>
 
@@ -93,7 +88,7 @@
 			'options'=> $printers, 
 			'empty' => __('Sin Impresora Fiscal'),
 			'label' => __('Impresora Fiscal por Defecto'),
-			'after' => __('Probablemente quieras agregar, quitar y configurar tus impresoras %s', $this->Html->link(__('haciendo click aquí'), array('plugin'=>'printers', 'controller'=>'printers', 'action'=>'index'),array('escape'=>false))),
+			'after' => __('<span class="text-info">Probablemente quieras agregar, quitar o configurar tus impresoras %s</span>', $this->Html->link(__('haciendo click aquí'), array('plugin'=>'printers', 'controller'=>'printers', 'action'=>'index'),array('escape'=>false))),
 			));
 
 		echo $this->Form->input('Printers.receipt_id', array(
