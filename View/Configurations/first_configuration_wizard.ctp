@@ -148,7 +148,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
+	<?php echo $this->Form->button(__('¡Listo!, Comenzar a Gestionar mi Negocio'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
 	
 	</div>
 </div>
