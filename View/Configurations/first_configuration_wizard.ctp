@@ -1,155 +1,154 @@
 <?php echo $this->Form->create('Configuration'); ?>
 
 
-<h1 class="center text-success" style="border-bottom: 2px solid #2e8924; padding-bottom: 6px; ">Setup Inicial</h1>
 
 
-<div class="row">
-	
-	<div class="col-md-4">
-		<h3><?php echo __('General')?></h3>
+<?php echo $this->element('MtSites.pasos', array('current'=> 1))?>
+
+
+<div class="clearfix"></div>
+<br><br>
+	<div class="col-sm-4">
 		<?php
 
 		echo $this->Form->hidden('Site.configurado', array(
 			'value' => 1
 		));
 
-		echo $this->Form->input('Site.name', array(
-			'type'=>'text', 
-			'label' => __('Nombre de Fantasía')
+
+		echo $this->Form->input('Restaurante.domicilio', array(
+			'type' => 'text',
+			'class' => 'form-control  input-lg',
+			'label' => __('Dirección del Comercio'), 
+			'placeholder' => 'Dirección, Localidad, Provincia',
 			));
+		?>
+		<br>
 
+		<?php
 
-		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
-			echo $this->Form->input('Restaurante.valorCubierto', array(
-				'type' => 'text',
-				'label' => __('($) Valor del Cubierto o Servicio de Mesa'),
-				));
-		}
-
-
-		echo $this->Form->input('Restaurante.mail', array(
-			'type' => 'email',
-			'label' => __('Mail de la Empresa'),
-			'empty' => true
-			));
-			
-
-
-		echo $this->Form->input('Afip.tipo_factura_id', array(
-			'options' => $tipoFacturas,
-			'label' => __('Tipo de Factura por Defecto (Consumidor Final)'),
+		
+		
+		echo $this->Form->input('Geo.currency_code', array(
+			'options' => $currencyCodes,
+			'label' => __('Moneda'),
+			'class' => 'form-control  input-lg',
 		));
 
 
 		?>
+		
 	</div>
 
-	<div class="col-md-4">
-		<h3><?php echo __('Datos Empresa')?></h3>
+
+
+		
+
+
+		<div class="col-sm-4">
 		<?php
 
-		echo $this->Form->input('Restaurante.razon_social', array(
-			'type' => 'text',
-			));
-		echo $this->Form->input('Restaurante.cuit', array(
-			'type' => 'text',
-			));
-
-		echo $this->Form->input('Restaurante.domicilio', array(
-			'type' => 'text',
-			'label' => __('Domicilio Comercial')
-			));
-
-		echo $this->Form->input('Restaurante.domicilio_fiscal', array(
-			'type' => 'text',
-			'label' => __('Domicilio Fiscal')
-			));
-
-		?>
-
-
-	</div>
-
-	<div class="col-md-4">
-
-
-	<h3>Fiscal</h3>
-			
-		<?php
-
-		echo $this->Form->input('Printers.fiscal_id', array(
-			'options'=> $printers, 
-			'empty' => __('Sin Impresora Fiscal'),
-			'label' => __('Impresora Fiscal por Defecto'),
-			'after' => __('<span class="text-info">Probablemente quieras agregar, quitar o configurar tus impresoras %s</span>', $this->Html->link(__('haciendo click aquí'), array('plugin'=>'printers', 'controller'=>'printers', 'action'=>'index'),array('escape'=>false))),
-			));
-
-		echo $this->Form->input('Printers.receipt_id', array(
-			'options'=> $printers, 
-			'label' => __('Impresora de Comandas por Defecto'),
-			'empty' => __('Sin Impresora de Comandas'),
-			));
-
-
-		?>
-
-		<?php if ( $fiscal_printer['Printer']['driver'] == PRINTERS_AFIP ) { ?>
-			<h3>Factura Electrónica Afip</h3>
-			<?php
-			
-
-			echo $this->Form->input('Afip.punto_de_venta', array(
-				'type' => 'number',
-				'min' => 1,
-				'max'=> 100,
-				'step' => 1,
-				'label' => __('Punto de Venta'),
-				'after' => 'Número de punto de venta declarado en Afip'
-			));
-
-
-
-			echo $this->Form->input('Restaurante.ib', array(
-				'type' => 'text',
-				'label' => __('Ingresos Brutos'),
-				'after' => __('Si se deja vacio no se mostrará nada')
-				));
-
-			echo $this->Form->input('Restaurante.iva_responsabilidad', array(
-				'options' => $ivaResponsabilidades,
-				'label' => __('Responsabilidad Ante el IVA'),
-				'after' => 'Dejar vacío si no se desea mostrar como ítem en la factura. Si se deja un 0, se mostrará en la factura con valor cero.'
-				));
-
-
-
-			echo $this->Form->input('Afip.concepto', array(
-				'options' => array(
-					1 => 'Productos',
-					2 => 'Servicios',
-					3 => 'Productos y Servicios',
-					4 => 'Otro',
-					),
-				'label' => __('Concepto de la Factura'),
-			));
-
-			echo $this->Form->input('Afip.inicio_actividades', array(
-				'type' => 'text',
-				'label' => __('Inicio de Actividades'),
-				'after' => __('Formato DD-MM-AAAA o DD/MM/AAAA')
-			));
-
+		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
 
 			?>
-		<?php } ?>
-	</div>
-</div>
 
-<div class="row">
-	<div class="col-md-12">
-	<?php echo $this->Form->button(__('¡Listo!, Comenzar a Gestionar mi Negocio'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
-	
-	</div>
-</div>
+				<div class="form-group">
+				    <label for="data[Restaurante][valorCubierto]">Valor del Cubierto o Servicio de Mesa</label>
+				    <div class="input-group">
+				      <div class="input-group-addon">$</div>
+					  <?php echo $this->Form->text('Restaurante.valorCubierto', array(
+					  			'placeholder'=>'Ej: 22.50',
+					  			'class' => 'form-control input-lg',
+					  			));?>
+				    </div>
+				</div>
+			<?php
+		}
+		?>
+		<br>
+			<div class="form-group">
+			    <label for="data[Restaurante][valorCubierto]">Impuesto aplicado a los productos (IVA)</label>
+			    <div class="input-group">
+				  <?php echo $this->Form->text('Afip.default_iva_porcentaje', array(
+				  			'placeholder'=>'Ej: 21',
+				  			'class' => 'form-control input-lg',
+				  			));?>
+			      <div class="input-group-addon">%</div>
+			    </div>
+			</div>
+		</div>
+
+
+
+		<div class="col-sm-4">
+			<?php
+			echo $this->Form->input('Printers.quiere_imprimir', array(
+				'type' => 'radio',
+				'default' => 0,
+				'label' => '¿Querés imprimir ticket fiscal?',
+				'options' => array(
+					0 => 'No, primero prefiero probar el sistema',
+					1 => 'Si',
+					),
+			));
+
+			?>
+
+
+			<?php
+			echo $this->Form->input('Printers.quiere_imprimir_comanda', array(
+				'type' => 'radio',
+				'default' => 0,
+				'label' => '¿Querés imprimir órdenes de pedido en la barra/cocina?',
+				'options' => array(
+					0 => 'No, primero prefiero probar el sistema',
+					1 => 'Si',
+					),
+			));
+
+			?>
+
+
+			<br>
+
+
+			<div id="quiere-imprimir" class="alert alert-info" style="display: none;">
+				<?php echo $this->Html->image('/risto/css/ristorantino/img/raspberry_nubes.png', array('width'=>'30%', "class"=>"pull-left"));?>
+				<h4>
+					<span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
+					Si necesitás imprimir
+				</h4>
+				<h5 class="text-primary">¡Te estaremos enviando todos los detalles por mail!</h5>
+				<div class="clearfix"></div>
+				<p>
+				Con el "Servidor de Impresión PaxaPos" podrás emitir tickets desde la nube, incluso aunque se corte internet (en modo offline).
+				</p>
+			</div>
+
+			<script>
+
+				function mostrarSiEstaSeleccionadoQuiereImprimir() {
+					var el = document.getElementById("PrintersQuiereImprimir1");
+					if ( el.checked ) {
+						$("#quiere-imprimir").show("fade");
+					} else {
+						$("#quiere-imprimir").hide("fade");
+					}
+				}
+
+				$("#PrintersQuiereImprimir1").on('change', mostrarSiEstaSeleccionadoQuiereImprimir );
+
+				$("#PrintersQuiereImprimir0").on('change', mostrarSiEstaSeleccionadoQuiereImprimir );
+
+				mostrarSiEstaSeleccionadoQuiereImprimir();
+			</script>
+
+
+
+		</div>
+
+
 <?php echo $this->Form->end() ?>
+
+<div class="clearfix"></div>
+<br><br><br><br>
