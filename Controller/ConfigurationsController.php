@@ -8,6 +8,15 @@ class ConfigurationsController extends AppNoModelController
 {
     public $viewVars = array('title_for_layout' => 'Configuración');
 	
+    public $layout = 'Risto.administracion';
+
+
+    
+    public function beforeFilter () {
+        parent::beforeFilter();
+        $this->set('elementMenu', 'menu');
+    }
+    
     public $currencyCodes = array (
             'ALL' => 'Albania Lek',
             'AFN' => 'Afghanistan Afghani',

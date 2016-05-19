@@ -1,11 +1,5 @@
 <?php echo $this->Form->create('Configuration'); ?>
 
-<div class="btns  pull-right" role="group" aria-label="">
-	<?php echo $this->Html->link(__('Ir a Configuración Avanzada'), array('action'=>'edit', 'advanced'),array('class'=>'btn btn-link')) ?>
-	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success')) ?>
-</div>
-
-<h1>Configuración del Sitio</h1>
 
 
 <div class="row">
@@ -22,30 +16,43 @@
 			'type'=>'text', 
 			'label' => __('Nombre de Fantasía')
 			));
+		?>
 
 
-		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
-			echo $this->Form->input('Restaurante.valorCubierto', array(
-				'type' => 'text',
-				'label' => __('($) Valor %s', Configure::read('Mesa.tituloCubierto')),
-				'after' => '<span class="text-info">Dejar vacío si no desea cobrar el cubierto.</span>'
-				));
-		}
-
-
+		<?php
 		echo $this->Form->input('Restaurante.mail', array(
 			'type' => 'email',
 			'label' => __('Mail de la Empresa'),
 			'empty' => true
 			));
-			
+		?>
+
+		<?php
+
+		if ( Configure::read('Site.type') == SITE_TYPE_RESTAURANTE )	 {
+
+			?>
+
+				<div class="form-group">
+				    <label for="data[Restaurante][valorCubierto]">Valor del Cubierto o Servicio de Mesa</label>
+				    <div class="input-group">
+				      <div class="input-group-addon">$</div>
+					  <?php echo $this->Form->text('Restaurante.valorCubierto', array(
+					  			'placeholder'=>'Ej: 22.50',
+					  			'class' => 'form-control',
+					  			));?>
+				    </div>
+				</div>
+			<?php
+		}
+		?>
 
 
-		echo $this->Form->input('Afip.tipo_factura_id', array(
-			'options' => $tipoFacturas,
-			'label' => __('Tipo de Factura por Defecto (Consumidor Final)'),
+		<?php
+		echo $this->Form->input('Geo.currency_code', array(
+			'options' => $currencyCodes,
+			'label' => __('Moneda'),
 		));
-
 
 		?>
 	</div>
@@ -80,14 +87,33 @@
 
 
 	<h3>Fiscal</h3>
-			
+
+		<?php
+
+		echo $this->Form->input('Afip.tipo_factura_id', array(
+			'options' => $tipoFacturas,
+			'label' => __('Tipo de Factura por Defecto (Consumidor Final)'),
+		));
+		?>
+
+
+		<div class="form-group">
+		    <label for="data[Restaurante][valorCubierto]">Impuesto aplicado a los productos (IVA)</label>
+		    <div class="input-group">
+			  <?php echo $this->Form->text('Afip.default_iva_porcentaje', array(
+			  			'placeholder'=>'Ej: 21',
+			  			'class' => 'form-control',
+			  			));?>
+		      <div class="input-group-addon">%</div>
+		    </div>
+		</div>
+
 		<?php
 
 		echo $this->Form->input('Printers.fiscal_id', array(
 			'options'=> $printers, 
 			'empty' => __('Sin Impresora Fiscal'),
 			'label' => __('Impresora Fiscal por Defecto'),
-			'after' => __('<span class="text-info">Probablemente quieras agregar, quitar o configurar tus impresoras %s</span>', $this->Html->link(__('haciendo click aquí'), array('plugin'=>'printers', 'controller'=>'printers', 'action'=>'index'),array('escape'=>false))),
 			));
 
 		echo $this->Form->input('Printers.receipt_id', array(
@@ -97,14 +123,6 @@
 			));
 
 
-		echo $this->Form->input('Afip.default_iva_porcentaje', array(
-			'type' => 'number',
-			'min' => 0,
-			'max'=> 100,
-			'step' => 1,
-			'label' => __('Porcentaje de IVA aplicado a sus productos'),
-			'after' => __('Ingresar solo el valor numérico. EJ: 0, 21, 10.5')
-			));
 
 		?>
 

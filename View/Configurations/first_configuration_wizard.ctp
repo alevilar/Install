@@ -26,16 +26,11 @@
 		<br>
 
 		<?php
-
-		
-		
 		echo $this->Form->input('Geo.currency_code', array(
 			'options' => $currencyCodes,
 			'label' => __('Moneda'),
 			'class' => 'form-control  input-lg',
 		));
-
-
 		?>
 		
 	</div>
