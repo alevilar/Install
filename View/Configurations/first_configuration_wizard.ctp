@@ -1,13 +1,11 @@
-<?php echo $this->Form->create('Configuration'); ?>
+<?php echo $this->Form->create('Configuration', array('id' => 'config-form')); ?>
 
 
+<?php echo $this->element('MtSites.pasos', array('current'=> 1, 'formId' => 'config-form'))?>
 
 
-<?php echo $this->element('MtSites.pasos', array('current'=> 1))?>
+<div class="row content-white">
 
-
-<div class="clearfix"></div>
-<br><br>
 	<div class="col-sm-4">
 		<?php
 
@@ -71,6 +69,7 @@
 			      <div class="input-group-addon">%</div>
 			    </div>
 			</div>
+
 		</div>
 
 
@@ -107,6 +106,21 @@
 			<br>
 
 
+			
+
+		</div>
+
+
+<?php echo $this->Form->end() ?>
+
+<div class="clearfix"></div>
+</div>
+
+
+<div class="row">
+		<div class="clearfix"></div>		
+
+		<div class="col-sm-6 col-sm-offset-3">
 			<div id="quiere-imprimir" class="alert alert-info" style="display: none;">
 				<?php echo $this->Html->image('/risto/css/ristorantino/img/raspberry_nubes.png', array('width'=>'30%', "class"=>"pull-left"));?>
 				<h4>
@@ -123,8 +137,9 @@
 			<script>
 
 				function mostrarSiEstaSeleccionadoQuiereImprimir() {
-					var el = document.getElementById("PrintersQuiereImprimir1");
-					if ( el.checked ) {
+					var el1 = document.getElementById("PrintersQuiereImprimir1");
+					var el2 = document.getElementById("PrintersQuiereImprimirComanda1");
+					if ( el1.checked || el2.checked ) {
 						$("#quiere-imprimir").show("fade");
 					} else {
 						$("#quiere-imprimir").hide("fade");
@@ -132,18 +147,14 @@
 				}
 
 				$("#PrintersQuiereImprimir1").on('change', mostrarSiEstaSeleccionadoQuiereImprimir );
-
 				$("#PrintersQuiereImprimir0").on('change', mostrarSiEstaSeleccionadoQuiereImprimir );
+
+				$("#PrintersQuiereImprimirComanda1").on('change', mostrarSiEstaSeleccionadoQuiereImprimir );
+				$("#PrintersQuiereImprimirComanda0").on('change', mostrarSiEstaSeleccionadoQuiereImprimir );
 
 				mostrarSiEstaSeleccionadoQuiereImprimir();
 			</script>
 
 
-
 		</div>
-
-
-<?php echo $this->Form->end() ?>
-
-<div class="clearfix"></div>
-<br><br><br><br>
+</div>

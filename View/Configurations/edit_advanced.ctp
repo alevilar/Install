@@ -1,10 +1,8 @@
 <?php echo $this->Form->create('Configuration'); ?>
 
 
-<div class="row">
-	
+<div class="row bg-white">
 	<div class="col-md-4">
-		<h2></h2>
 
 		<h3>Adición</h3>
 			<?php
@@ -182,12 +180,11 @@
 		?>
 
 	</div>
+
+
+	<div class="clearfix"></div><br>
+	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
-	
-	</div>
-</div>
+
 <?php echo $this->Form->end() ?>

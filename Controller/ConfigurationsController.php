@@ -8,8 +8,6 @@ class ConfigurationsController extends AppNoModelController
 {
     public $viewVars = array('title_for_layout' => 'Configuración');
 	
-    public $layout = 'Risto.administracion';
-
 
     
     public function beforeFilter () {
@@ -143,12 +141,19 @@ class ConfigurationsController extends AppNoModelController
     }
 
 
+    public function first_configuration_wizard_end( ) {
+        $this->set('elementMenu', false);
+        $this->layout = 'Install.default';
+    }
+
     public function first_configuration_wizard( $advanced = null) {
+        $this->layout = 'Install.default';
+        $this->set('elementMenu', false);
         $this->edit();
 
         if ( $this->request->is('put') || $this->request->is('post')) { 
 
-            $this->redirect(array('plugin'=>'risto', 'controller' => 'pages', 'action' => 'display', 'dashboard'));
+            $this->redirect(array('plugin'=>'mesa', 'controller' => 'mozos', 'action' => 'add_first_time'));
         }
     }
 

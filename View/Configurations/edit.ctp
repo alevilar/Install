@@ -1,9 +1,10 @@
-<?php echo $this->Form->create('Configuration'); ?>
 
 
 
 <div class="row">
-	
+<div class="bg-white">
+<?php echo $this->Form->create('Configuration'); ?>
+	 
 	<div class="col-md-4">
 		<h3><?php echo __('General')?></h3>
 		<?php
@@ -176,12 +177,13 @@
 			?>
 		<?php } ?>
 	</div>
+
+	<div class="clearfix"></div><br>
+	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
+
+<?php echo $this->Form->end() ?>
+
 </div>
 
-<div class="row">
-	<div class="col-md-12">
-	<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')) ?>
-	
-	</div>
 </div>
-<?php echo $this->Form->end() ?>
+
