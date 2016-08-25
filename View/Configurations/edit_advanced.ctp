@@ -86,7 +86,7 @@
 		echo $this->Form->input('Printers.server', array(
 			'type'=>'text', 
 			'label' => __('Server'),
-			'after' => '<span class="text-info">' . __('Dejar "auto". Sino deberá especificar la IP donde se encuentra el servidor de impresión') . '</span>',
+			'after' => '<span class="text-info">' . __('Dejar "auto". Sino deberá especificar la IP donde se encuentra el servidor de impresión (IP actual: %s)', $this->request->clientIp()) . '</span>',
 			));
 
 
@@ -100,6 +100,12 @@
 			'options'=> $printers, 
 			'label' => __('Impresora Fiscal por Defecto'),
 			'empty' => __('Sin Impresora Fiscal'),
+			));
+
+		echo $this->Form->input('Printers.compras_id', array(
+			'options'=> $printers, 
+			'label' => __('Impresora de Compras Donde saldrán los Pedidos'),
+			'empty' => __('Sin Impresora de Compras'),
 			));
 
 			?>
