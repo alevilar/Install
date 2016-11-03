@@ -66,67 +66,49 @@
 		<h3 class="center">Otras Apps</h3>
 		<table class="table">
 			<tbody>
-				<tr>
-					<td>
-						<?php
-					  		$img = $this->Html->image('/risto/css/ristorantino/home/pedidos.png'); 
-					  		echo $this->Form->label("Site.modulo_compras", $img, array('escape'=>false));
-						?>	
-					</td>
-					<td class="center">
-						<?php 
-						echo $this->Form->label("Site.modulo_compras", "Instalar<br>");
-						echo $this->Form->checkbox('Site.modulo_compras', array(
-								));?>
-					</td>
-					<td class="center"><b>Compras</b></td>
-					<td class="center"><b>¡GRATIS!</b></td>
-					<td>
-					Realiza fácilmente los pedidos a tus proveedores. Administra las compras que realizan los empleados y gestiona los remitos y facturas para tener el control de tus gastos.
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<?php
-					  		$img = $this->Html->image('/risto/css/ristorantino/home/caja.png'); 
-					  		echo $this->Form->label("Site.modulo_cajero", $img, array('escape'=>false));
-						?>	
-					</td>
-					<td class="center">
-						<?php 
-						echo $this->Form->label("Site.modulo_cajero", "Instalar<br>");
-						echo $this->Form->checkbox('Site.modulo_cajero', array(
-								));?>
-					</td>
-					<td class="center"><b>Cajero</b></td>
-					<td class="center"><b>¡GRATIS!</b></td>
-					<td>
-					Usa al cajero para realizar cobros fácilmente desde la misma pantalla de adición.
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<?php
-					  		$img = $this->Html->image('/risto/css/ristorantino/home/arqueo.png'); 
-					  		echo $this->Form->label("Site.modulo_arqueo_de_caja", $img, array('escape'=>false));
-						?>	
-					</td>
-					<td class="center">
-						<?php 
-						echo $this->Form->label("Site.modulo_arqueo_de_caja", "Instalar<br>");
-						echo $this->Form->checkbox('Site.modulo_arqueo_de_caja', array(
-								));?>
-					</td>
-					<td class="center"><b>Arqueo</b></td>
-					<td class="center"><b>¡GRATIS!</b></td>
-					<td>
-					El arqueo de caja se combina muy bien con el "Cajero", puesto que permite realizar arqueos, imprimir informes "Zeta" y controlar el dinero en efectivo.
-					</td>
-				</tr>
-
-
+				<?php 
+				$modulos = array(
+					array(
+						'alias' => 'Site.modulo_compras',
+						'name' => 'Compras',
+						'img_url' => '/risto/css/ristorantino/home/pedidos.png',
+						'price' => 0,
+						'description'=> "Realiza fácilmente los pedidos a tus proveedores. Administra las compras que realizan los empleados y gestiona los remitos y facturas para tener el control de tus gastos.",
+					),
+					array(
+						'alias' => 'Site.impresoras',
+						'name' => 'Impresoras',
+						'img_url' => '/risto/css/ristorantino/home/caja.png',
+						'price' => 0,
+						'description'=> "Usa al cajero para realizar cobros fácilmente desde la misma pantalla de adición.",
+					),
+					array(
+						'alias' => 'Site.modulo_arqueo_de_caja',
+						'name' => 'Arqueo',
+						'img_url' => '/risto/css/ristorantino/home/arqueo.png',
+						'price' => 0,
+						'description'=> 'El arqueo de caja se combina muy bien con el "Cajero", puesto que permite realizar arqueos, imprimir informes "Zeta" y controlar el dinero en efectivo.',
+					),
+					array(
+						'alias' => 'Site.modulo_impresoras',
+						'name' => 'Impresoras',
+						'img_url' => '/risto/css/ristorantino/home/impresoras.png',
+						'price' => 320,
+						'description'=> "Realiza impresiones de tickets fiscales o comandas para los distintos sectores del comercio. Además, complementando con la <i>\"PC PaxaPos\"</i> podrás asegurarte que, pese a perder conectividad con internet, el sistema continuará funcionando.",
+					),
+					array(
+						'alias' => 'Site.modulo_afip_factura_electronica',
+						'name' => 'E-Factura',
+						'img_url' => '/risto/css/ristorantino/home/afip_factura_electronica.png',
+						'price' => 50,
+						'description'=> "Conecta con la AFIP para emitir fácilmente tus facturas electrónicas.",
+					),
+				);
+				
+				foreach ($modulos as $modulo) {
+					 echo $this->element("Install.tr_row_modulo", array('modulo' => $modulo));
+				}
+				?>
 			</tbody>
 		</table>
 	</div>
@@ -135,7 +117,7 @@
 <div class="clearfix"></div>
 <br>
 		<br><br><br>
-		<?php echo $this->Form->button(__('Guardar'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')); ?>
+		<?php echo $this->Form->button(__('Guardar Cambios'), array('type'=>'submit','class'=>'btn btn-success btn-lg btn-block')); ?>
 </div>
 
 
