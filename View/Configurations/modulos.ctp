@@ -93,8 +93,8 @@
 						'alias' => 'Site.modulo_impresoras',
 						'name' => 'Impresoras',
 						'img_url' => '/risto/css/ristorantino/home/impresoras.png',
-						'price' => 320,
-						'description'=> "Realiza impresiones de tickets fiscales o comandas para los distintos sectores del comercio. Además, complementando con la <i>\"PC PaxaPos\"</i> podrás asegurarte que, pese a perder conectividad con internet, el sistema continuará funcionando.",
+						'price' => 0,
+						'description'=> "Realiza impresiones de tickets fiscales o comandas para los distintos sectores del comercio. Es necesario adquirir la <i>\"PC PaxaPos\"</i>.",
 					),
 					array(
 						'alias' => 'Site.modulo_afip_factura_electronica',
