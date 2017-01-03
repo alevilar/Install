@@ -183,6 +183,11 @@
 			'options' => $mozos,
 			'label' => __('Seleccionar %s por defecto al abrir %s generica', Configure::read('Mesa.tituloMozo'), Configure::read('Mesa.tituloMesa')),
 			));
+
+		echo $this->Form->input('Printer.fiscalberry-ip', array(
+			'type' => 'text',
+			'label' => __('Dirección del host de la paxaprinter')
+			));
 		?>
 
 	</div>
