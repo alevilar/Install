@@ -11,7 +11,7 @@
 	<h1 class="blue center">¡Ya podés empezar a usar tu comercio!</h1>
 
 <div class="row">
-	<div class="col-sm-6 col-sm-offset-1">
+	<div class="col-sm-4 col-sm-offset-3">
 		<div class="alert alert-info ">
 			<div class="pull-right">
 			<?php
@@ -30,10 +30,10 @@
 	</div>
 
 
-	<div class="col-sm-5">
+	<div class="col-sm-2">
 	<br><br>
 		<?php
-		echo $this->Html->link('Ir la Página Principal de '.Configure::read('Site.name'), array(
+		echo $this->Html->link('Comienza YA', array(
 			'plugin' => 'risto',
 			'controller' => 'pages',
 			'action' => 'display',

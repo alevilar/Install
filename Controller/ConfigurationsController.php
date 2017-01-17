@@ -148,6 +148,7 @@ class ConfigurationsController extends AppNoModelController
 
     public function first_configuration_wizard( $advanced = null) {
         $this->layout = 'Install.default';
+
         $this->set('elementMenu', false);
         $this->edit();
 
