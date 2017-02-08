@@ -76,8 +76,8 @@
 						'description'=> "Realiza fácilmente los pedidos a tus proveedores. Administra las compras que realizan los empleados y gestiona los remitos y facturas para tener el control de tus gastos.",
 					),
 					array(
-						'alias' => 'Site.impresoras',
-						'name' => 'Impresoras',
+						'alias' => 'Site.modulo_cajero',
+						'name' => 'Cajero',
 						'img_url' => '/risto/css/ristorantino/home/caja.png',
 						'price' => 0,
 						'description'=> "Usa al cajero para realizar cobros fácilmente desde la misma pantalla de adición.",
