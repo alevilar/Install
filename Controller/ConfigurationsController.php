@@ -183,6 +183,23 @@ class ConfigurationsController extends AppNoModelController
                 $this->request->data['Restaurante']['tipofactura_name'] = $TipoFact['TipoFactura']['name'];
                 $this->request->data['Printers']['default_tipo_factura_codename'] = $TipoFact['TipoFactura']['codename'];
             }
+
+            // cam bio de nombre del sitio
+            if ( !empty($this->data['Site']['name'])) {
+                $Site = ClassRegistry::init("MtSites.Site");
+                $Site->recursive = -1;
+                $s = $Site->findByAlias(MtSites::getSiteName());
+                if ( $s && ( $s['Site']['name'] != $this->data['Site']['name'] ) ) {
+                    $s['Site']['name'] = $this->data['Site']['name'];
+                    $Site->id = $s['Site']['id'];
+                    if ( !$Site->saveField('name', $this->data['Site']['name']) )  {
+                        throw new Exception(__("No se pudo guardar el nombre del sitio") );
+                        
+                    }
+                }
+            }
+
+
     		if ( TenantSettings::write($this->data) ) {
 	    		MtSites::loadConfigFiles();
 	    		$this->Session->setFlash(__('Se han guardado los cambios de configuración'));
